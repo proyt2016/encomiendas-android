@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/andres/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/22.2.0/support-annotations-22.2.0.jar"
+        jumboMode="true"
+        revision="22.0.1"
+        sha1="66b42a1f3eb7676070b7ef7f14b603483aecbee1">
+        <dex dex="/Users/andres/Desktop/encomiendasAndroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-22.2.0_b218f3d4c999e7ae943d2f1d465ccedcffcf87cc/classes.dex" />
+    </item>
+    <item
+        jar="/Users/andres/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.2.0/f7873a2ebde246a45c2a8d6f3247108b4c88a879/okhttp-3.2.0.jar"
+        jumboMode="true"
+        revision="22.0.1"
+        sha1="f7873a2ebde246a45c2a8d6f3247108b4c88a879">
+        <dex dex="/Users/andres/Desktop/encomiendasAndroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/okhttp-3.2.0_d4fc158fbee7dc36519c730c6b38fc4faf27d58b/classes.dex" />
+    </item>
+    <item
+        jar="/Users/andres/Desktop/encomiendasAndroid/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/jars/classes.jar"
+        jumboMode="true"
+        revision="22.0.1"
+        sha1="73753982da6bde518f3a4c6b372749981d14d1a0">
+        <dex dex="/Users/andres/Desktop/encomiendasAndroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-22.2.0_23cc16a28fa927d8ea7c089a410c0a7059e9755d/classes.dex" />
+    </item>
+    <item
+        jar="/Users/andres/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit2/converter-gson/2.0.2/f8d87f15b94b8d74e7ccf61d7eedb558811cdb30/converter-gson-2.0.2.jar"
+        jumboMode="true"
+        revision="22.0.1"
+        sha1="f8d87f15b94b8d74e7ccf61d7eedb558811cdb30">
+        <dex dex="/Users/andres/Desktop/encomiendasAndroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/converter-gson-2.0.2_ab315aebd4685d5d6d4ab892cab6f41bda0e0b67/classes.dex" />
+    </item>
+    <item
+        jar="/Users/andres/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit2/retrofit/2.0.2/43eeae0b9fb087bb3194ba59ab63a38a32fbf3e/retrofit-2.0.2.jar"
+        jumboMode="true"
+        revision="22.0.1"
+        sha1="043eeae0b9fb087bb3194ba59ab63a38a32fbf3e">
+        <dex dex="/Users/andres/Desktop/encomiendasAndroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/retrofit-2.0.2_8f781edf3bb02ef8ab3e7e5495dddd7057b34237/classes.dex" />
+    </item>
+    <item
+        jar="/Users/andres/Desktop/encomiendasAndroid/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        revision="22.0.1"
+        sha1="b8c402fdc6dd45c41791817aa2672796c228ca54">
+        <dex dex="/Users/andres/Desktop/encomiendasAndroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_be9984e50c3ef270df7b124bc90a362348b1d48a/classes.dex" />
+    </item>
+    <item
+        jar="/Users/andres/Desktop/encomiendasAndroid/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.0/jars/classes.jar"
+        jumboMode="true"
+        revision="22.0.1"
+        sha1="1ee588ff2c4daf7b97c1cbf922a6c7f027285c2f">
+        <dex dex="/Users/andres/Desktop/encomiendasAndroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-22.2.0_adc1b0bb86715d611df9dfb2016a35f50a8c5828/classes.dex" />
+    </item>
+    <item
+        jar="/Users/andres/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.6.0/98476622f10715998eacf9240d6b479f12c66143/okio-1.6.0.jar"
+        jumboMode="true"
+        revision="22.0.1"
+        sha1="98476622f10715998eacf9240d6b479f12c66143">
+        <dex dex="/Users/andres/Desktop/encomiendasAndroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/okio-1.6.0_8c1c527625bd52ac31076db43d0baaa9f52df154/classes.dex" />
+    </item>
+    <item
+        jar="/Users/andres/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.6.2/f1bc476cc167b18e66c297df599b2377131a8947/gson-2.6.2.jar"
+        jumboMode="true"
+        revision="22.0.1"
+        sha1="f1bc476cc167b18e66c297df599b2377131a8947">
+        <dex dex="/Users/andres/Desktop/encomiendasAndroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/gson-2.6.2_f2335837b70e14808f70ad3a484562a05280c9f8/classes.dex" />
+    </item>
+    <item
+        jar="/Users/andres/.gradle/caches/modules-2/files-2.1/com.jakewharton/butterknife/7.0.1/d5d13ea991eab0252e3710e5df3d6a9d4b21d461/butterknife-7.0.1.jar"
+        jumboMode="true"
+        revision="22.0.1"
+        sha1="d5d13ea991eab0252e3710e5df3d6a9d4b21d461">
+        <dex dex="/Users/andres/Desktop/encomiendasAndroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/butterknife-7.0.1_98880380ffaf15343cdcfd4caf85fbad43692287/classes.dex" />
+    </item>
+    <item
+        jar="/Users/andres/Desktop/encomiendasAndroid/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.0/jars/libs/internal_impl-22.2.0.jar"
+        jumboMode="true"
+        revision="22.0.1"
+        sha1="57f2ab85c164ff1676ec64dee787981c046fab79">
+        <dex dex="/Users/andres/Desktop/encomiendasAndroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-22.2.0_cec955d5b96a2ddb4c90861e2b82510ae24e0ffa/classes.dex" />
+    </item>
+    <item
+        jar="/Users/andres/Desktop/encomiendasAndroid/app/build/intermediates/exploded-aar/com.android.support/design/22.2.0/jars/classes.jar"
+        jumboMode="true"
+        revision="22.0.1"
+        sha1="fc63b820d54c8a27a3a614bdd93920e0076581c2">
+        <dex dex="/Users/andres/Desktop/encomiendasAndroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-design-22.2.0_fa8e31b131a54760304b9a208a6a208eb44ce72b/classes.dex" />
+    </item>
+    <item
+        jar="/Users/andres/Desktop/encomiendasAndroid/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="22.0.1"
+        sha1="1f82a695e5cb205d410f46c862ac54500a3ca630">
+        <dex dex="/Users/andres/Desktop/encomiendasAndroid/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_45876d6aedb4708f803f7aa31de7b525204ac119/classes.dex" />
+    </item>
+
+</items>
