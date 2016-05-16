@@ -4,14 +4,10 @@ public class Terminal {
     private Integer id;
     private String nombre;
 
-    public Terminal(int cod, String nom){
+    public Terminal(int cod, String nom) {
         this.id = cod;
         this.nombre = nom;
 
-    }
-
-    public String toString() {
-        return this.id + " "+ this.nombre;
     }
 
     /**
@@ -40,6 +36,10 @@ public class Terminal {
      */
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String toString() {
+        return this.id + " " + this.nombre;
     }
 
 }

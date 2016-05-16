@@ -26,6 +26,7 @@ import static android.R.layout.simple_list_item_1;
 public class MainActivity extends ActionBarActivity {
     ListView lv;
     SearchView sv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,27 +40,23 @@ public class MainActivity extends ActionBarActivity {
         final ArrayAdapter<Terminal> adaptador = new ArrayAdapter<Terminal>(this,simple_list_item_1, Farcade.listaTerminales);
         lv.setAdapter(adaptador);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
             @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                //String tex = listado.getItemAtPosition(position).toString();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Terminal ter = adaptador.getItem(position);
                 int cod = ter.getId();
-                //texto.setText(cod);r
-                Intent i = new Intent(MainActivity.this, Main2Activity.class);
+                Intent i = new Intent(MainActivity.this, MenuCambiarEstadoActivity.class);
                 i.putExtra("codigo", cod);
                 startActivity(i);
             }
         });
+
         Call<List<Terminal>> call = TerminalApi.createService().getAll();
         call.enqueue(new Callback<List<Terminal>>() {
             @Override
             public void onResponse(Call<List<Terminal>> call, Response<List<Terminal>> response) {
-                System.out.println(response.body());
                 List<Terminal> terminales = response.body();
                 for (Terminal terminal : terminales) {
-                    Farcade.listaTerminales.add(new Terminal(terminal.getId(),terminal.getNombre()));
+                    Farcade.listaTerminales.add(new Terminal(terminal.getId(), terminal.getNombre()));
                 }
             }
 
@@ -69,8 +66,8 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-         Intent intent = new Intent(this, LoginActivity.class);
-         startActivity(intent);
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
     }
 
     @Override
