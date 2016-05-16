@@ -36,7 +36,7 @@ public class MainActivity extends ActionBarActivity {
 
         lv.setTextFilterEnabled(true);
 
-        final ArrayAdapter<terminal> adaptador = new ArrayAdapter<terminal>(this,simple_list_item_1, Farcade.listaTerminales);
+        final ArrayAdapter<Terminal> adaptador = new ArrayAdapter<Terminal>(this,simple_list_item_1, Farcade.listaTerminales);
         lv.setAdapter(adaptador);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -44,8 +44,8 @@ public class MainActivity extends ActionBarActivity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 //String tex = listado.getItemAtPosition(position).toString();
-                terminal ter = adaptador.getItem(position);
-                int cod = ter.getCod();
+                Terminal ter = adaptador.getItem(position);
+                int cod = ter.getId();
                 //texto.setText(cod);r
                 Intent i = new Intent(MainActivity.this, Main2Activity.class);
                 i.putExtra("codigo", cod);
@@ -59,7 +59,7 @@ public class MainActivity extends ActionBarActivity {
                 System.out.println(response.body());
                 List<Terminal> terminales = response.body();
                 for (Terminal terminal : terminales) {
-                    Farcade.listaTerminales.add(new terminal(terminal.getId(),terminal.getNombre()));
+                    Farcade.listaTerminales.add(new Terminal(terminal.getId(),terminal.getNombre()));
                 }
             }
 

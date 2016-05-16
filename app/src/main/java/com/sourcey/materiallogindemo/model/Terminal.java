@@ -4,6 +4,16 @@ public class Terminal {
     private Integer id;
     private String nombre;
 
+    public Terminal(int cod, String nom){
+        this.id = cod;
+        this.nombre = nom;
+
+    }
+
+    public String toString() {
+        return this.id + " "+ this.nombre;
+    }
+
     /**
      * @return The id
      */
