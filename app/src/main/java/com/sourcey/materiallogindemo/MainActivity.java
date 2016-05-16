@@ -1,10 +1,18 @@
 package com.sourcey.materiallogindemo;
 
-import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.sourcey.materiallogindemo.api.TerminalApi;
+import com.sourcey.materiallogindemo.model.Terminal;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -14,8 +22,25 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+        Call<List<Terminal>> call = TerminalApi.createService().getAll();
+        call.enqueue(new Callback<List<Terminal>>() {
+            @Override
+            public void onResponse(Call<List<Terminal>> call, Response<List<Terminal>> response) {
+                System.out.println(response.body());
+                List<Terminal> terminales = response.body();
+                for (Terminal terminal : terminales) {
+                    System.out.println(terminal.getNombre());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Terminal>> call, Throwable t) {
+                System.out.println("onFailure");
+            }
+        });
+
+//        Intent intent = new Intent(this, LoginActivity.class);
+//        startActivity(intent);
     }
 
     @Override

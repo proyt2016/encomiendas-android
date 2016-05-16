@@ -1,7 +1,6 @@
 package com.sourcey.materiallogindemo;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -104,16 +103,6 @@ public class LoginActivity extends AppCompatActivity {
                 progressDialog.dismiss();
             }
         });
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            // TODO: Implement successful signup logic here
-            // By default we just finish the Activity and log them in automatically
-            this.finish();
-        }
     }
 
     @Override
