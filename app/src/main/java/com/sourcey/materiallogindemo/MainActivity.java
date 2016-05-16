@@ -1,9 +1,15 @@
 package com.sourcey.materiallogindemo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.SearchView;
 
 import com.sourcey.materiallogindemo.api.TerminalApi;
 import com.sourcey.materiallogindemo.model.Terminal;
@@ -14,14 +20,38 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.R.layout.simple_list_item_1;
+
 
 public class MainActivity extends ActionBarActivity {
-
+    ListView lv;
+    SearchView sv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        lv = (ListView) findViewById(R.id.lista);
 
+        sv = (SearchView)findViewById(R.id.searchView1);
+
+        lv.setTextFilterEnabled(true);
+
+        final ArrayAdapter<terminal> adaptador = new ArrayAdapter<terminal>(this,simple_list_item_1, Farcade.listaTerminales);
+        lv.setAdapter(adaptador);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                //String tex = listado.getItemAtPosition(position).toString();
+                terminal ter = adaptador.getItem(position);
+                int cod = ter.getCod();
+                //texto.setText(cod);r
+                Intent i = new Intent(MainActivity.this, Main2Activity.class);
+                i.putExtra("codigo", cod);
+                startActivity(i);
+            }
+        });
         Call<List<Terminal>> call = TerminalApi.createService().getAll();
         call.enqueue(new Callback<List<Terminal>>() {
             @Override
@@ -29,7 +59,7 @@ public class MainActivity extends ActionBarActivity {
                 System.out.println(response.body());
                 List<Terminal> terminales = response.body();
                 for (Terminal terminal : terminales) {
-                    System.out.println(terminal.getNombre());
+                    Farcade.listaTerminales.add(new terminal(terminal.getId(),terminal.getNombre()));
                 }
             }
 
@@ -39,8 +69,8 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-//        Intent intent = new Intent(this, LoginActivity.class);
-//        startActivity(intent);
+         Intent intent = new Intent(this, LoginActivity.class);
+         startActivity(intent);
     }
 
     @Override
