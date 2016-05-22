@@ -2,7 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+   >
 
     <LinearLayout
         android:orientation="vertical"
@@ -12,11 +13,12 @@
         android:paddingLeft="24dp"
         android:paddingRight="24dp">
 
-        <ImageView android:src="@drawable/logo"
-            android:layout_width="wrap_content"
-            android:layout_height="72dp"
-            android:layout_marginBottom="24dp"
-            android:layout_gravity="center_horizontal" />
+        <ImageView
+            android:src="@drawable/omnibus"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_gravity="center"
+            />
 
         <!--  Email Label -->
         <android.support.design.widget.TextInputLayout
@@ -28,7 +30,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Usuario"
-                android:inputType="text" />
+                android:inputType="text"
+                />
         </android.support.design.widget.TextInputLayout>
 
         <!--  Password Label -->

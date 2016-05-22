@@ -3,13 +3,15 @@ package com.sourcey.materiallogindemo;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SearchView;
 
 import com.sourcey.materiallogindemo.api.TerminalApi;
 import com.sourcey.materiallogindemo.model.Terminal;
@@ -20,12 +22,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.R.layout.simple_list_item_1;
-
 
 public class MainActivity extends ActionBarActivity {
     ListView lv;
-    SearchView sv;
+    EditText filtro;
+    ArrayAdapter<Terminal> adaptador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,20 +34,22 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         lv = (ListView) findViewById(R.id.lista);
 
-        sv = (SearchView)findViewById(R.id.searchView1);
+        filtro = (EditText)findViewById(R.id.inputSearch);
 
         lv.setTextFilterEnabled(true);
 
-        final ArrayAdapter<Terminal> adaptador = new ArrayAdapter<Terminal>(this,simple_list_item_1, Farcade.listaTerminales);
+         adaptador = new ArrayAdapter<Terminal>(this,R.layout.lista_terminales_items,R.id.item, Farcade.listaTerminales);
         lv.setAdapter(adaptador);
+
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Terminal ter = adaptador.getItem(position);
                 int cod = ter.getId();
-                Intent i = new Intent(MainActivity.this, MenuCambiarEstadoActivity.class);
+                Intent i = new Intent(MainActivity.this, MenuPrincipal.class);
                 i.putExtra("codigo", cod);
                 startActivity(i);
+                finish();
             }
         });
 
@@ -63,6 +66,32 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onFailure(Call<List<Terminal>> call, Throwable t) {
                 System.out.println("onFailure");
+            }
+        });
+
+
+        filtro.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+                // TODO Auto-generated method stub
+
+                MainActivity.this.adaptador.getFilter().filter(arg0);
+            }
+
+
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+                                          int arg3) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                // TODO Auto-generated method stub
+
             }
         });
 

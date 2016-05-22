@@ -39,7 +39,9 @@ public class Terminal {
     }
 
     public String toString() {
-        return this.id + " " + this.nombre;
+        return "Codigo Terminal:"+"  "+this.id+"\n"
+                +"\n"
+                +"Nombre Terminal:"+" "+ this.nombre;
     }
 
 }

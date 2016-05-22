@@ -25,6 +25,18 @@
             android:name=".MenuCambiarEstadoActivity"
             android:label="@string/title_activity_main2"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MenuPrincipal"
+            android:label="@string/title_activity_menu_principal"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".RegistroIndividual"
+            android:label="@string/title_activity_registro_individual"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".RegistroGrupal"
+            android:label="@string/title_activity_registro_grupal"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

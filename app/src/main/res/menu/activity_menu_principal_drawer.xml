@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/BusquedaMasiva"
+            android:icon="@drawable/buscar"
+            android:title="Cambiar estado Masivo"/>
+        <item
+            android:id="@+id/BusquedaIndividual"
+            android:icon="@drawable/buscar"
+            android:title="Cambiar estado Individual"
+          />
+
+    </group>
+
+    <item android:title="Informacion importante:">
+        <menu>
+            <item
+                android:id="@+id/datosTerminal"
+                android:icon="@drawable/icono_bondi"
+                android:title="Datos Terminal" />
+            <item
+                android:id="@+id/datosEmpleado"
+                android:icon="@drawable/usuario"
+                android:title="Datos Empleado" />
+
+        </menu>
+
+    </item>
+
+</menu>
