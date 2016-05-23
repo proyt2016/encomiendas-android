@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <EditText
+        android:id="@+id/inputSearchRecorrido"
+        android:layout_width="314dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:hint="Buscar.."
+        android:textSize="18dp"
+        android:textColorLink="@color/black"
+        android:textColorHint="@color/black"
+        android:inputType="textVisiblePassword"
+        android:textColor="@color/black"
+        android:drawableLeft="@drawable/buscar"
+        />
+
+    <ListView
+        android:id="@id/android:list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/inputSearchRecorrido"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center">
+    </ListView>
+
+</LinearLayout>

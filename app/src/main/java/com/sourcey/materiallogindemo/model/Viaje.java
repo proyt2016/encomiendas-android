@@ -32,7 +32,6 @@ public class Viaje {
     public String toString(){
         return "Recorrido:"+" "+ this.nombre;
     }
-
     public int getId() {
 
         return id;
