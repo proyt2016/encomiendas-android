@@ -1,13 +1,19 @@
 package com.sourcey.materiallogindemo;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+
 
 public class RegistroGrupal extends AppCompatActivity {
+
+    Toolbar toolbar;
+    TabLayout tabLayout;
+    ViewPager viewPager;
+    ViewPagerAdapter viewPagerAdapter;
+    int codTerminal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,14 +22,36 @@ public class RegistroGrupal extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        int codTerminal = getIntent().getExtras().getInt("codigo");
+
+
+        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
+
+
+        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        viewPagerAdapter.addFragments(new ListFragmentViajes(), "VIAJES");
+        viewPagerAdapter.addFragments(new ListFragmentViajes(), "VIAJES");
+        // viewPagerAdapter.addFragments(new EncomiendasFragment(), "ENCOMIENDAS");
+
+        viewPager.setAdapter(viewPagerAdapter);
+        tabLayout.setupWithViewPager(viewPager);
+
+    /*    ListFragmentViajes listFragmentViajes = (ListFragmentViajes) getSupportFragmentManager().findFragmentByTag("ListFragmentViajes");
+
+        if (listFragmentViajes == null) {
+            listFragmentViajes = new ListFragmentViajes();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.add(android.R.id.content, listFragmentViajes, "listTerminalesFragment");
+            transaction.commit();
+
+
+        }*/
+    }
+    public int obtenerCodigoTerminal(){
+        return this.codTerminal;
     }
 
-}
+
+
+        }

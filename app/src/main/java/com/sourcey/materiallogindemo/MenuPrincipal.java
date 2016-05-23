@@ -11,9 +11,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.sourcey.materiallogindemo.api.ViajesApi;
+import com.sourcey.materiallogindemo.model.Viaje;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MenuPrincipal extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     public int codTerminal;
+    public boolean cargo = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +32,26 @@ public class MenuPrincipal extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         codTerminal = getIntent().getExtras().getInt("codigo");
+if(cargo == false) {
+    Call<List<Viaje>> call = ViajesApi.createService().getSearch(String.valueOf(codTerminal));
+    call.enqueue(new Callback<List<Viaje>>() {
+        @Override
+        public void onResponse(Call<List<Viaje>> call, Response<List<Viaje>> response) {
+            List<Viaje> viajes = response.body();
+            for (Viaje v : viajes) {
+                Farcade.listaViajes.add(new Viaje(v.getId(), v.getNombre(), v.getNroCoche(), v.getOrigenId(), v.getDestinoId(), v.getFecha(), v.getSalida(), v.getLlegada(), v.getListaEncomiendas()));
+                cargo = true;
+            }
+        }
+
+        @Override
+        public void onFailure(Call<List<Viaje>> call, Throwable t) {
+            System.out.println("onFailure");
+        }
+    });
+}
+
+
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -76,6 +106,7 @@ public class MenuPrincipal extends AppCompatActivity
             Intent i = new Intent(MenuPrincipal.this, RegistroGrupal.class);
             i.putExtra("codigo",codTerminal );
             startActivity(i);
+
 
         } else if (id == R.id.BusquedaIndividual) {
             Intent i = new Intent(MenuPrincipal.this, RegistroIndividual.class);
