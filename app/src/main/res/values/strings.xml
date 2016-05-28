@@ -9,4 +9,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="title_activity_registro_individual">RegistroIndividual</string>
     <string name="title_activity_registro_grupal">RegistroGrupal</string>
+    <string name="title_activity_menu_cambio_de_estado_escaner">MenuCambioDeEstadoEscaner</string>
+    <string name="title_activity_menu_estados">MenuEstados</string>
 </resources>

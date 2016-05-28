@@ -11,19 +11,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.sourcey.materiallogindemo.api.ViajesApi;
-import com.sourcey.materiallogindemo.model.Viaje;
+public class MenuPrincipal extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-public class MenuPrincipal extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
     public int codTerminal;
     public boolean cargo = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,32 +23,14 @@ public class MenuPrincipal extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        codTerminal = getIntent().getExtras().getInt("codigo");
-if(cargo == false) {
-    Call<List<Viaje>> call = ViajesApi.createService().getSearch(String.valueOf(codTerminal));
-    call.enqueue(new Callback<List<Viaje>>() {
-        @Override
-        public void onResponse(Call<List<Viaje>> call, Response<List<Viaje>> response) {
-            List<Viaje> viajes = response.body();
-            for (Viaje v : viajes) {
-                Farcade.listaViajes.add(new Viaje(v.getId(), v.getNombre(), v.getNroCoche(), v.getOrigenId(), v.getDestinoId(), v.getFecha(), v.getSalida(), v.getLlegada(), v.getListaEncomiendas()));
-                cargo = true;
-            }
-        }
-
-        @Override
-        public void onFailure(Call<List<Viaje>> call, Throwable t) {
-            System.out.println("onFailure");
-        }
-    });
-}
 
 
+        //LLAMO APICOCHES
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+         this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -98,19 +72,20 @@ if(cargo == false) {
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
+    //MANEJO DE OPCIONES MENU
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.BusquedaMasiva) {
+            codTerminal = getIntent().getExtras().getInt("codigo");
             Intent i = new Intent(MenuPrincipal.this, RegistroGrupal.class);
-            i.putExtra("codigo",codTerminal );
+            i.putExtra("codigo", codTerminal);
             startActivity(i);
-
-
         } else if (id == R.id.BusquedaIndividual) {
+            codTerminal = getIntent().getExtras().getInt("codigo");
             Intent i = new Intent(MenuPrincipal.this, RegistroIndividual.class);
-            i.putExtra("codigo",codTerminal );
+            i.putExtra("codigo", codTerminal);
             startActivity(i);
         }
         else if (id == R.id.datosTerminal) {
@@ -123,7 +98,6 @@ if(cargo == false) {
             i.putExtra("codigo",codTerminal );
             startActivity(i);*/
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

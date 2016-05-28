@@ -11,72 +11,56 @@ public class Usuario {
     private String clave;
 
     /**
-     *
-     * @return
-     * The id
+     * @return The id
      */
     public Integer getId() {
         return id;
     }
 
     /**
-     *
-     * @param id
-     * The id
+     * @param id The id
      */
     public void setId(Integer id) {
         this.id = id;
     }
 
     /**
-     *
-     * @return
-     * The usuario
+     * @return The usuario
      */
     public String getUsuario() {
         return usuario;
     }
 
     /**
-     *
-     * @param usuario
-     * The usuario
+     * @param usuario The usuario
      */
     public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
 
     /**
-     *
-     * @return
-     * The nombre
+     * @return The nombre
      */
     public String getNombre() {
         return nombre;
     }
 
     /**
-     *
-     * @param nombre
-     * The nombre
+     * @param nombre The nombre
      */
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
     /**
-     *
-     * @return
-     * The clave
+     * @return The clave
      */
     public String getClave() {
         return clave;
     }
 
     /**
-     *
-     * @param clave
-     * The clave
+     * @param clave The clave
      */
     public void setClave(String clave) {
         this.clave = clave;

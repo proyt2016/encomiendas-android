@@ -4,11 +4,12 @@ public class Terminal {
     private Integer id;
     private String nombre;
 
-    public Terminal(int cod, String nom) {
+    public Terminal(Integer cod, String nom) {
         this.id = cod;
         this.nombre = nom;
 
     }
+
 
     /**
      * @return The id
@@ -39,9 +40,9 @@ public class Terminal {
     }
 
     public String toString() {
-        return "Codigo Terminal:"+"  "+this.id+"\n"
-                +"\n"
-                +"Nombre Terminal:"+" "+ this.nombre;
+        return "Codigo Terminal:" + "  " + this.id + "\n"
+                + "\n"
+                + "Nombre Terminal:" + " " + this.nombre;
     }
 
 }

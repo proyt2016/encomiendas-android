@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:layout_marginLeft="60dp"
-        android:text="Listado de Terminales"
+        android:text="Listado Terminales"
         android:textSize="20dip"
         android:textColor="@color/black"
         android:textStyle="bold"
@@ -37,15 +37,13 @@
 
     <!-- List View de elementos  -->
     <ListView
-        android:id="@+id/lista"
+        android:id="@+id/listaTerminales"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="10dp"
         android:layout_below="@+id/inputSearch"
         android:layout_alignParentLeft="true"
-
         android:textFilterEnabled="true"
-        android:choiceMode="singleChoice"
         android:background="#b7ffffff" />
 
 
