@@ -11,4 +11,6 @@
     <string name="title_activity_registro_grupal">RegistroGrupal</string>
     <string name="title_activity_menu_cambio_de_estado_escaner">MenuCambioDeEstadoEscaner</string>
     <string name="title_activity_menu_estados">MenuEstados</string>
+    <string name="title_activity_datos_encomienda">DatosDeEncomienda</string>
+
 </resources>

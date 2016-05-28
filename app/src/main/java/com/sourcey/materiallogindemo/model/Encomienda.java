@@ -6,7 +6,7 @@ package com.sourcey.materiallogindemo.model;
 import java.util.List;
 
 public class Encomienda {
-    private Integer id;
+    private String id;
     private String emisorNombre;
     private String emisorId;
     private String receptorNombre;
@@ -19,7 +19,7 @@ public class Encomienda {
     private List<Estado> estados;
     private Coche coche;
 
-    public Encomienda (Integer id, String emisorNombre, String emisorId, String receptorNombre, String receptorId, Integer origenId, Integer destinoId, String fecha, String salida, String llegada, List<Estado> estados, Coche coche){
+    public Encomienda (String id, String emisorNombre, String emisorId, String receptorNombre, String receptorId, Integer origenId, Integer destinoId, String fecha, String salida, String llegada, List<Estado> estados, Coche coche){
         this.id = id;
         this.emisorNombre = emisorNombre;
         this.emisorId = emisorId;
@@ -43,11 +43,11 @@ public class Encomienda {
         return null;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
