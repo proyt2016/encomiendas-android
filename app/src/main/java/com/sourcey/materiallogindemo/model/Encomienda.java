@@ -18,8 +18,9 @@ public class Encomienda {
     private String llegada;
     private List<Estado> estados;
     private Coche coche;
+    private boolean selected;
 
-    public Encomienda (Integer id, String emisorNombre, String emisorId, String receptorNombre, String receptorId, Integer origenId, Integer destinoId, String fecha, String salida, String llegada, List<Estado> estados, Coche coche){
+    public Encomienda (Integer id, String emisorNombre, String emisorId, String receptorNombre, String receptorId, Integer origenId, Integer destinoId, String fecha, String salida, String llegada, List<Estado> estados, Coche coche, boolean chek){
         this.id = id;
         this.emisorNombre = emisorNombre;
         this.emisorId = emisorId;
@@ -32,15 +33,22 @@ public class Encomienda {
         this.llegada = llegada;
         this.estados = estados;
         this.coche = coche;
+        this.selected = chek;
     }
 
     public String toString() {
-        return "Encomienda" + " -> " + this.id+"\n"
-                +"Estado Actual:"+" "+ this.getListaEstados();
+        return "Encomienda:"+" "+this.id+" "+"Estado:"+" "+this.getUltimoEstado();
+
+    }
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+    public boolean isSelected() {
+        return selected;
     }
 
-    public Estado getUltimoEstado(List<Estado> li){
-        return null;
+    public Estado getUltimoEstado(){
+        return estados.get(estados.size()-1);
     }
 
     public Integer getId() {

@@ -97,9 +97,8 @@ public class RegistroGrupal extends AppCompatActivity implements View.OnClickLis
             @Override
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Coche coche = adaptador.getItem(position);
+                final Coche coche = adaptador.getItem(position);
                 cod = coche.getId();
-
                 //DERICECIONA A MENU ESTADOS ENCOMIENDA
                 Call<List<Encomienda>> call = EncomiendaApi.createService().getByCoche(cod);
                     call.enqueue(new Callback<List<Encomienda>>() {

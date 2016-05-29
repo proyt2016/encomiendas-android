@@ -25,6 +25,7 @@
             android:name=".MenuPrincipal"
             android:label="@string/title_activity_menu_principal"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".RegistroIndividual"
             android:label="@string/title_activity_registro_individual"
@@ -38,8 +39,8 @@
             android:label="@string/title_activity_menu_cambio_de_estado_escaner"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".MenuEstados"
-            android:label="@string/title_activity_menu_estados"
+            android:name=".MenuDetalleEncomienda"
+            android:label="detalle_encomienda"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

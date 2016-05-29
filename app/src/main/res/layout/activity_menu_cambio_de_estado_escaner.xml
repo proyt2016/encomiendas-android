@@ -6,6 +6,55 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context="com.sourcey.materiallogindemo.MenuCambioDeEstadoEscaner">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="400dp"
+        android:layout_height="350dp"
+        android:layout_marginTop="45dp"
+        android:id="@+id/linearLayout">
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No Procesadas"
+            android:id="@+id/NoProcesadas"
+            android:layout_below="@+id/textView2"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="5dp"
+            android:checked="false" />
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp">
+        </ListView>
+
+    </LinearLayout>
+
+
+    <!--android:layout_above="@+id/button2"-->
+
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CONFIRMAR"
+            android:id="@+id/button"
+            android:layout_marginTop="500dp"
+            android:background="@drawable/boton_confirmar"/>
+        <Spinner
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="130dp"
+            android:id="@+id/spinner"
+            android:layout_marginTop="430dp"
+            android:background="@drawable/boton_redondo"/>
+
+
+
+
+
 
     <include layout="@layout/content_menu_cambio_de_estado_escaner" />
 

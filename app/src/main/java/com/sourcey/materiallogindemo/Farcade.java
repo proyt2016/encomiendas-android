@@ -17,18 +17,13 @@ public class Farcade {
     static List<Encomienda> listaEncomiendas = new ArrayList<>();
     static List<Estado>listaEstados = new ArrayList<>();
     static List<Encomienda> listaEstadoAcambiar = new ArrayList<>();
+    static List<Encomienda> detalleEnco = new ArrayList<>();
 
     public Farcade(){}
 
-    //API ALL COCHES
-
-
     public void SetListaEstado(Estado e){
-
         listaEstados.add(e);
-
     }
-
     public static void setListaTerminales(Terminal t){
        listaTerminales.add(t);
     }
@@ -37,7 +32,6 @@ public class Farcade {
     }
     public static void setListaEncomiendasXcoche(Encomienda e){
         listaEncomiendas.add(e);
-
     }
 
     public static boolean tieneEnco(int codV){
@@ -57,10 +51,20 @@ public class Farcade {
             }
         }return listaCochePorTerminal;
     }
-
-
-    public List<Encomienda> getEncomiendasNoProcesadas(List<Encomienda> lista){
-        return null;
+    public static Encomienda BuscarEncomiendaId(int id){
+        for(Encomienda e: Farcade.listaEncomiendas){
+            if(e.getId()==id){
+                return e;
+            }
+        }return null;
+    }
+    public static List<Encomienda> getEncomiendasNoProcesadas(){
+        List<Encomienda> noProcesadas = new ArrayList<>();
+        for(Encomienda e: Farcade.listaEncomiendas){
+            if(e.getUltimoEstado().getEstado().equals("En Viaje")){
+                noProcesadas.add(e);
+            }
+        }return noProcesadas;
     }
 
 }
