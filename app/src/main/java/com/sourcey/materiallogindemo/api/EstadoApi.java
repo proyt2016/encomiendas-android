@@ -41,6 +41,6 @@ public class EstadoApi {
         Call<List<Estado>> getByCocheAndEstado(@Path("cocheId") int cocheId, @Path("encomiendaId") int encomiendaId);
 
         @POST("/coche/{cocheId}/encomiendas/{encomiendaId}/estados")
-        Call<Estado> addEstado(@Path("cocheId") int cocheId, @Path("encomiendaId") int encomiendaId, @Body Estado estado);
+        Call<Estado> addEstado(@Path("cocheId") int cocheId, @Path("encomiendaId") String encomiendaId, @Body Estado estado);
     }
 }

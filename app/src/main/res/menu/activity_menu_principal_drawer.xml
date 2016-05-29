@@ -4,25 +4,22 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/BusquedaMasiva"
-            android:icon="@drawable/buscar"
+
             android:title="Cambiar estado Masivo"/>
         <item
             android:id="@+id/BusquedaIndividual"
-            android:icon="@drawable/buscar"
             android:title="Cambiar estado Individual"
           />
-
+        <!--android:icon="@drawable/buscar"-->
     </group>
 
     <item android:title="Informacion importante:">
         <menu>
             <item
                 android:id="@+id/datosTerminal"
-                android:icon="@drawable/icono_bondi"
                 android:title="Datos Terminal" />
             <item
                 android:id="@+id/datosEmpleado"
-                android:icon="@drawable/usuario"
                 android:title="Datos Empleado" />
 
         </menu>

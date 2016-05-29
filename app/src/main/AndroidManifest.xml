@@ -42,6 +42,10 @@
             android:name=".MenuDetalleEncomienda"
             android:label="detalle_encomienda"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".DatosEncomienda"
+            android:label="@string/title_activity_datos_encomienda"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
