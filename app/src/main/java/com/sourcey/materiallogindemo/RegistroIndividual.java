@@ -26,6 +26,7 @@ public class RegistroIndividual extends AppCompatActivity implements View.OnClic
     private Button scanBtn, btn2;
     private ImageButton btn;
     private String contenido, scanContent, cont;
+
     private int idCoche;
     private Boolean Encontre = false;
 
@@ -89,7 +90,7 @@ public class RegistroIndividual extends AppCompatActivity implements View.OnClic
                             System.out.println(e);
                             if (scanContent.equals(e.getId())) {
                                 Encontre = true;
-                                contenido = e.getId();
+                                contenido = String.valueOf(e.getId());
                                 break;
                             }
                         }

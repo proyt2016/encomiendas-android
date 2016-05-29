@@ -4,11 +4,12 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/BusquedaMasiva"
-
+            android:icon="@drawable/buscar"
             android:title="Cambiar estado Masivo"/>
         <item
             android:id="@+id/BusquedaIndividual"
             android:title="Cambiar estado Individual"
+            android:icon="@drawable/buscar"
           />
         <!--android:icon="@drawable/buscar"-->
     </group>
@@ -17,10 +18,12 @@
         <menu>
             <item
                 android:id="@+id/datosTerminal"
-                android:title="Datos Terminal" />
+                android:title="Datos Terminal"
+                android:icon="@drawable/icono_bondi"/>
             <item
                 android:id="@+id/datosEmpleado"
-                android:title="Datos Empleado" />
+                android:title="Datos Empleado"
+                android:icon="@drawable/usuario"/>
 
         </menu>
 

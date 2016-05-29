@@ -29,7 +29,8 @@ import retrofit2.Response;
  * Created by Agustin on 28/5/2016.
  */
 public class DatosEncomienda  extends AppCompatActivity {
-    private String id, estSelect;
+    private String  estSelect;
+    private int id;
     private int idCoche;
     private TextView cod, origen, destino;
     private Spinner spinner1;
@@ -42,14 +43,14 @@ public class DatosEncomienda  extends AppCompatActivity {
         setContentView(R.layout.activity_datos_encomienda);
         EstadosPosibles();
         Bundle parametros = this.getIntent().getExtras(); //Definimos el contenedor de parametros
-        id = parametros.getString("id"); //Guardamos el parametro nombre en la variable nombre
+        id = parametros.getInt("id"); //Guardamos el parametro nombre en la variable nombre
         idCoche = parametros.getInt("idCoche"); //Guardamos el parametro nombre en la variable nombre
             Call<Encomienda> call = EncomiendaApi.createService().getById(1,id);
             call.enqueue(new Callback<Encomienda>() {
                 @Override
                 public void onResponse(Call<Encomienda> call, Response<Encomienda> response) {
                     Encomienda enc = response.body();
-                    if (id.equals(enc.getId())) {
+                    if (id==enc.getId()) {
                         cod = (TextView) findViewById(R.id.id);
                         cod.setText(enc.getId());
                         origen = (TextView) findViewById(R.id.origen);
@@ -94,7 +95,7 @@ public class DatosEncomienda  extends AppCompatActivity {
                                 Date fecha = new Date();
                                 DateFormat dat = new SimpleDateFormat("yy/MM/dd");
                                 Estado e = new Estado(12, estSelect, dat.format(fecha), en);
-                                Call<Estado> call2 = EstadoApi.createService().addEstado(idCoche, id, e);
+                                Call<Estado> call2 = EstadoApi.createService().addEstado(idCoche,id, e);
                                 call2.enqueue(new Callback<Estado>() {
                                     @Override
                                     public void onResponse(Call<Estado> call, Response<Estado> response) {
