@@ -1,5 +1,6 @@
 package com.sourcey.materiallogindemo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
@@ -30,6 +31,7 @@ public class MenuCambioDeEstadoEscaner extends AppCompatActivity implements View
     ArrayAdapter<Encomienda> adapter;
     TextView t;
     ListView listaEncomiendas;
+    Button escaner;
 
     Spinner spinner;
     ArrayAdapter<String> estadosAdapter;
@@ -39,7 +41,6 @@ public class MenuCambioDeEstadoEscaner extends AppCompatActivity implements View
     CheckBox noProcesada;
 
     List<String> estados = new ArrayList<>();
-    //ArrayAdapter<Encomienda> adapter;
     List<Encomienda> listaEnco = new ArrayList<>();
     int codCoche;
 
@@ -54,7 +55,8 @@ public class MenuCambioDeEstadoEscaner extends AppCompatActivity implements View
         spinner = (Spinner)findViewById(R.id.spinner);
         listaEncomiendas = (ListView)findViewById(android.R.id.list);
         noProcesada = (CheckBox)findViewById(R.id.NoProcesadas);
-
+        escaner = (Button)findViewById(R.id.escaner);
+        //escaner.setOnClickListener(this);
         confirmar =(Button)findViewById(R.id.button);
         detalle = (Button)findViewById(R.id.detalle);
 //        detalle.setOnClickListener(this);
@@ -96,6 +98,14 @@ public class MenuCambioDeEstadoEscaner extends AppCompatActivity implements View
         for (Encomienda e : Farcade.listaEncomiendas) {
             adapter.notifyDataSetChanged();
         }
+        escaner.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent i = new Intent(MenuCambioDeEstadoEscaner.this, BusquedaMasivaEscaner.class);
+                i.putExtra("codigo", codCoche);
+                startActivity(i);
+            }
+        });
+
 
         //MANEJO DEL SPINNER
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -177,6 +187,11 @@ public class MenuCambioDeEstadoEscaner extends AppCompatActivity implements View
                 }Toast.makeText(getApplicationContext(),"Se cambio estado a:"+" "+valOfSpinner.toString(),Toast.LENGTH_LONG).show();
             }else
                 {Toast.makeText(getApplicationContext(),"Debe Seleccionar un Estado Andres Puto",Toast.LENGTH_LONG).show();}
+
+        }
+        if(v.getId()==R.id.escaner){
+
+
 
         }
 

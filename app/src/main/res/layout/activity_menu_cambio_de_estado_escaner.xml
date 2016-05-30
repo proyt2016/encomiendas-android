@@ -10,7 +10,7 @@
         android:orientation="vertical"
         android:layout_width="400dp"
         android:layout_height="350dp"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="30dp"
         android:id="@+id/linearLayout">
         <CheckBox
             android:layout_width="wrap_content"
@@ -26,30 +26,34 @@
             android:id="@android:id/list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp">
+            android:layout_marginTop="1dp">
         </ListView>
 
     </LinearLayout>
 
-
-    <!--android:layout_above="@+id/button2"-->
-
-
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="CONFIRMAR"
-            android:id="@+id/button"
-            android:layout_marginTop="500dp"
-            android:background="@drawable/boton_confirmar"/>
-        <Spinner
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="130dp"
-            android:id="@+id/spinner"
-            android:layout_marginTop="430dp"
-            android:background="@drawable/boton_redondo"/>
+    <Button
+         style="?android:attr/buttonStyleSmall"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:text="CONFIRMAR"
+         android:id="@+id/button"
+         android:layout_marginTop="500dp"
+         android:background="@drawable/boton_confirmar"/>
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ESCANEAR"
+        android:id="@+id/escaner"
+        android:layout_marginTop="440dp"
+        android:background="@drawable/boton_confirmar"/>
+    <Spinner
+        android:layout_width="100dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="130dp"
+        android:id="@+id/spinner"
+        android:layout_marginTop="385dp"
+        android:background="@drawable/boton_redondo"/>
 
 
 

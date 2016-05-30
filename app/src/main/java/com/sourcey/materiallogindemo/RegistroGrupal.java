@@ -41,21 +41,12 @@ public class RegistroGrupal extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro_grupal);
-        //MenuCambioDeEstadoEscaner m = new MenuCambioDeEstadoEscaner();
-
         codTerminal = getIntent().getExtras().getInt("codigo");
-        //cargo = false;
-
-
-
 
         listadoCoches = (ListView) findViewById(R.id.listadoCoches);
         filtro = (EditText)findViewById(R.id.inputSearch);
         listadoCoches.setTextFilterEnabled(true);
-      //  listadoCoches.setOnClickListener(this);
-
         filtro.setOnClickListener(this);
-
 
         //SE CREA CON VISTA ADAPTADOR
         List<Coche> l = Farcade.getListaCoches(codTerminal);
@@ -66,33 +57,22 @@ public class RegistroGrupal extends AppCompatActivity implements View.OnClickLis
 
             //SE CARGA ADAPTADOR EVITANDO CONFLICOS CON LISTVIEW
             for (Coche t : l) {
-                //lista.add(t);
                 adaptador.notifyDataSetChanged();
-
             }
-        }else{
-            Toast.makeText(getApplicationContext(), "NO EXISTEN COCHES CON RECORRIDO EN LA TERMINAL SELECCIONADA", Toast.LENGTH_LONG);
-        }
-
+        }else{Toast.makeText(getApplicationContext(), "NO EXISTEN COCHES CON RECORRIDO EN LA TERMINAL SELECCIONADA", Toast.LENGTH_LONG).show();}
 
         if(filtro.getText()!=null || filtro.getText().toString()!= " ") {
-
             filtro.addTextChangedListener(new TextWatcher() {
-
                 @Override
                 public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-                    RegistroGrupal.this.adaptador.getFilter().filter(arg0);
-                }
-
+                    RegistroGrupal.this.adaptador.getFilter().filter(arg0);}
                 @Override
-                public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-                }
-
+                public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3){}
                 @Override
-                public void afterTextChanged(Editable arg0) {
-                }
+                public void afterTextChanged(Editable arg0){}
             });
         }
+
         listadoCoches.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
 
