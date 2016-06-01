@@ -9,7 +9,6 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -20,6 +19,7 @@ import com.sourcey.materiallogindemo.api.TerminalApi;
 import com.sourcey.materiallogindemo.model.Coche;
 import com.sourcey.materiallogindemo.model.Terminal;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -31,11 +31,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private   ListView lv;
     private EditText filtro;
     private  TextView txt;
-    private ArrayAdapter<Terminal> adaptador;
+    //private ArrayAdapter<Terminal> adaptador;
     private List<Terminal> lista;
     public int cod;
     private static boolean cargo;
     private  static boolean cargoAdapter;
+    ArrayAdapter<Terminal> adapter;
     //Farcade fabrica = new Farcade();
 
     @Override
@@ -56,7 +57,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         for (Terminal e : listado) {
 
                             Farcade.setListaTerminales(new Terminal(e.getId(), e.getNombre()));
-                            System.out.println(Farcade.listaTerminales.toString());
+
+
+                        }
+                        if (cargoAdapter == false && cargo == true) {
+                            cargoAdapter = true;
+                            adapter = new InteractiveArrayAdapterTerminales(MainActivity.this,getModel());
+                            lv.setAdapter(adapter);
+                            for (Terminal t : Farcade.listaTerminales) {
+                                adapter.notifyDataSetChanged();
+                            }
+
                         }
                     }
 
@@ -90,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             lv.setTextFilterEnabled(true);
             //SE CREA CON VISTA ADAPTADOR
             //lista = Farcade.listaTerminales;
-            if (cargoAdapter == false && cargo == true) {
+        /*    if (cargoAdapter == false && cargo == true) {
                 cargoAdapter = true;
                 adaptador = new ArrayAdapter<Terminal>(this, R.layout.lista_terminales_items, R.id.item, Farcade.listaTerminales);
                 //SE CARGA ADAPTADOR EVITANDO CONFLICOS CON LISTVIEW
@@ -99,11 +110,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     // lista.add(t);
                     adaptador.notifyDataSetChanged();
                 }
-           }
+           }*/
 
 
             //CLICK EN LA LISTA
-            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+          /*  lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Terminal ter = adaptador.getItem(position);
@@ -115,14 +126,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     startActivity(i);
 
                 }
-            });
+            });*/
             if (filtro.getText() != null || filtro.getText().toString()!= " ") {
                 //FILTRO DE BUSQUEDA
                 filtro.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
                         if(arg0!=null){
-                        MainActivity.this.adaptador.getFilter().filter(arg0);
+                        MainActivity.this.adapter.getFilter().filter(arg0);
                         }else{
 
                         }
@@ -150,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -159,6 +171,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {return true;}
         return super.onOptionsItemSelected(item);
+    }
+    private List<Terminal> getModel() {
+        List<Terminal> list = new ArrayList<Terminal>();
+        for (Terminal t : Farcade.listaTerminales) {
+            list.add(t);
+            // adapter.notifyDataSetChanged();
+        }
+        return list;
     }
 
     @Override

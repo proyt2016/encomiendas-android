@@ -54,12 +54,6 @@ public class InteractiveArrayAdapter extends ArrayAdapter<Encomienda> {
                      Intent i = new Intent(context,MenuDetalleEncomienda.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     i.putExtra("codigoEncomienda",e.getId());
                     getContext().getApplicationContext().startActivity(i);
-
-
-
-
-         //  Toast.makeText(getContext().getApplicationContext(), e.getEmisorNombre(), Toast.LENGTH_LONG).show();
-
                 }
             });
             viewHolder.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -71,8 +65,6 @@ public class InteractiveArrayAdapter extends ArrayAdapter<Encomienda> {
                     if (element.isSelected()) {
                         Farcade.listaEstadoAcambiar.add(element);
                     }
-                    //  Toast.makeText(getContext().getApplicationContext(),"Encomienda:"+" "+element.getId(),Toast.LENGTH_LONG).show();
-
 
                 }
             });

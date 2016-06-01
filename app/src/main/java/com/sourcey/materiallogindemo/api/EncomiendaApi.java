@@ -35,6 +35,9 @@ public class EncomiendaApi {
         @GET("/coche/{cocheId}/encomiendas")
         Call<List<Encomienda>> getByCoche(@Path("cocheId") int cocheId);
 
+        @GET("/encomiendas")
+        Call<List<Encomienda>> getAll();
+
         @GET("/coche/{cocheId}/encomiendas/{id}")
         Call<Encomienda> getById(@Path("cocheId") int cocheId, @Path("id") int id);
     }

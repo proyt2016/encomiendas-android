@@ -31,6 +31,7 @@ public class RegistroIndividual extends AppCompatActivity implements View.OnClic
     private Boolean Encontre = false;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +39,8 @@ public class RegistroIndividual extends AppCompatActivity implements View.OnClic
 
         btn = (ImageButton)findViewById(R.id.imageButton);
         btn.setOnClickListener(this);
+
+
 
         btn2 = (Button)findViewById(R.id.buscar);
         btn2.setOnClickListener(new View.OnClickListener() {

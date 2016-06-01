@@ -79,8 +79,10 @@ public class MenuPrincipal extends AppCompatActivity implements NavigationView.O
 
         if (id == R.id.BusquedaMasiva) {
             codTerminal = getIntent().getExtras().getInt("codigo");
+            int AsignarEncomiendas = 1;
             Intent i = new Intent(MenuPrincipal.this, RegistroGrupal.class);
             i.putExtra("codigo", codTerminal);
+            i.putExtra("flag",AsignarEncomiendas);
             startActivity(i);
         } else if (id == R.id.BusquedaIndividual) {
             codTerminal = getIntent().getExtras().getInt("codigo");
@@ -88,10 +90,13 @@ public class MenuPrincipal extends AppCompatActivity implements NavigationView.O
             i.putExtra("codigo", codTerminal);
             startActivity(i);
         }
-        else if (id == R.id.datosTerminal) {
-          /*  Intent i = new Intent(MenuPrincipal.this, RegistroIndividual.class);
+        else if (id == R.id.AsignarEncomiendasCoche) {
+            codTerminal = getIntent().getExtras().getInt("codigo");
+            int AsignarEncomiendas = 2;
+            Intent i = new Intent(MenuPrincipal.this, RegistroGrupal.class);
             i.putExtra("codigo",codTerminal );
-            startActivity(i);*/
+            i.putExtra("flag",AsignarEncomiendas);
+            startActivity(i);
         }
         else if (id == R.id.datosEmpleado) {
          /*   Intent i = new Intent(MenuPrincipal.this, RegistroIndividual.class);
