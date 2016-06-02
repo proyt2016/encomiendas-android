@@ -26,7 +26,7 @@ public class MenuDetalleEncomienda extends Activity {
         CodEncomienda = getIntent().getExtras().getInt("codigoEncomienda");
         Encomienda e = Farcade.BuscarEncomiendaId(CodEncomienda);
         //COMPONENTES XML
-        titulo = (TextView)findViewById(R.id.textView3);
+
         img =(ImageView)findViewById(R.id.imageView);
         nroCoche = (TextView)findViewById(R.id.nroCoche);
         nombEnco = (TextView)findViewById(R.id.nombreEnco);

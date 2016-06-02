@@ -3,19 +3,12 @@
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:baselineAligned="false"
-        android:background="#FFFFFFFF"
-        android:weightSum="1">
-        <!-- Los elementos de la lista se setean en textview  -->
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="271dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/linearLayout5">
-
-
-
-
+              android:weightSum="1">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="271dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout5">
             <TextView
                 android:id="@+id/recorrido"
                 android:layout_width="300dp"
@@ -24,7 +17,6 @@
                 android:textSize="13dip"
                 android:textColor="@color/black"
                 />
-
             <TextView
                 android:id="@+id/horario"
                 android:layout_width="300dp"
@@ -54,27 +46,22 @@
             android:layout_alignParentEnd="true"
             android:weightSum="1"
             android:id="@+id/linearLayout4">
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="15dp"
+            android:id="@+id/next"
+            android:layout_gravity="center"
+            android:enabled="true"
+            android:focusable="true"
+            android:clickable="true"
+            android:onClick="onClick"
+            android:background="@drawable/siguiente"
+            android:layout_marginTop="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
-
-        </LinearLayout>
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:gravity="center"
-        android:layout_marginTop="1dp"
-        android:layout_marginRight="15dp"
-        android:id="@+id/next"
-        android:enabled="true"
-        android:focusable="true"
-        android:clickable="true"
-        android:onClick="onClick"
-        android:background="@drawable/siguiente"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-
+   </LinearLayout>
 </RelativeLayout>
 

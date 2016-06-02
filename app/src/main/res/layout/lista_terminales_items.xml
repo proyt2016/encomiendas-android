@@ -42,26 +42,27 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:weightSum="1">
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+
+            android:layout_marginLeft="15dp"
+            android:id="@+id/next"
+            android:layout_gravity="center"
+            android:enabled="true"
+            android:focusable="true"
+            android:clickable="true"
+            android:onClick="onClick"
+            android:background="@drawable/siguiente"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
 
     </LinearLayout>
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:gravity="center"
-        android:layout_marginTop="1dp"
-        android:layout_marginRight="15dp"
-        android:id="@+id/next"
-        android:enabled="true"
-        android:focusable="true"
-        android:clickable="true"
-        android:onClick="onClick"
-        android:background="@drawable/siguiente"
-        android:layout_alignBottom="@+id/linearLayout6"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+
 
 
 </RelativeLayout>

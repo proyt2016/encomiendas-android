@@ -2,37 +2,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity"
-    android:background="#b7ffffff">
 
-    <TextView
-        android:id="@+id/txt"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:layout_marginLeft="80dp"
-        android:text="Listado Terminales"
-        android:textSize="20dip"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        />
+    tools:context=".MainActivity"
+    android:background="#FFFFFFFF">
 
     <!-- Editext para busqueda  -->
     <EditText
         android:id="@+id/inputSearch"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="15dp"
         android:hint="Ingrese Terminal.."
-        android:textSize="18dp"
+        android:textSize="16dp"
+        android:layout_marginLeft="16dp"
         android:textColorLink="@color/white"
         android:textColorHint="@color/material_blue_grey_800"
         android:inputType="textVisiblePassword"
         android:textColor="@color/black"
+        android:background="@color/white"
         android:drawableLeft="@drawable/buscar"/>
 
     <!-- List View de elementos  -->
@@ -40,11 +27,12 @@
         android:id="@+id/listaTerminales"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="16dp"
         android:layout_below="@+id/inputSearch"
         android:layout_alignParentLeft="true"
         android:textFilterEnabled="true"
-        android:background="#b7ffffff" />
+        android:background="@color/white" />
 
 
 </RelativeLayout>

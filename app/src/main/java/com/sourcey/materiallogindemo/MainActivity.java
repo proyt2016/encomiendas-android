@@ -55,10 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onResponse(Call<List<Terminal>> call, Response<List<Terminal>> response) {
                         List<Terminal> listado = response.body();
                         for (Terminal e : listado) {
-
                             Farcade.setListaTerminales(new Terminal(e.getId(), e.getNombre()));
-
-
                         }
                         if (cargoAdapter == false && cargo == true) {
                             cargoAdapter = true;
