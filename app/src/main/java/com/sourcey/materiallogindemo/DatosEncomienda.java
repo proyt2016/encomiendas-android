@@ -52,7 +52,7 @@ public class DatosEncomienda  extends AppCompatActivity {
                     Encomienda enc = response.body();
                     if (id==enc.getId()) {
                         cod = (TextView) findViewById(R.id.id);
-                        cod.setText(enc.getId());
+                        cod.setText(enc.getId().toString());
                         origen = (TextView) findViewById(R.id.origen);
                         origen.setText(enc.getReceptorNombre());
                         destino = (TextView) findViewById(R.id.destino);
@@ -81,7 +81,7 @@ public class DatosEncomienda  extends AppCompatActivity {
             @Override
 
             public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                Toast.makeText(arg0.getContext(), "Estado: " + arg0.getItemAtPosition(arg2).toString(), Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(arg0.getContext(), "Estado: " + arg0.getItemAtPosition(arg2).toString(), Toast.LENGTH_SHORT).show();
                 estSelect = arg0.getItemAtPosition(arg2).toString();
                 btn = (Button)findViewById(R.id.btnCambiar);
                 btn.setOnClickListener(new View.OnClickListener() {

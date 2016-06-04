@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sourcey.materiallogindemo.api.CocheApi;
 import com.sourcey.materiallogindemo.com.google.zxing.integration.android.IntentIntegrator;
@@ -25,9 +26,9 @@ public class RegistroIndividual extends AppCompatActivity implements View.OnClic
     private TextView formatTxt, contentTxt;
     private Button scanBtn, btn2;
     private ImageButton btn;
-    private String contenido, scanContent, cont;
+    private String  scanContent, cont;
 
-    private int idCoche;
+    private int contenido, idCoche, i;
     private Boolean Encontre = false;
 
 
@@ -39,28 +40,26 @@ public class RegistroIndividual extends AppCompatActivity implements View.OnClic
 
         btn = (ImageButton)findViewById(R.id.imageButton);
         btn.setOnClickListener(this);
-
-
-
         btn2 = (Button)findViewById(R.id.buscar);
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                EditText cod = (EditText)findViewById(R.id.codigo);
-                contenido = cod.getText().toString();
-
-                Bundle parametros = new Bundle();
-                parametros.putString("id", contenido);
-                parametros.putInt("idCoche",idCoche);
-
-                Intent i = new Intent(v.getContext(), DatosEncomienda.class);
-                i.putExtras(parametros);
-                startActivity(i);
-                Encontre = false;
-                contenido = null;
-                cod.setText("");
-
-            }
-        });
+        btn2.setOnClickListener(this);
+//        btn2.setOnClickListener(new View.OnClickListener() {
+//            @Override public void onClick(View v) {
+//                EditText cod = (EditText)findViewById(R.id.codigo);
+//                contenido = cod.getText().toString();
+//
+//                Bundle parametros = new Bundle();
+//                parametros.putString("id", contenido);
+//                parametros.putInt("idCoche",idCoche);
+//
+//                Intent i = new Intent(v.getContext(), DatosEncomienda.class);
+//                i.putExtras(parametros);
+//                startActivity(i);
+//                Encontre = false;
+//                contenido = null;
+//                cod.setText("");
+//
+//            }
+//        });
     }
 
 
@@ -73,12 +72,71 @@ public class RegistroIndividual extends AppCompatActivity implements View.OnClic
             scanIntegrator.initiateScan();
 
         }
+        if (v.getId() == R.id.buscar) {
+            EditText cod = (EditText)findViewById(R.id.codigo);
+            contenido = Integer.parseInt(cod.getText().toString());
+            Call<List<Coche>> call1 = CocheApi.createService().getAll();
+            call1.enqueue(new Callback<List<Coche>>() {
+                @Override
+                public void onResponse(Call<List<Coche>> call1, Response<List<Coche>> response) {
+                    List<Coche> datos = response.body();
+                    for (Coche dato : datos) {
+                        List<Encomienda> encomiendas = dato.getListaEncomiendas();
+                        for (Encomienda e : encomiendas) {
+                            if (contenido == e.getId()) {
+                                Encontre = true;
+                                idCoche = dato.getId();
+                                break;
+                            }
+                        }
+                        if (Encontre) {
+                            break;
+                        }
+                    }
+
+
+                    if (Encontre) {
+                        Bundle parametros = new Bundle();
+                        parametros.putInt("id", contenido);
+                        parametros.putInt("idCoche",idCoche);
+
+                        Intent i = new Intent(getApplicationContext(), DatosEncomienda.class);
+                        i.putExtras(parametros);
+                        startActivity(i);
+                        Encontre = false;
+                        contenido = 0;
+                    }
+                    else{
+                        Toast.makeText(getBaseContext(), "No se encontro Código", Toast.LENGTH_LONG).show();
+                    }
+
+
+                }
+
+                @Override
+                public void onFailure(Call<List<Coche>> call1, Throwable t) {
+                    Bundle parametros = new Bundle();
+                    parametros.putInt("id", contenido);
+                    parametros.putInt("idCoche",idCoche);
+                }
+
+
+
+
+            });
+
+            cod.setText("");
+
+
+
+        }
     }
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         //Se obtiene el resultado del proceso de scaneo y se parsea
         IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         if (scanningResult != null) {
             scanContent = scanningResult.getContents();
+            i = Integer.parseInt(scanContent);
             String scanFormat = scanningResult.getFormatName();
             Call<List<Coche>> call = CocheApi.createService().getAll();
             call.enqueue(new Callback<List<Coche>>() {
@@ -86,14 +144,13 @@ public class RegistroIndividual extends AppCompatActivity implements View.OnClic
                 public void onResponse(Call<List<Coche>> call, Response<List<Coche>> response) {
                     List<Coche> datos = response.body();
                     for (Coche dato : datos) {
-                        System.out.println(dato);
                         idCoche = dato.getId();
+
                         List<Encomienda> encomiendas = dato.getListaEncomiendas();
                         for (Encomienda e : encomiendas) {
-                            System.out.println(e);
-                            if (scanContent.equals(e.getId())) {
+                            if (i == e.getId()) {
                                 Encontre = true;
-                                contenido = String.valueOf(e.getId());
+                                contenido = e.getId();
                                 break;
                             }
                         }
@@ -104,13 +161,17 @@ public class RegistroIndividual extends AppCompatActivity implements View.OnClic
                     if (Encontre) {
                         Encontre = false;
                         Bundle parametros = new Bundle();
-                        parametros.putString("id", contenido);
+                        parametros.putInt("id", contenido);
                         parametros.putInt("idCoche",idCoche);
                         //Define la actividad
                         Intent i = new Intent(getApplicationContext(), DatosEncomienda.class);
                         i.putExtras(parametros);
                         startActivity(i);
-                        contenido = "";
+                        contenido = 0;
+                    }
+                    else
+                    {
+                        Toast.makeText(getBaseContext(), "No se encontro Código", Toast.LENGTH_LONG).show();
                     }
 
 
