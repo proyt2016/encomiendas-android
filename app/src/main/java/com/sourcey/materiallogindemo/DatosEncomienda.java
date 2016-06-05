@@ -102,6 +102,7 @@ public class DatosEncomienda  extends AppCompatActivity {
                                         Estado dato = response.body();
                                         Toast.makeText(getBaseContext(), "Estado cambiado", Toast.LENGTH_LONG).show();
                                         finish();
+
                                     }
                                     @Override
                                     public void onFailure(Call<Estado> call, Throwable t) {

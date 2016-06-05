@@ -61,8 +61,6 @@ public class RegistroIndividual extends AppCompatActivity implements View.OnClic
 //            }
 //        });
     }
-
-
     public void onClick(View v) {
         //Se responde al evento click
         if (v.getId() == R.id.imageButton) {
@@ -93,8 +91,6 @@ public class RegistroIndividual extends AppCompatActivity implements View.OnClic
                             break;
                         }
                     }
-
-
                     if (Encontre) {
                         Bundle parametros = new Bundle();
                         parametros.putInt("id", contenido);
@@ -109,8 +105,6 @@ public class RegistroIndividual extends AppCompatActivity implements View.OnClic
                     else{
                         Toast.makeText(getBaseContext(), "No se encontro Código", Toast.LENGTH_LONG).show();
                     }
-
-
                 }
 
                 @Override

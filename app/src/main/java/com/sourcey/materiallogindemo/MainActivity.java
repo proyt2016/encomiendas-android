@@ -1,6 +1,5 @@
 package com.sourcey.materiallogindemo;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -145,8 +144,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 });
                 //   SE CARGAR VISTA LOGIN
-                Intent intent = new Intent(this, LoginActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(this, LoginActivity.class);
+//                startActivity(intent);
             }
         }
 

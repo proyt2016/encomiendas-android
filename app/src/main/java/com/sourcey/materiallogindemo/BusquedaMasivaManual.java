@@ -15,12 +15,19 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sourcey.materiallogindemo.api.CocheApi;
 import com.sourcey.materiallogindemo.api.EncomiendaApi;
 import com.sourcey.materiallogindemo.api.EstadoApi;
+import com.sourcey.materiallogindemo.com.google.zxing.integration.android.IntentIntegrator;
+import com.sourcey.materiallogindemo.com.google.zxing.integration.android.IntentResult;
+import com.sourcey.materiallogindemo.model.Coche;
 import com.sourcey.materiallogindemo.model.Encomienda;
 import com.sourcey.materiallogindemo.model.Estado;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -36,6 +43,9 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
     Spinner spinner;
     ArrayAdapter<String> estadosAdapter;
     private static boolean cargo;
+    private boolean sigo, Encuentro;
+    private int i;
+    private String scanContent;
     String valOfSpinner;
     Button detalle,confirmar;
     CheckBox noProcesada;
@@ -105,9 +115,17 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
         }
         escaner.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent i = new Intent(BusquedaMasivaManual.this, BusquedaMasivaEscaner.class);
-                i.putExtra("codigo", codCoche);
-                startActivity(i);
+                if (valOfSpinner != "Seleccionar" ) {
+                    sigo = true;
+                    Escaner();
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(),"Debe Seleccionar un Estado.",Toast.LENGTH_LONG).show();
+                }
+//                Intent i = new Intent(BusquedaMasivaManual.this, BusquedaMasivaEscaner.class);
+//                i.putExtra("codigo", codCoche);
+//                startActivity(i);
             }
         });
 
@@ -208,5 +226,68 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
             Farcade.listaEncomiendas.clear();
         }
         return super.onKeyDown(keyCode, event);
+    }
+    public void Escaner(){
+        if (sigo) {
+            IntentIntegrator scanIntegrator = new IntentIntegrator(BusquedaMasivaManual.this);
+            //Se procede con el proceso de scaneo
+            scanIntegrator.initiateScan();
+        }
+    }
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        //Se obtiene el resultado del proceso de scaneo y se parsea
+        Encuentro = false;
+        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        if (scanningResult.getContents() != null) {
+            scanContent = scanningResult.getContents();
+            i = Integer.parseInt(scanContent);
+            String scanFormat = scanningResult.getFormatName();
+            Call<List<Coche>> call = CocheApi.createService().getAll();
+            call.enqueue(new Callback<List<Coche>>() {
+                @Override
+                public void onResponse(Call<List<Coche>> call, Response<List<Coche>> response) {
+                    List<Coche> datos = response.body();
+                    for (Coche dato : datos) {
+                        List<Encomienda> encomiendas = dato.getListaEncomiendas();
+                        for (Encomienda e : encomiendas) {
+                            if (i == e.getId()){
+                                Encuentro = true;
+                                Toast.makeText(getApplicationContext(),"Código encontrado",Toast.LENGTH_LONG).show();
+                                Date fecha = new Date();
+                                DateFormat dat = new SimpleDateFormat("yy/MM/dd");
+                                Estado est = new Estado(12, valOfSpinner, dat.format(fecha), e);
+                                Call<Estado> call2 = EstadoApi.createService().addEstado(dato.getId(),e.getId(), est);
+                                call2.enqueue(new Callback<Estado>() {
+                                    @Override
+                                    public void onResponse(Call<Estado> call, Response<Estado> response) {
+                                        Estado dato = response.body();
+                                        Toast.makeText(getBaseContext(), "Estado cambiado", Toast.LENGTH_LONG).show();
+
+
+                                    }
+                                    @Override
+                                    public void onFailure(Call<Estado> call, Throwable t) {
+                                        System.out.println("onFailure");
+                                    }
+                                });
+                                Escaner();
+                            }
+
+                         }
+                    }
+                    if (!Encuentro){
+                        Toast.makeText(getApplicationContext(),"Codigo no encontrado",Toast.LENGTH_LONG).show();
+                    }
+                }
+                @Override
+                public void onFailure(Call<List<Coche>> call, Throwable t) {
+
+                }
+            });
+        }
+        else{
+            Toast.makeText(getApplicationContext(),"Busqueda Cancelada",Toast.LENGTH_LONG).show();
+        }
+
     }
 }

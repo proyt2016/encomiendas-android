@@ -18,6 +18,8 @@ public class BusquedaMasivaEscaner extends AppCompatActivity {
 
 
 
+
+
     }
 
 }
