@@ -1,5 +1,7 @@
 package com.sourcey.materiallogindemo;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +15,6 @@ import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sourcey.materiallogindemo.api.CocheApi;
 import com.sourcey.materiallogindemo.api.EncomiendaApi;
@@ -66,15 +67,9 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
         listaEncomiendas = (ListView)findViewById(android.R.id.list);
         noProcesada = (CheckBox)findViewById(R.id.NoProcesadas);
         escaner = (Button)findViewById(R.id.escaner);
-        //escaner.setOnClickListener(this);
+
         confirmar =(Button)findViewById(R.id.button);
         detalle = (Button)findViewById(R.id.detalle);
-//        detalle.setOnClickListener(this);
-
-
-
-        //llamarrr ENCOMIENDASSSSSS
-
 
         confirmar.setOnClickListener(this);
         listaEncomiendas.setItemsCanFocus(true);
@@ -93,110 +88,82 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
         noProcesada.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (noProcesada.isChecked()) {
-                    adapter = new InteractiveArrayAdapter(BusquedaMasivaManual.this,getModelNoProcesadas());
-                    listaEncomiendas.setAdapter(adapter);
+            if (noProcesada.isChecked()) {
+                adapter = new InteractiveArrayAdapter(BusquedaMasivaManual.this,getModelNoProcesadas());
+                listaEncomiendas.setAdapter(adapter);
                     for (Encomienda e : Farcade.getEncomiendasNoProcesadas()) {
                         adapter.notifyDataSetChanged();}
 
-                }else if(noProcesada.isChecked()==false){
-                        adapter = new InteractiveArrayAdapter(BusquedaMasivaManual.this,getModel());
-                        listaEncomiendas.setAdapter(adapter);
-                            for (Encomienda e : Farcade.listaEncomiendas) {
-                                adapter.notifyDataSetChanged();}
-                }
+            }else if(noProcesada.isChecked()==false){
+                     adapter = new InteractiveArrayAdapter(BusquedaMasivaManual.this,getModel());
+                     listaEncomiendas.setAdapter(adapter);
+                        for (Encomienda e : Farcade.listaEncomiendas) {
+                             adapter.notifyDataSetChanged();}
+                    }
             }
         });
         //ADAPTADOR HIBRIDO//SE CARGA CADA VEZ QUE ABRIMOS EL LAYOUT
         adapter = new InteractiveArrayAdapter(BusquedaMasivaManual.this,getModel());
         listaEncomiendas.setAdapter(adapter);
         for (Encomienda e : Farcade.listaEncomiendas) {
-            adapter.notifyDataSetChanged();
-        }
+            adapter.notifyDataSetChanged();}
         escaner.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (valOfSpinner != "Seleccionar" ) {
-                    sigo = true;
-                    Escaner();
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(),"Debe Seleccionar un Estado.",Toast.LENGTH_LONG).show();
-                }
-//                Intent i = new Intent(BusquedaMasivaManual.this, BusquedaMasivaEscaner.class);
-//                i.putExtra("codigo", codCoche);
-//                startActivity(i);
+            if (valOfSpinner != "Seleccionar" ) {
+                sigo = true;
+                Escaner();
+            }else{spinnerSeleccionar().show();}
             }
         });
-
-
         //MANEJO DEL SPINNER
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
         @Override
         //GET SPINNER
         public void onItemSelected(AdapterView<?> arg0, View arg1,int arg2, long arg3) {
              valOfSpinner = spinner.getSelectedItem().toString();}
-
         @Override
         public void onNothingSelected(AdapterView<?> arg0) {}
         });
 
- }
+    }
     private List<Encomienda> getModel() {
         List<Encomienda> list = new ArrayList<Encomienda>();
         for(Encomienda e: Farcade.listaEncomiendas){
             list.add(e);
-           // adapter.notifyDataSetChanged();
-        }
-
-        return list;
+        }return list;
     }
-
     private  List<Encomienda> getModelNoProcesadas() {
         List<Encomienda> list = new ArrayList<Encomienda>();
-        for(Encomienda e: Farcade.getEncomiendasNoProcesadas()){
+        for(Encomienda e: Farcade.getEncomiendasNoProcesadas()) {
             list.add(e);
-            // adapter.notifyDataSetChanged();
-        }
-
-        return list;
+        }return list;
     }
     @Override
     public void onClick(View v) {
         if(v.getId()==R.id.button) {
             cargo=false;
             if (valOfSpinner != "Seleccionar" ) {
+                Date fecha = new Date();
+                DateFormat dat = new SimpleDateFormat("yy/MM/dd");
                 for (final Encomienda e : Farcade.listaEstadoAcambiar) {
-                    final Estado estado = new Estado(valOfSpinner, "11/11/11", e);
+                    final Estado estado = new Estado(valOfSpinner, dat.format(fecha), e);
                     Call<Estado> call2 = EstadoApi.createService().addEstado(e.getCoche().getNroCoche(),e.getId(),estado);
-                        call2.enqueue(new Callback<Estado>() {
+                    call2.enqueue(new Callback<Estado>() {
                         @Override
                         public void onResponse(Call<Estado> call, Response<Estado> response) {
                             Estado dato = response.body();
-                         //  adapter.notifyDataSetChanged();
-                            if(dato==null){
-                           System.out.println("NO SE SETEO ESTADO");}else{
-                                System.out.println("SETEADO CORRECTAMENTE");
-                            }
                             if(noProcesada.isChecked()){
-                                noProcesada.setChecked(false);
-                            }
-
+                                noProcesada.setChecked(false);}
                             Call<List<Encomienda>> call2 = EncomiendaApi.createService().getByCoche(e.getCoche().getNroCoche());
                             call2.enqueue(new Callback<List<Encomienda>>() {
                                 @Override
                                 public void onResponse(Call<List<Encomienda>> call, Response<List<Encomienda>> response) {
-                                    // Farcade.listaEncomiendas.clear();
                                     List<Encomienda> datos = response.body();
-                                    System.out.println(datos);
-                                    if(datos==null){
-                                        System.out.println("NO SE SETEO");}else{
-                                        System.out.println("SE ACTUALIZO LISTA ENCOMIENDAS");}
-                                        Farcade.listaEncomiendas = datos;
-                                        adapter = new InteractiveArrayAdapter(BusquedaMasivaManual.this, Farcade.listaEncomiendas);
-                                        listaEncomiendas.setAdapter(adapter);
-                                            for (Encomienda e : Farcade.listaEncomiendas) {
-                                                adapter.notifyDataSetChanged();}
+                                    Farcade.listaEncomiendas = datos;
+                                    adapter = new InteractiveArrayAdapter(BusquedaMasivaManual.this, Farcade.listaEncomiendas);
+                                    listaEncomiendas.setAdapter(adapter);
+                                        for (Encomienda e : Farcade.listaEncomiendas) {
+                                             adapter.notifyDataSetChanged();}
                                 }
                                 @Override
                                 public void onFailure(Call<List<Encomienda>> call, Throwable t) {
@@ -207,32 +174,19 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
                         public void onFailure(Call<Estado> call, Throwable t) {
                             System.out.println("onFailure");}
                     });
-                }Toast.makeText(getApplicationContext(),"Se cambio estado a:"+" "+valOfSpinner.toString(),Toast.LENGTH_LONG).show();
-            }else
-                {Toast.makeText(getApplicationContext(),"Debe Seleccionar un Estado Andres Puto",Toast.LENGTH_LONG).show();}
-
+                }cambioDeEsado(valOfSpinner.toString()).show();
+            }else{spinnerSeleccionar().show();}
         }
-        if(v.getId()==R.id.escaner){
-
-
-
-        }
-
     }
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        // TODO Auto-generated method stub
         if (keyCode == event.KEYCODE_BACK) {
-
-            Farcade.listaEncomiendas.clear();
-        }
-        return super.onKeyDown(keyCode, event);
+              Farcade.listaEncomiendas.clear();
+        }return super.onKeyDown(keyCode, event);
     }
     public void Escaner(){
-        if (sigo) {
-            IntentIntegrator scanIntegrator = new IntentIntegrator(BusquedaMasivaManual.this);
-            //Se procede con el proceso de scaneo
-            scanIntegrator.initiateScan();
-        }
+        if(sigo){
+          IntentIntegrator scanIntegrator = new IntentIntegrator(BusquedaMasivaManual.this);
+          scanIntegrator.initiateScan();}
     }
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         //Se obtiene el resultado del proceso de scaneo y se parsea
@@ -252,7 +206,7 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
                         for (Encomienda e : encomiendas) {
                             if (i == e.getId()){
                                 Encuentro = true;
-                                Toast.makeText(getApplicationContext(),"Código encontrado",Toast.LENGTH_LONG).show();
+                                dialogCodigo(1).show();
                                 Date fecha = new Date();
                                 DateFormat dat = new SimpleDateFormat("yy/MM/dd");
                                 Estado est = new Estado(12, valOfSpinner, dat.format(fecha), e);
@@ -261,33 +215,85 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
                                     @Override
                                     public void onResponse(Call<Estado> call, Response<Estado> response) {
                                         Estado dato = response.body();
-                                        Toast.makeText(getBaseContext(), "Estado cambiado", Toast.LENGTH_LONG).show();
-
-
+                                        cambioDeEsado().show();
                                     }
                                     @Override
                                     public void onFailure(Call<Estado> call, Throwable t) {
                                         System.out.println("onFailure");
                                     }
-                                });
-                                Escaner();
+                                });Escaner();
                             }
-
-                         }
-                    }
-                    if (!Encuentro){
-                        Toast.makeText(getApplicationContext(),"Codigo no encontrado",Toast.LENGTH_LONG).show();
-                    }
+                        }
+                    }if (!Encuentro){dialogCodigo(2).show();}
                 }
                 @Override
-                public void onFailure(Call<List<Coche>> call, Throwable t) {
-
-                }
+                public void onFailure(Call<List<Coche>> call, Throwable t) {             }
             });
-        }
-        else{
-            Toast.makeText(getApplicationContext(),"Busqueda Cancelada",Toast.LENGTH_LONG).show();
-        }
-
+        }else{dialogCodigo(3).show();}
+    }
+    private AlertDialog cambioDeEsado(String valorSpinner)
+    {   AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("Cambio de Estado Encomiendas");
+        alertDialogBuilder.setMessage("Se cambio estado a:" + " " +valorSpinner);
+        alertDialogBuilder.setIcon(R.drawable.asignar_encomiendas);;
+        DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {}};
+        DialogInterface.OnClickListener listenerCancelar = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {return;}};
+        alertDialogBuilder.setPositiveButton(R.string.ACEPTAR, listenerOk);
+        return alertDialogBuilder.create();
+    }
+    private AlertDialog cambioDeEsado()
+    {   AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("Cambio de Estado Encomiendas");
+        alertDialogBuilder.setMessage("Se cambio estado");
+        alertDialogBuilder.setIcon(R.drawable.asignar_encomiendas);;
+        DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {}};
+        DialogInterface.OnClickListener listenerCancelar = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {return;}};
+        alertDialogBuilder.setPositiveButton(R.string.ACEPTAR, listenerOk);
+        return alertDialogBuilder.create();
+    }
+    private AlertDialog dialogCodigo(int cod)
+    {   AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        if(cod==1){
+        alertDialogBuilder.setTitle("Busqueda de Encomiendas");
+        alertDialogBuilder.setMessage("Codigo Encontrado");
+        alertDialogBuilder.setIcon(R.drawable.asignar_encomiendas);
+        }else if(cod==2){
+        alertDialogBuilder.setTitle("Busqueda de Encomiendas");
+        alertDialogBuilder.setMessage("Codigo No Encontrado");
+        alertDialogBuilder.setIcon(R.drawable.asignar_encomiendas);}
+        else if(cod==3){
+            alertDialogBuilder.setTitle("Busqueda de Encomiendas");
+            alertDialogBuilder.setMessage("Se cancelo la busqueda");
+            alertDialogBuilder.setIcon(R.drawable.asignar_encomiendas);}
+        DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {}};
+        DialogInterface.OnClickListener listenerCancelar = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {return;}};
+        alertDialogBuilder.setPositiveButton(R.string.ACEPTAR, listenerOk);
+        return alertDialogBuilder.create();
+    }
+    private AlertDialog spinnerSeleccionar()
+    {   AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("Atencion!");
+        alertDialogBuilder.setMessage("Debe seleccionar un estado Correcto");
+        alertDialogBuilder.setIcon(R.drawable.icono_alerta);;
+        DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {}};
+        DialogInterface.OnClickListener listenerCancelar = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {return;}};
+        alertDialogBuilder.setPositiveButton(R.string.ACEPTAR, listenerOk);
+        return alertDialogBuilder.create();
     }
 }

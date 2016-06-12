@@ -11,8 +11,8 @@ public class Encomienda {
     private String emisorId;
     private String receptorNombre;
     private String receptorId;
-    private Integer origenId;
-    private Integer destinoId;
+    private String origenId;
+    private String destinoId;
     private String fecha;
     private String salida;
     private String llegada;
@@ -21,7 +21,7 @@ public class Encomienda {
     private boolean selected;
 
 
-    public Encomienda (Integer id, String emisorNombre, String emisorId, String receptorNombre, String receptorId, Integer origenId, Integer destinoId, String fecha, String salida, String llegada, List<Estado> estados, Coche coche, boolean chek){
+    public Encomienda (Integer id, String emisorNombre, String emisorId, String receptorNombre, String receptorId, String origenId, String destinoId, String fecha, String salida, String llegada, List<Estado> estados, Coche coche, boolean chek){
 
 
 
@@ -95,19 +95,19 @@ public class Encomienda {
         this.receptorId = receptorId;
     }
 
-    public Integer getOrigenId() {
+    public String getOrigenId() {
         return origenId;
     }
 
-    public void setOrigenId(int origenId) {
+    public void setOrigenId(String origenId) {
         this.origenId = origenId;
     }
 
-    public Integer getDestinoId() {
+    public String getDestinoId() {
         return destinoId;
     }
 
-    public void setDestinoId(int destinoId) {
+    public void setDestinoId(String destinoId) {
         this.destinoId = destinoId;
     }
 

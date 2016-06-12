@@ -34,6 +34,8 @@ public class Farcade {
         listaEncomiendas.add(e);
     }
 
+
+
     public static boolean tieneEnco(int codV){
         for(Coche c: listaCoches){
             if(c.getId() == codV){

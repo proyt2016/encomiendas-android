@@ -12,7 +12,7 @@ public class BusquedaMasivaEscaner extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.busqueda_masiva_escaner);
 
-        codCoche = getIntent().getExtras().getInt("codigo");
+       // codCoche = getIntent().getExtras().getInt("codigo");
 
 
 

@@ -1,7 +1,8 @@
 package com.sourcey.materiallogindemo;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,9 +29,6 @@ public class InteractiveArrayAdapter extends ArrayAdapter<Encomienda> {
         this.context = context;
         this.lista = lista;
     }
-
-
-
     static class ViewHolder {
         protected TextView text;
         protected CheckBox checkbox;
@@ -51,9 +49,10 @@ public class InteractiveArrayAdapter extends ArrayAdapter<Encomienda> {
                 @Override
                 public void onClick(View v) {
                     Encomienda e =(Encomienda) v.getTag();
-                     Intent i = new Intent(context,MenuDetalleEncomienda.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    cambioDeEsado(e).show();
+                    /* Intent i = new Intent(context,MenuDetalleEncomienda.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     i.putExtra("codigoEncomienda",e.getId());
-                    getContext().getApplicationContext().startActivity(i);
+                    getContext().getApplicationContext().startActivity(i);*/
                 }
             });
             viewHolder.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -81,5 +80,23 @@ public class InteractiveArrayAdapter extends ArrayAdapter<Encomienda> {
 
         return view;
 
+    }
+    private AlertDialog cambioDeEsado(Encomienda e)
+    {   AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+        alertDialogBuilder.setTitle("Detalle de Encomienda:");
+        alertDialogBuilder.setMessage("Id:"+"  "+e.getId()+"\n"+"\n"
+                                        +"Estado Actual:"+"  "+e.getUltimoEstado()+"\n"+"\n"
+                                        +"Emisor:"+"  "+e.getEmisorNombre()+"\n"+"\n"
+                                        +"Receptor:"+" "+e.getReceptorNombre()+"\n"+"\n"
+                                        +"Fecha emision:"+"  "+e.getFecha());
+        alertDialogBuilder.setIcon(R.drawable.boton_detalle);;
+        DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {}};
+        DialogInterface.OnClickListener listenerCancelar = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {return;}};
+        alertDialogBuilder.setPositiveButton(R.string.ACEPTAR, listenerOk);
+        return alertDialogBuilder.create();
     }
 }

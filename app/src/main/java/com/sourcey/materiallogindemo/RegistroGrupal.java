@@ -53,9 +53,7 @@ public class RegistroGrupal extends AppCompatActivity implements View.OnClickLis
                 adapter = new InteractiveArrayAdapterCoches(RegistroGrupal.this,getModel(),2);
                 listadoCoches.setAdapter(adapter);}
 
-            //cargoAdapter = true;
-
-            //SE CARGA ADAPTADOR EVITANDO CONFLICOS CON LISTVIEW
+        //SE CARGA ADAPTADOR EVITANDO CONFLICOS CON LISTVIEW
             for (Coche t : l) {
                 adapter.notifyDataSetChanged();
             }
@@ -86,27 +84,6 @@ public class RegistroGrupal extends AppCompatActivity implements View.OnClickLis
             list.add(c);
         }return list;
     }
-
-       /* listadoCoches.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                            if(flag == true){
-                                Intent i = new Intent(RegistroGrupal.this, AsignarEncomiendasCoche.class);
-                                i.putExtra("codigo", cod);
-                                startActivity(i);
-                            }else{
-                                Intent i = new Intent(RegistroGrupal.this, BusquedaMasivaManual.class);
-                                i.putExtra("codigo", cod);
-                                startActivity(i);}
-                        }
-
-        }); }
-
-
-
-    */
        @Override
        public void onClick(View v) {
 
