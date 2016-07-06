@@ -13,8 +13,6 @@ import android.widget.Toast;
 import com.sourcey.materiallogindemo.api.CocheApi;
 import com.sourcey.materiallogindemo.com.google.zxing.integration.android.IntentIntegrator;
 import com.sourcey.materiallogindemo.com.google.zxing.integration.android.IntentResult;
-import com.sourcey.materiallogindemo.model.Coche;
-import com.sourcey.materiallogindemo.model.Encomienda;
 
 import java.util.List;
 
@@ -71,7 +69,7 @@ public class RegistroIndividual extends AppCompatActivity implements View.OnClic
 
         }
         if (v.getId() == R.id.buscar) {
-            EditText cod = (EditText)findViewById(R.id.codigo);
+            /*EditText cod = (EditText)findViewById(R.id.codigo);
             contenido = Integer.parseInt(cod.getText().toString());
             Call<List<Coche>> call1 = CocheApi.createService().getAll();
             call1.enqueue(new Callback<List<Coche>>() {
@@ -120,14 +118,14 @@ public class RegistroIndividual extends AppCompatActivity implements View.OnClic
             });
 
             cod.setText("");
-
+*/
 
 
         }
     }
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         //Se obtiene el resultado del proceso de scaneo y se parsea
-        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        /*IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         if (scanningResult != null) {
             scanContent = scanningResult.getContents();
             i = Integer.parseInt(scanContent);
@@ -176,7 +174,7 @@ public class RegistroIndividual extends AppCompatActivity implements View.OnClic
 
                 }
             });
-        }
+        }*/
 
     }
 

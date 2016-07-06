@@ -1,7 +1,7 @@
 package com.sourcey.materiallogindemo.api;
 
 
-import com.sourcey.materiallogindemo.model.Encomienda;
+import com.sourcey.materiallogindemo.Shares.DataEncomienda;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class EncomiendaApi {
     public static EncomiendaApiInterface createService() {
         if (encomiendaService == null) {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://5735ce06178f1b1100f305ea.mockapi.io")
+                    .baseUrl("http://10.0.22.146:8080/lcbsapi/rest")
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(httpClient.build())
                     .build();
@@ -32,14 +32,14 @@ public class EncomiendaApi {
     }
 
     public interface EncomiendaApiInterface {
-        @GET("/coche/{cocheId}/encomiendas")
-        Call<List<Encomienda>> getByCoche(@Path("cocheId") int cocheId);
+        @GET("/encomiendas/getencomiendasporvehiculo/{idViaje}")
+        Call<List<DataEncomienda>> getByVehiculo(@Path("idViaje") String idViaje);
 
         @GET("/encomiendas")
-        Call<List<Encomienda>> getAll();
+        Call<List<DataEncomienda>> getAll();
 
         @GET("/coche/{cocheId}/encomiendas/{id}")
-        Call<Encomienda> getById(@Path("cocheId") int cocheId, @Path("id") int id);
+        Call<DataEncomienda> getById(@Path("cocheId") int cocheId, @Path("id") int id);
     }
 }
 

@@ -16,14 +16,11 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.sourcey.materiallogindemo.api.CocheApi;
+import com.sourcey.materiallogindemo.Shares.DataEncomienda;
+import com.sourcey.materiallogindemo.Shares.DataEstadosEncomienda;
 import com.sourcey.materiallogindemo.api.EncomiendaApi;
 import com.sourcey.materiallogindemo.api.EstadoApi;
 import com.sourcey.materiallogindemo.com.google.zxing.integration.android.IntentIntegrator;
-import com.sourcey.materiallogindemo.com.google.zxing.integration.android.IntentResult;
-import com.sourcey.materiallogindemo.model.Coche;
-import com.sourcey.materiallogindemo.model.Encomienda;
-import com.sourcey.materiallogindemo.model.Estado;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -36,24 +33,23 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class BusquedaMasivaManual extends AppCompatActivity implements View.OnClickListener{
-    ArrayAdapter<Encomienda> adapter;
+    ArrayAdapter<DataEncomienda> adapter;
     TextView t;
     ListView listaEncomiendas;
     Button escaner;
-
     Spinner spinner;
     ArrayAdapter<String> estadosAdapter;
     private static boolean cargo;
     private boolean sigo, Encuentro;
     private int i;
+    private List<DataEstadosEncomienda> listaEstados;
     private String scanContent;
     String valOfSpinner;
     Button detalle,confirmar;
     CheckBox noProcesada;
-
     List<String> estados = new ArrayList<>();
-    List<Encomienda> listaEnco = new ArrayList<>();
-    int codCoche;
+    List<DataEncomienda> listaEnco = new ArrayList<>();
+    String codViaje;
 
 
 
@@ -62,7 +58,7 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
         super.onCreate(icicle);
         setContentView(R.layout.activity_busqueda_masiva_manual);
 
-        codCoche = getIntent().getExtras().getInt("codigo");
+        codViaje = getIntent().getExtras().getString("codigo");
         spinner = (Spinner)findViewById(R.id.spinner);
         listaEncomiendas = (ListView)findViewById(android.R.id.list);
         noProcesada = (CheckBox)findViewById(R.id.NoProcesadas);
@@ -89,23 +85,23 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             if (noProcesada.isChecked()) {
-                adapter = new InteractiveArrayAdapter(BusquedaMasivaManual.this,getModelNoProcesadas());
+                adapter = new InteractiveArrayAdapterEncomiendas(BusquedaMasivaManual.this,getModelNoProcesadas());
                 listaEncomiendas.setAdapter(adapter);
-                    for (Encomienda e : Farcade.getEncomiendasNoProcesadas()) {
+                    for (DataEncomienda e : Farcade.getEncomiendasNoProcesadas()) {
                         adapter.notifyDataSetChanged();}
 
             }else if(noProcesada.isChecked()==false){
-                     adapter = new InteractiveArrayAdapter(BusquedaMasivaManual.this,getModel());
+                     adapter = new InteractiveArrayAdapterEncomiendas(BusquedaMasivaManual.this,getModel());
                      listaEncomiendas.setAdapter(adapter);
-                        for (Encomienda e : Farcade.listaEncomiendas) {
+                        for (DataEncomienda e : Farcade.listaEncomiendas) {
                              adapter.notifyDataSetChanged();}
                     }
             }
         });
         //ADAPTADOR HIBRIDO//SE CARGA CADA VEZ QUE ABRIMOS EL LAYOUT
-        adapter = new InteractiveArrayAdapter(BusquedaMasivaManual.this,getModel());
+        adapter = new InteractiveArrayAdapterEncomiendas(BusquedaMasivaManual.this,getModel());
         listaEncomiendas.setAdapter(adapter);
-        for (Encomienda e : Farcade.listaEncomiendas) {
+        for (DataEncomienda e : Farcade.listaEncomiendas) {
             adapter.notifyDataSetChanged();}
         escaner.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -126,15 +122,15 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
         });
 
     }
-    private List<Encomienda> getModel() {
-        List<Encomienda> list = new ArrayList<Encomienda>();
-        for(Encomienda e: Farcade.listaEncomiendas){
+    private List<DataEncomienda> getModel() {
+        List<DataEncomienda> list = new ArrayList<DataEncomienda>();
+        for(DataEncomienda e: Farcade.listaEncomiendas){
             list.add(e);
         }return list;
     }
-    private  List<Encomienda> getModelNoProcesadas() {
-        List<Encomienda> list = new ArrayList<Encomienda>();
-        for(Encomienda e: Farcade.getEncomiendasNoProcesadas()) {
+    private  List<DataEncomienda> getModelNoProcesadas() {
+        List<DataEncomienda> list = new ArrayList<DataEncomienda>();
+        for(DataEncomienda e: Farcade.getEncomiendasNoProcesadas()) {
             list.add(e);
         }return list;
     }
@@ -145,36 +141,52 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
             if (valOfSpinner != "Seleccionar" ) {
                 Date fecha = new Date();
                 DateFormat dat = new SimpleDateFormat("yy/MM/dd");
-                for (final Encomienda e : Farcade.listaEstadoAcambiar) {
-                    final Estado estado = new Estado(valOfSpinner, dat.format(fecha), e);
-                    Call<Estado> call2 = EstadoApi.createService().addEstado(e.getCoche().getNroCoche(),e.getId(),estado);
-                    call2.enqueue(new Callback<Estado>() {
-                        @Override
-                        public void onResponse(Call<Estado> call, Response<Estado> response) {
-                            Estado dato = response.body();
-                            if(noProcesada.isChecked()){
-                                noProcesada.setChecked(false);}
-                            Call<List<Encomienda>> call2 = EncomiendaApi.createService().getByCoche(e.getCoche().getNroCoche());
-                            call2.enqueue(new Callback<List<Encomienda>>() {
+                Call<List<DataEstadosEncomienda>> call4 = EstadoApi.createService().getAll();
+                call4.enqueue(new Callback<List<DataEstadosEncomienda>>() {
+                    @Override
+                    public void onResponse(Call<List<DataEstadosEncomienda>> call, Response<List<DataEstadosEncomienda>> response) {
+                       listaEstados =  response.body();
+                       final DataEstadosEncomienda estadoNuevo = Farcade.retornarEstado(listaEstados,valOfSpinner);
+
+                        for (final DataEncomienda e : Farcade.listaEncomiendasAcambiar) {
+
+                            Call<Boolean> call2 = EstadoApi.createService().setEstado(e.getId(),estadoNuevo);
+                            call2.enqueue(new Callback<Boolean>() {
                                 @Override
-                                public void onResponse(Call<List<Encomienda>> call, Response<List<Encomienda>> response) {
-                                    List<Encomienda> datos = response.body();
-                                    Farcade.listaEncomiendas = datos;
-                                    adapter = new InteractiveArrayAdapter(BusquedaMasivaManual.this, Farcade.listaEncomiendas);
-                                    listaEncomiendas.setAdapter(adapter);
-                                        for (Encomienda e : Farcade.listaEncomiendas) {
-                                             adapter.notifyDataSetChanged();}
+                                public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                                    Boolean seteado = response.body();
+                                    if(noProcesada.isChecked()){
+                                        noProcesada.setChecked(false);}
+
+                                    //traigo las encomiendas
+                                    Call<List<DataEncomienda>> call2 = EncomiendaApi.createService().getByVehiculo(codViaje);
+                                    call2.enqueue(new Callback<List<DataEncomienda>>() {
+                                        @Override
+                                        public void onResponse(Call<List<DataEncomienda>> call, Response<List<DataEncomienda>> response) {
+                                            List<DataEncomienda> datos = response.body();
+                                            Farcade.listaEncomiendas = datos;
+                                            adapter = new InteractiveArrayAdapterEncomiendas(BusquedaMasivaManual.this, Farcade.listaEncomiendas);
+                                            listaEncomiendas.setAdapter(adapter);
+                                            for (DataEncomienda e : Farcade.listaEncomiendas) {
+                                                adapter.notifyDataSetChanged();}
+                                        }
+                                        @Override
+                                        public void onFailure(Call<List<DataEncomienda>> call, Throwable t) {
+                                            System.out.println("SE CAGO");}
+                                    });
                                 }
                                 @Override
-                                public void onFailure(Call<List<Encomienda>> call, Throwable t) {
-                                    System.out.println("SE CAGO");}
+                                public void onFailure(Call<Boolean> call, Throwable t) {
+                                    System.out.println("onFailure");}
                             });
-                        }
-                        @Override
-                        public void onFailure(Call<Estado> call, Throwable t) {
-                            System.out.println("onFailure");}
-                    });
-                }cambioDeEsado(valOfSpinner.toString()).show();
+                        }cambioDeEsado(valOfSpinner.toString()).show();
+
+                    }
+                    @Override
+                    public void onFailure(Call<List<DataEstadosEncomienda>> call, Throwable t) {
+                        System.out.println("SE CAGO");}
+                });
+
             }else{spinnerSeleccionar().show();}
         }
     }
@@ -189,21 +201,21 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
           scanIntegrator.initiateScan();}
     }
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        //Se obtiene el resultado del proceso de scaneo y se parsea
+       /* //Se obtiene el resultado del proceso de scaneo y se parsea
         Encuentro = false;
         IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         if (scanningResult.getContents() != null) {
             scanContent = scanningResult.getContents();
             i = Integer.parseInt(scanContent);
             String scanFormat = scanningResult.getFormatName();
-            Call<List<Coche>> call = CocheApi.createService().getAll();
-            call.enqueue(new Callback<List<Coche>>() {
+            Call<List<DataVehiculo>> call = CocheApi.createService().getAll();
+            call.enqueue(new Callback<List<DataVehiculo>>() {
                 @Override
-                public void onResponse(Call<List<Coche>> call, Response<List<Coche>> response) {
-                    List<Coche> datos = response.body();
-                    for (Coche dato : datos) {
-                        List<Encomienda> encomiendas = dato.getListaEncomiendas();
-                        for (Encomienda e : encomiendas) {
+                public void onResponse(Call<List<DataVehiculo>> call, Response<List<DataVehiculo>> response) {
+                    List<DataVehiculo> datos = response.body();
+                    for (DataVehiculo dato : datos) {
+                        List<DataEncomienda> encomiendas = dato.getListaEncomiendas();
+                        for (DataEncomienda e : encomiendas) {
                             if (i == e.getId()){
                                 Encuentro = true;
                                 dialogCodigo(1).show();
@@ -227,9 +239,9 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
                     }if (!Encuentro){dialogCodigo(2).show();}
                 }
                 @Override
-                public void onFailure(Call<List<Coche>> call, Throwable t) {             }
+                public void onFailure(Call<List<DataVehiculo>> call, Throwable t) { System.out.println("SE CAGO EL COCHE");            }
             });
-        }else{dialogCodigo(3).show();}
+        }else{dialogCodigo(3).show();}*/
     }
     private AlertDialog cambioDeEsado(String valorSpinner)
     {   AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);

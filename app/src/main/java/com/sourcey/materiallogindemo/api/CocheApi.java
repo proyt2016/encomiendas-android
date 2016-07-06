@@ -5,7 +5,7 @@ package com.sourcey.materiallogindemo.api;
  */
 
 
-import com.sourcey.materiallogindemo.model.Coche;
+import com.sourcey.materiallogindemo.Shares.DataVehiculo;
 
 import java.util.List;
 
@@ -36,6 +36,6 @@ public class CocheApi {
 
     public interface CocheApiInterface {
         @GET("/coche")
-        Call<List<Coche>> getAll();
+        Call<List<DataVehiculo>> getAll();
     }
 }

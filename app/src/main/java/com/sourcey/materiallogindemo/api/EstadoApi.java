@@ -4,7 +4,7 @@ package com.sourcey.materiallogindemo.api;
  * Created by maxi on 26/05/2016.
  */
 
-import com.sourcey.materiallogindemo.model.Estado;
+import com.sourcey.materiallogindemo.Shares.DataEstadosEncomienda;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class EstadoApi {
     public static EstadoApiInterface createService() {
         if (estadoService == null) {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://5735ce06178f1b1100f305ea.mockapi.io")
+                    .baseUrl("http://192.168.1.43:8080/lcbsapi/rest")
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(httpClient.build())
                     .build();
@@ -38,9 +38,14 @@ public class EstadoApi {
 
     public interface EstadoApiInterface {
         @GET("/coche/{cocheId}/encomiendas/{encomiendaId}/estados")
-        Call<List<Estado>> getByCocheAndEstado(@Path("cocheId") int cocheId, @Path("encomiendaId") int encomiendaId);
+        Call<List<DataEstadosEncomienda>> getByCocheAndEstado(@Path("cocheId") int cocheId, @Path("encomiendaId") int encomiendaId);
 
-        @POST("/coche/{cocheId}/encomiendas/{encomiendaId}/estados")
-        Call<Estado> addEstado(@Path("cocheId") int cocheId, @Path("encomiendaId") int encomiendaId, @Body Estado estado);
+        @GET("/encomiendas/getestados/1/9999")
+        Call<List<DataEstadosEncomienda>> getAll();
+
+        @POST("/encomiendas/setestadoencomienda/{idEncomienda}/")
+        Call<Boolean> setEstado(@Path("idEncomienda") final String idEncomienda, @Body DataEstadosEncomienda dataEstado);
+
+
     }
 }

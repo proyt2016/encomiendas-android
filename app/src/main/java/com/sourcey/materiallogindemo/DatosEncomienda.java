@@ -13,8 +13,6 @@ import android.widget.TextView;
 
 import com.sourcey.materiallogindemo.api.EncomiendaApi;
 import com.sourcey.materiallogindemo.api.EstadoApi;
-import com.sourcey.materiallogindemo.model.Encomienda;
-import com.sourcey.materiallogindemo.model.Estado;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -42,7 +40,7 @@ public class DatosEncomienda  extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_datos_encomienda);
-        EstadosPosibles();
+       /* EstadosPosibles();
         Bundle parametros = this.getIntent().getExtras(); //Definimos el contenedor de parametros
         id = parametros.getInt("id"); //Guardamos el parametro nombre en la variable nombre
         idCoche = parametros.getInt("idCoche"); //Guardamos el parametro nombre en la variable nombre
@@ -65,7 +63,7 @@ public class DatosEncomienda  extends AppCompatActivity {
             public void onFailure(Call<List<Encomienda>> call, Throwable t) {
                 System.out.println("SE CAGO");}
         });
-
+*/
 
     }
 
@@ -92,7 +90,7 @@ public class DatosEncomienda  extends AppCompatActivity {
                     public void onClick(View v) {
                         if (estSelect != "Seleccionar") {
                             //Define el bundle
-                            Call<Encomienda> call = EncomiendaApi.createService().getById(idCoche, id);
+                           /* Call<Encomienda> call = EncomiendaApi.createService().getById(idCoche, id);
                             call.enqueue(new Callback<Encomienda>() {
                                 @Override
                                 public void onResponse(Call<Encomienda> call, Response<Encomienda> response) {
@@ -118,15 +116,16 @@ public class DatosEncomienda  extends AppCompatActivity {
                                 public void onFailure(Call<Encomienda> call, Throwable t) {
                                     System.out.println("onFailure");
                                 }
-                            });
-                        } else{spinnerSeleccionar().show();}
+                            });*/
+                        } else{//spinnerSeleccionar().show();
+                        }
                     }
                 });
             }
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {}
         });
-    }
+    }/*
     private AlertDialog cambioDeEsado(Estado d)
     {   AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle("Cambio de Estado Encomiendas");
@@ -154,5 +153,5 @@ public class DatosEncomienda  extends AppCompatActivity {
         public void onClick(DialogInterface dialog, int which) {return;}};
         alertDialogBuilder.setPositiveButton(R.string.ACEPTAR, listenerOk);
         return alertDialogBuilder.create();
-    }
+    }*/
 }

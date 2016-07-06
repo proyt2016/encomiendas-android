@@ -9,19 +9,19 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.sourcey.materiallogindemo.model.Terminal;
+import com.sourcey.materiallogindemo.Shares.DataTerminal;
 
 import java.util.List;
 
 /**
  * Created by maxi on 01/06/2016.
  */
-public class InteractiveArrayAdapterTerminales extends ArrayAdapter<Terminal> {
+public class InteractiveArrayAdapterTerminales extends ArrayAdapter<DataTerminal> {
 
-    private final List<Terminal> lista;
+    private final List<DataTerminal> lista;
     private final Activity context;
 
-    public InteractiveArrayAdapterTerminales(Activity context,List<Terminal> lista){
+    public InteractiveArrayAdapterTerminales(Activity context,List<DataTerminal> lista){
         super(context,R.layout.lista_terminales_items, lista);
         this.context = context;
         this.lista = lista;
@@ -45,24 +45,25 @@ public class InteractiveArrayAdapterTerminales extends ArrayAdapter<Terminal> {
 
                 @Override
                 public void onClick(View v) {
-                    Terminal terminal =(Terminal) v.getTag();
+                    DataTerminal terminal =(DataTerminal) v.getTag();
                     Intent i = new Intent(context,MenuPrincipal.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    i.putExtra("codigo",terminal.getId());
+                    i.putExtra("idTerminal",terminal.getId());
+                    System.out.println("------------------------------->"+terminal.getId());
                     getContext().getApplicationContext().startActivity(i);
                 }
             });
 
             view.setTag(viewHolder);
             viewHolder.titulo.setTag(lista.get(position));
-            viewHolder.subTitulo.setTag(lista.get(position));
+            //viewHolder.subTitulo.setTag(lista.get(position));
             viewHolder.boton.setTag(lista.get(position));
         }else {
             view = convertView;
             ((ViewHolder) view.getTag()).boton.setTag(lista.get(position));
         }
         ViewHolder holder = (ViewHolder) view.getTag();
-        holder.titulo.setText("Nombre:"+" "+lista.get(position).getNombre());
-        holder.subTitulo.setText("Id:"+" "+String.valueOf(lista.get(position).getId()));
+        holder.titulo.setText("Nombre:"+" "+lista.get(position).getNombre().toString());
+        //holder.subTitulo.setText("Id:"+" "+lista.get(position).getId());
         return view;
     }
 

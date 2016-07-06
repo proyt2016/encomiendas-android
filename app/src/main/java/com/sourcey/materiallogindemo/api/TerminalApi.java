@@ -1,6 +1,6 @@
 package com.sourcey.materiallogindemo.api;
 
-import com.sourcey.materiallogindemo.model.Terminal;
+import com.sourcey.materiallogindemo.Shares.DataTerminal;
 
 import java.util.List;
 
@@ -9,7 +9,6 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 
 /**
  * Created by andres on 14/5/16.
@@ -21,7 +20,7 @@ public class TerminalApi {
     public static TerminalApiInterface createService() {
         if (terminalService == null) {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://5735ce06178f1b1100f305ea.mockapi.io")
+                    .baseUrl("http://192.168.1.43:8080")
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(httpClient.build())
                     .build();
@@ -33,11 +32,15 @@ public class TerminalApi {
     }
 
     public interface TerminalApiInterface {
-        @GET("/terminales")
-        Call<List<Terminal>> getAll();
 
-        @GET("/terminales/{id}")
-        Call<Terminal> getById(@Path("id") int id);
+        @GET("/lcbsapi/rest/viajes/getterminales/1/8")
+        Call<List<DataTerminal>> getAll();
+
+
+
+
+            // @GET("/terminales/{id}")
+       // Call<Terminal> getById(@Path("id") int id);
 
 //        @GET("/terminales/{id}?search={search}")
 //        Call<List<Terminal>> getSearch(@Path("id") int id, @Path("search") String search);

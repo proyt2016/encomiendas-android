@@ -10,11 +10,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class MenuPrincipal extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    public int codTerminal;
+    public String codTerminal;
     public boolean cargo = false;
+    private TextView txt;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +25,8 @@ public class MenuPrincipal extends AppCompatActivity implements NavigationView.O
         setContentView(R.layout.activity_menu_principal);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        txt = (TextView) findViewById(R.id.id);
+        codTerminal = getIntent().getExtras().getString("idTerminal");
 
 
 
@@ -78,20 +83,22 @@ public class MenuPrincipal extends AppCompatActivity implements NavigationView.O
         int id = item.getItemId();
 
         if (id == R.id.BusquedaMasiva) {
-            codTerminal = getIntent().getExtras().getInt("codigo");
+            codTerminal = getIntent().getExtras().getString("idTerminal");
+            System.out.println("------------------------------->"+codTerminal);
+
             int AsignarEncomiendas = 1;
             Intent i = new Intent(MenuPrincipal.this, RegistroGrupal.class);
             i.putExtra("codigo", codTerminal);
             i.putExtra("flag",AsignarEncomiendas);
             startActivity(i);
         } else if (id == R.id.BusquedaIndividual) {
-            codTerminal = getIntent().getExtras().getInt("codigo");
+            codTerminal = getIntent().getExtras().getString("idTerminal");
             Intent i = new Intent(MenuPrincipal.this, RegistroIndividual.class);
             i.putExtra("codigo", codTerminal);
             startActivity(i);
         }
         else if (id == R.id.AsignarEncomiendasCoche) {
-            codTerminal = getIntent().getExtras().getInt("codigo");
+            codTerminal = getIntent().getExtras().getString("idTerminal");
             int AsignarEncomiendas = 2;
             Intent i = new Intent(MenuPrincipal.this, RegistroGrupal.class);
             i.putExtra("codigo",codTerminal );

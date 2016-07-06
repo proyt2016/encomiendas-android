@@ -9,8 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
 import com.sourcey.materiallogindemo.api.UsuarioApi;
-import com.sourcey.materiallogindemo.model.Usuario;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -55,8 +55,9 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.show();
 
         String user = _userText.getText().toString();
+        String password = _passwordText.getText().toString();
 
-        int userId = 0;
+        /*int userId = 0;
         if(user.equals("admin")){
             userId = 1;
         }else if(user.equals("empleado")){
@@ -65,17 +66,27 @@ public class LoginActivity extends AppCompatActivity {
             onLoginFailed();
             progressDialog.hide();
             return;
-        }
+        }*/
+        JsonObject caca = new JsonObject();
+        caca.addProperty("usuario",_userText.getText().toString());
+        caca.addProperty("clave",_passwordText.getText().toString());
 
-        Call<Usuario> call = UsuarioApi.createService().getByUsuario(userId);
-        call.enqueue(new Callback<Usuario>() {
+
+
+        Call<Boolean> call = UsuarioApi.createService().getByUsuario(caca);
+        call.enqueue(new Callback<Boolean>() {
             @Override
-            public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                System.out.println(response);
                 if(response.isSuccessful()){
-                    String password = _passwordText.getText().toString();
-                    Usuario user = response.body();
 
-                    if (password.equals(user.getClave())){
+                    Boolean valido = response.body();
+                    System.out.println(valido);
+                    System.out.println(_userText.getText().toString());
+                    System.out.println(_passwordText.getText().toString());
+
+
+                    if (valido == true){
                         new android.os.Handler().postDelayed(
                             new Runnable() {
                                 public void run() {
@@ -97,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Usuario> call, Throwable t) {
+            public void onFailure(Call<Boolean> call, Throwable t) {
                 System.out.println("onFailure");
                 onLoginFailed();
                 progressDialog.dismiss();
