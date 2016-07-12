@@ -15,10 +15,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.sourcey.materiallogindemo.Shares.DataTerminal;
-import com.sourcey.materiallogindemo.api.CocheApi;
 import com.sourcey.materiallogindemo.api.TerminalApi;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;

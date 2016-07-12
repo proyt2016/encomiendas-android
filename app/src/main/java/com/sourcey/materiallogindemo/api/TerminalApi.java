@@ -20,7 +20,7 @@ public class TerminalApi {
     public static TerminalApiInterface createService() {
         if (terminalService == null) {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://192.168.1.43:8080")
+                    .baseUrl("http://192.168.1.188:8080")
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(httpClient.build())
                     .build();

@@ -15,12 +15,12 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 
-public class CocheApi {
+public class VehiculoApi {
 
-    private static CocheApiInterface cocheService ;
+    private static VehiculoApiInterface cocheService ;
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
-    public static CocheApiInterface createService() {
+    public static VehiculoApiInterface createService() {
         if (cocheService == null) {
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl("http://5735ce06178f1b1100f305ea.mockapi.io")
@@ -28,13 +28,13 @@ public class CocheApi {
                     .client(httpClient.build())
                     .build();
 
-            cocheService = retrofit.create(CocheApiInterface.class);
+            cocheService = retrofit.create(VehiculoApiInterface.class);
         }
 
         return cocheService;
     }
 
-    public interface CocheApiInterface {
+    public interface VehiculoApiInterface {
         @GET("/coche")
         Call<List<DataVehiculo>> getAll();
     }

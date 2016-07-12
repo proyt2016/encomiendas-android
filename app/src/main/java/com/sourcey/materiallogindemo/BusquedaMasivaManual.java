@@ -18,9 +18,12 @@ import android.widget.TextView;
 
 import com.sourcey.materiallogindemo.Shares.DataEncomienda;
 import com.sourcey.materiallogindemo.Shares.DataEstadosEncomienda;
+import com.sourcey.materiallogindemo.Shares.DataVehiculo;
 import com.sourcey.materiallogindemo.api.EncomiendaApi;
 import com.sourcey.materiallogindemo.api.EstadoApi;
+import com.sourcey.materiallogindemo.api.VehiculoApi;
 import com.sourcey.materiallogindemo.com.google.zxing.integration.android.IntentIntegrator;
+import com.sourcey.materiallogindemo.com.google.zxing.integration.android.IntentResult;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -201,36 +204,37 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
           scanIntegrator.initiateScan();}
     }
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-       /* //Se obtiene el resultado del proceso de scaneo y se parsea
-        Encuentro = false;
+        //Se obtiene el resultado del proceso de scaneo y se parsea
+        //POR SCANNER RECORDAR QUE LOS VIAJES TIENEN COCHES Y EL VIAJE TIENE LA LISTA DE ENCOMIENDAS
+       /* Encuentro = false;
         IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         if (scanningResult.getContents() != null) {
             scanContent = scanningResult.getContents();
-            i = Integer.parseInt(scanContent);
+
             String scanFormat = scanningResult.getFormatName();
-            Call<List<DataVehiculo>> call = CocheApi.createService().getAll();
+            Call<List<DataVehiculo>> call = VehiculoApi.createService().getAll();
             call.enqueue(new Callback<List<DataVehiculo>>() {
                 @Override
                 public void onResponse(Call<List<DataVehiculo>> call, Response<List<DataVehiculo>> response) {
                     List<DataVehiculo> datos = response.body();
                     for (DataVehiculo dato : datos) {
-                        List<DataEncomienda> encomiendas = dato.getListaEncomiendas();
+                        List<DataEncomienda> encomiendas;
                         for (DataEncomienda e : encomiendas) {
-                            if (i == e.getId()){
+                            if (scanContent.equals(e.getId())){
                                 Encuentro = true;
                                 dialogCodigo(1).show();
                                 Date fecha = new Date();
                                 DateFormat dat = new SimpleDateFormat("yy/MM/dd");
-                                Estado est = new Estado(12, valOfSpinner, dat.format(fecha), e);
-                                Call<Estado> call2 = EstadoApi.createService().addEstado(dato.getId(),e.getId(), est);
-                                call2.enqueue(new Callback<Estado>() {
+                                DataEstadosEncomienda est = new DataEstadosEncomienda(12, valOfSpinner, dat.format(fecha), e);
+                                Call<DataEstadosEncomienda> call2 = EstadoApi.createService().addEstado(dato.getId(),e.getId(), est);
+                                call2.enqueue(new Callback<DataEstadosEncomienda>() {
                                     @Override
-                                    public void onResponse(Call<Estado> call, Response<Estado> response) {
-                                        Estado dato = response.body();
+                                    public void onResponse(Call<DataEstadosEncomienda> call, Response<DataEstadosEncomienda> response) {
+                                        DataEstadosEncomienda dato = response.body();
                                         cambioDeEsado().show();
                                     }
                                     @Override
-                                    public void onFailure(Call<Estado> call, Throwable t) {
+                                    public void onFailure(Call<DataEstadosEncomienda> call, Throwable t) {
                                         System.out.println("onFailure");
                                     }
                                 });Escaner();

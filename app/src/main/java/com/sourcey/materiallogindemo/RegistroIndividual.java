@@ -5,20 +5,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.sourcey.materiallogindemo.api.CocheApi;
 import com.sourcey.materiallogindemo.com.google.zxing.integration.android.IntentIntegrator;
-import com.sourcey.materiallogindemo.com.google.zxing.integration.android.IntentResult;
-
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class RegistroIndividual extends AppCompatActivity implements View.OnClickListener  {
     private TextView formatTxt, contentTxt;
@@ -71,7 +61,7 @@ public class RegistroIndividual extends AppCompatActivity implements View.OnClic
         if (v.getId() == R.id.buscar) {
             /*EditText cod = (EditText)findViewById(R.id.codigo);
             contenido = Integer.parseInt(cod.getText().toString());
-            Call<List<Coche>> call1 = CocheApi.createService().getAll();
+            Call<List<Coche>> call1 = VehiculoApi.createService().getAll();
             call1.enqueue(new Callback<List<Coche>>() {
                 @Override
                 public void onResponse(Call<List<Coche>> call1, Response<List<Coche>> response) {
@@ -130,7 +120,7 @@ public class RegistroIndividual extends AppCompatActivity implements View.OnClic
             scanContent = scanningResult.getContents();
             i = Integer.parseInt(scanContent);
             String scanFormat = scanningResult.getFormatName();
-            Call<List<Coche>> call = CocheApi.createService().getAll();
+            Call<List<Coche>> call = VehiculoApi.createService().getAll();
             call.enqueue(new Callback<List<Coche>>() {
                 @Override
                 public void onResponse(Call<List<Coche>> call, Response<List<Coche>> response) {

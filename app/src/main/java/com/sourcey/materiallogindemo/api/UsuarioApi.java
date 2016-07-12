@@ -19,7 +19,7 @@ public class UsuarioApi {
     public static UsuarioApiInterface createService() {
         if (usuarioService == null) {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://192.168.1.43:8080")
+                    .baseUrl("http://192.168.1.188:8080")
                     .addConverterFactory(GsonConverterFactory.create())
 
                     .client(httpClient.build())
@@ -32,9 +32,6 @@ public class UsuarioApi {
     }
 
     public interface UsuarioApiInterface {
-
-
-
         @POST("/lcbsapi/rest/usuarios/loginusuario")
         Call<Boolean> getByUsuario(@Body JsonObject caca);
 
