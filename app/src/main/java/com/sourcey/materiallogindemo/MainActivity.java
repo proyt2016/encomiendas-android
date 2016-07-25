@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             filtro.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-                    if(arg0!=null){
+                    if(arg0!=null && adapter != null ){
                             MainActivity.this.adapter.getFilter().filter(arg0);
                     }else{}
                 }

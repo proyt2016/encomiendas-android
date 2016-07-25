@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.sourcey.materiallogindemo.Shares.DataEncomienda;
+import com.sourcey.materiallogindemo.Shares.DataRecorrido;
 import com.sourcey.materiallogindemo.Shares.DataVehiculo;
 import com.sourcey.materiallogindemo.Shares.DataViaje;
 import com.sourcey.materiallogindemo.api.EncomiendaApi;
@@ -99,8 +100,8 @@ public class InteractiveArrayAdapterViajes extends ArrayAdapter<DataViaje>{
         }
         ViewHolder holder = (ViewHolder) view.getTag();
         holder.recorrido.setText(lista.get(position).getRecorrido().getNombre());
-        holder.horario.setText("Salida:" + " " + lista.get(position).getFechaSalida());
-        holder.cocheId.setText("Nro Coche:"+" "+String.valueOf(lista.get(position).getCoche().getNumeroVehiculo()));
+        holder.horario.setText("Salida:" + " " + lista.get(position)+"NumeroCoche");
+        holder.cocheId.setText("Nro Coche:"+" "+String.valueOf(lista.get(position).getFechaSalida().toString()));
         //holder.boton.setText("Recorrido:"+" "+lista.get(position).getNombre());
         return view;
     }

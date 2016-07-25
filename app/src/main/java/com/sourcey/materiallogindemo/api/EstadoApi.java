@@ -25,7 +25,7 @@ public class EstadoApi {
     public static EstadoApiInterface createService() {
         if (estadoService == null) {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://192.168.1.43:8080/lcbsapi/rest")
+                    .baseUrl("http://192.168.1.191:8080/lcbsapi/rest")
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(httpClient.build())
                     .build();

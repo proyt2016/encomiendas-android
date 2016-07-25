@@ -62,7 +62,7 @@ public class InteractiveArrayAdapterTerminales extends ArrayAdapter<DataTerminal
             ((ViewHolder) view.getTag()).boton.setTag(lista.get(position));
         }
         ViewHolder holder = (ViewHolder) view.getTag();
-        holder.titulo.setText("Nombre:"+" "+lista.get(position).getNombre().toString());
+        holder.titulo.setText(lista.get(position).getNombre().toString());
         //holder.subTitulo.setText("Id:"+" "+lista.get(position).getId());
         return view;
     }

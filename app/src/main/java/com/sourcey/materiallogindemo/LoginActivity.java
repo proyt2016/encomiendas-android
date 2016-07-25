@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
-import com.sourcey.materiallogindemo.api.UsuarioApi;
+import com.sourcey.materiallogindemo.api.EmpleadoApi;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -57,59 +57,47 @@ public class LoginActivity extends AppCompatActivity {
         String user = _userText.getText().toString();
         String password = _passwordText.getText().toString();
 
-        /*int userId = 0;
-        if(user.equals("admin")){
-            userId = 1;
-        }else if(user.equals("empleado")){
-            userId = 2;
-        }else{
-            onLoginFailed();
-            progressDialog.hide();
-            return;
-        }*/
-        JsonObject caca = new JsonObject();
-        caca.addProperty("usuario",_userText.getText().toString());
-        caca.addProperty("clave",_passwordText.getText().toString());
 
 
+        JsonObject empleado = new JsonObject();
+        empleado.addProperty("usuario",_userText.getText().toString());
+        empleado.addProperty("clave",_passwordText.getText().toString());
 
-        Call<Boolean> call = UsuarioApi.createService().getByUsuario(caca);
+        Call<Boolean> call = EmpleadoApi.createService().login(empleado);
         call.enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                System.out.println(response);
-                if(response.isSuccessful()){
+                if(response.isSuccessful()) {
 
-                    Boolean valido = response.body();
-                    System.out.println(valido);
-                    System.out.println(_userText.getText().toString());
-                    System.out.println(_passwordText.getText().toString());
+                    Boolean existe = response.body();
 
+                    if (existe!=null) {
 
-                    if (valido == true){
-                        new android.os.Handler().postDelayed(
-                            new Runnable() {
-                                public void run() {
-                                    // On complete call either onLoginSuccess or onLoginFailed
-                                    onLoginSuccess();
-                                    progressDialog.dismiss();
-                                }
-                            }, 3000);
-                    }else{
-                        System.out.println("onResponse password distintos");
+                        if (existe == true) {
+                            new android.os.Handler().postDelayed(
+                                    new Runnable() {
+                                        public void run() {
+                                            // On complete call either onLoginSuccess or onLoginFailed
+                                            onLoginSuccess();
+                                            progressDialog.dismiss();
+                                        }
+                                    }, 3000);
+                        } else {
+                            System.out.println("No existe Usuario Registrado");
+                            onLoginFailed();
+                            progressDialog.dismiss();
+                        }
+                    } else {
                         onLoginFailed();
+                        System.out.println("Fallo la consulta, Response = NULL, contactar con LacBus");
                         progressDialog.dismiss();
                     }
-                }else{
-                    onLoginFailed();
-                    System.out.println("onResponse no isSuccessful");
-                    progressDialog.dismiss();
                 }
             }
 
             @Override
             public void onFailure(Call<Boolean> call, Throwable t) {
-                System.out.println("onFailure");
+                System.out.println("Fallo el Servicio, contactar LacBus");
                 onLoginFailed();
                 progressDialog.dismiss();
             }
@@ -128,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "Fallo el inicio de sesión", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "SE ROMPIO", Toast.LENGTH_LONG).show();
 
         _loginButton.setEnabled(true);
     }

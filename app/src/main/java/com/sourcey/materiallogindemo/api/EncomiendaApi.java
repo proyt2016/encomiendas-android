@@ -20,7 +20,7 @@ public class EncomiendaApi {
     public static EncomiendaApiInterface createService() {
         if (encomiendaService == null) {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://10.0.22.146:8080/lcbsapi/rest")
+                    .baseUrl("http://192.168.1.191:8080")
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(httpClient.build())
                     .build();
@@ -32,13 +32,13 @@ public class EncomiendaApi {
     }
 
     public interface EncomiendaApiInterface {
-        @GET("/encomiendas/getencomiendasporvehiculo/{idViaje}")
+        @GET("/lcbsapi/rest/encomiendas/getencomiendasporvehiculo/{idViaje}")
         Call<List<DataEncomienda>> getByVehiculo(@Path("idViaje") String idViaje);
 
-        @GET("/encomiendas")
+        @GET("/lcbsapi/rest/encomiendas")
         Call<List<DataEncomienda>> getAll();
 
-        @GET("/coche/{cocheId}/encomiendas/{id}")
+        @GET("/lcbsapi/rest/coche/{cocheId}/encomiendas/{id}")
         Call<DataEncomienda> getById(@Path("cocheId") int cocheId, @Path("id") int id);
     }
 }

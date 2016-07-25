@@ -73,6 +73,23 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
         confirmar.setOnClickListener(this);
         listaEncomiendas.setItemsCanFocus(true);
         listaEncomiendas.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+
+
+        Call<List<DataEncomienda>> call2 = EncomiendaApi.createService().getByVehiculo(codViaje);
+        call2.enqueue(new Callback<List<DataEncomienda>>() {
+            @Override
+            public void onResponse(Call<List<DataEncomienda>> call, Response<List<DataEncomienda>> response) {
+                List<DataEncomienda> datos = response.body();
+                Farcade.listaEncomiendas = datos;
+                adapter = new InteractiveArrayAdapterEncomiendas(BusquedaMasivaManual.this, Farcade.listaEncomiendas);
+                listaEncomiendas.setAdapter(adapter);
+                for (DataEncomienda e : Farcade.listaEncomiendas) {
+                    adapter.notifyDataSetChanged();}
+            }
+            @Override
+            public void onFailure(Call<List<DataEncomienda>> call, Throwable t) {
+                System.out.println("SE CAGO");}
+        });
         //CREATE DATA
         estados.add("Seleccionar");
         estados.add("Despachada");

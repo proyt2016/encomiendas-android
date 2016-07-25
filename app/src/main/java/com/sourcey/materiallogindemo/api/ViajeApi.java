@@ -1,6 +1,8 @@
 package com.sourcey.materiallogindemo.api;
 
 import com.sourcey.materiallogindemo.Shares.DataEncomienda;
+import com.sourcey.materiallogindemo.Shares.DataRecorrido;
+import com.sourcey.materiallogindemo.Shares.DataViaje;
 
 import java.util.List;
 
@@ -21,7 +23,7 @@ public class ViajeApi {
     public static ViajeApiInterface createService() {
         if (viajeservice == null) {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://192.168.1.43")
+                    .baseUrl("http://192.168.1.191:8080")
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(httpClient.build())
                     .build();
@@ -34,8 +36,9 @@ public class ViajeApi {
 
     public interface ViajeApiInterface {
         //ACA VAN LOS VIAJES FILTRADOS POR TERMINAL DESTINO ORIGEN O QUE PASE POR AHI
-        @GET("/lcbsapi/rest/viajes/")
-        Call<List<DataEncomienda>> getByCoche(@Path("cocheId") int cocheId);
+        @GET("/lcbsapi/rest/viajes/getviajesxterminal/{idTerminal}/1/9")
+        Call<List<DataViaje>> getViajesPorTerminal(@Path("idTerminal") String idTerminal);
+
 
 
     }
