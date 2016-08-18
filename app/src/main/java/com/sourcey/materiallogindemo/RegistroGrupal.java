@@ -54,9 +54,6 @@ public class RegistroGrupal extends AppCompatActivity implements View.OnClickLis
         listadoRecorridos.setTextFilterEnabled(true);
         filtro.setOnClickListener(this);
 
-        //SE CREA CON VISTA ADAPTADOR
-        //aca listo los viajes que pasen por la terminal seleccionada
-        //List<DataViaje> l = Farcade.getListaCoches(codTerminal);
         Call<List<DataViaje>> call = ViajeApi.createService().getViajesPorTerminal(codTerminal);
         call.enqueue(new Callback<List<DataViaje>>() {
             @Override

@@ -25,7 +25,7 @@ public class EstadoApi {
     public static EstadoApiInterface createService() {
         if (estadoService == null) {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://192.168.1.191:8080/lcbsapi/rest")
+                    .baseUrl("http://192.168.1.41:8080")
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(httpClient.build())
                     .build();
@@ -37,13 +37,13 @@ public class EstadoApi {
     }
 
     public interface EstadoApiInterface {
-        @GET("/coche/{cocheId}/encomiendas/{encomiendaId}/estados")
+        @GET("/lcbsapi/rest/coche/{cocheId}/encomiendas/{encomiendaId}/estados")
         Call<List<DataEstadosEncomienda>> getByCocheAndEstado(@Path("cocheId") int cocheId, @Path("encomiendaId") int encomiendaId);
 
-        @GET("/encomiendas/getestados/1/9999")
+        @GET("/lcbsapi/rest/encomiendas/getestados/1/9999")
         Call<List<DataEstadosEncomienda>> getAll();
 
-        @POST("/encomiendas/setestadoencomienda/{idEncomienda}/")
+        @POST("/lcbsapi/rest/encomiendas/setestadoencomienda/{idEncomienda}/")
         Call<Boolean> setEstado(@Path("idEncomienda") final String idEncomienda, @Body DataEstadosEncomienda dataEstado);
 
 

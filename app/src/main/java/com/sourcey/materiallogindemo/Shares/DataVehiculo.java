@@ -20,6 +20,8 @@ public class DataVehiculo {
     private List<DataMantenimientoVehiculo> mantenimientos;
     private Boolean eliminado;
 
+    public DataVehiculo(){}
+
     public DataVehiculo(String id, String numV, String mat, String mar, String mod, Integer anioFab, Date fecAlta, Integer cantAs, Boolean conG, List<DataMantenimientoVehiculo> mant, Boolean elim) {
         this.id = id;
         this.numeroDataVehiculo = numV;
@@ -32,6 +34,10 @@ public class DataVehiculo {
         this.conGuarda = conG;
         this.mantenimientos = mant;
         this.eliminado = elim;
+    }
+
+    public String toString(){
+        return this.marca;
     }
 
     public void setId(String val){

@@ -81,8 +81,10 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
             public void onResponse(Call<List<DataEncomienda>> call, Response<List<DataEncomienda>> response) {
                 List<DataEncomienda> datos = response.body();
                 Farcade.listaEncomiendas = datos;
+                if(Farcade.listaEncomiendas!=null)
                 adapter = new InteractiveArrayAdapterEncomiendas(BusquedaMasivaManual.this, Farcade.listaEncomiendas);
                 listaEncomiendas.setAdapter(adapter);
+                if(Farcade.listaEncomiendas!=null)
                 for (DataEncomienda e : Farcade.listaEncomiendas) {
                     adapter.notifyDataSetChanged();}
             }
@@ -105,14 +107,17 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             if (noProcesada.isChecked()) {
+                if(Farcade.getEncomiendasNoProcesadas()!=null)
                 adapter = new InteractiveArrayAdapterEncomiendas(BusquedaMasivaManual.this,getModelNoProcesadas());
                 listaEncomiendas.setAdapter(adapter);
+                if(Farcade.getEncomiendasNoProcesadas()!=null)
                     for (DataEncomienda e : Farcade.getEncomiendasNoProcesadas()) {
                         adapter.notifyDataSetChanged();}
 
             }else if(noProcesada.isChecked()==false){
                      adapter = new InteractiveArrayAdapterEncomiendas(BusquedaMasivaManual.this,getModel());
                      listaEncomiendas.setAdapter(adapter);
+                    if( Farcade.listaEncomiendas!=null)
                         for (DataEncomienda e : Farcade.listaEncomiendas) {
                              adapter.notifyDataSetChanged();}
                     }
@@ -121,6 +126,8 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
         //ADAPTADOR HIBRIDO//SE CARGA CADA VEZ QUE ABRIMOS EL LAYOUT
         adapter = new InteractiveArrayAdapterEncomiendas(BusquedaMasivaManual.this,getModel());
         listaEncomiendas.setAdapter(adapter);
+        if( Farcade.listaEncomiendas!=null)
+        if(Farcade.listaEncomiendas!=null)
         for (DataEncomienda e : Farcade.listaEncomiendas) {
             adapter.notifyDataSetChanged();}
         escaner.setOnClickListener(new View.OnClickListener() {
@@ -144,6 +151,8 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
     }
     private List<DataEncomienda> getModel() {
         List<DataEncomienda> list = new ArrayList<DataEncomienda>();
+
+        if(Farcade.listaEncomiendas!=null)
         for(DataEncomienda e: Farcade.listaEncomiendas){
             list.add(e);
         }return list;
@@ -212,6 +221,7 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
     }
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == event.KEYCODE_BACK) {
+            if( Farcade.listaEncomiendas!=null)
               Farcade.listaEncomiendas.clear();
         }return super.onKeyDown(keyCode, event);
     }

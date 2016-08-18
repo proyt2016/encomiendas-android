@@ -14,21 +14,33 @@ public class DataViaje {
     private DataHorario horario;
     private Date fechaSalida;
     private List<DataEmpleado> empleados;
-    private DataVehiculo coche;
+    private List<DataVehiculo> listaCoches;
     private List<DataEncomienda> encomiendas;
 
-    public DataViaje(String id, DataRecorrido rec, DataHorario hor, Date fecSalida, List<DataEmpleado> emp, DataVehiculo coche, List<DataEncomienda> enc) {
+    public DataViaje(){}
+
+    public DataViaje(String id, DataRecorrido rec, DataHorario hor, Date fecSalida, List<DataEmpleado> emp, List<DataEncomienda> enc, List<DataVehiculo> listaCoches) {
         this.id = id;
         this.recorrido = rec;
         this.horario = hor;
         this.fechaSalida = fecSalida;
         this.empleados = emp;
-        this.coche = coche;
+        this.listaCoches = listaCoches;
         this.encomiendas = enc;
     }
 
+
     public String getId() {
         return id;
+    }
+
+
+    public List<DataVehiculo> getListaCoches() {
+        return listaCoches;
+    }
+
+    public void setListaCoches(List<DataVehiculo> listaCoches) {
+        this.listaCoches = listaCoches;
     }
 
     public void setId(String id) {
@@ -67,13 +79,7 @@ public class DataViaje {
         this.empleados = empleados;
     }
 
-    public DataVehiculo getCoche() {
-        return coche;
-    }
 
-    public void setCoche(DataVehiculo coche) {
-        this.coche = coche;
-    }
 
     public List<DataEncomienda> getEncomiendas() {
         return encomiendas;

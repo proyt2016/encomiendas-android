@@ -49,7 +49,7 @@ public class InteractiveArrayAdapterViajes extends ArrayAdapter<DataViaje>{
             final LayoutInflater inflator = context.getLayoutInflater();
             view = inflator.inflate(R.layout.lista_coches_items,null);
             final ViewHolder viewHolder = new ViewHolder();
-            viewHolder.cocheId = (TextView) view.findViewById(R.id.idCoche);
+           // viewHolder.cocheId = (TextView) view.findViewById(R.id.idCoche);
             viewHolder.recorrido = (TextView) view.findViewById(R.id.recorrido);
             viewHolder.horario = (TextView) view.findViewById(R.id.horario);
             viewHolder.boton = (Button) view.findViewById(R.id.next);
@@ -81,8 +81,9 @@ public class InteractiveArrayAdapterViajes extends ArrayAdapter<DataViaje>{
                     }
                     if(flag == 2){
                         DataViaje viaje = (DataViaje) v.getTag();
-                        Intent i = new Intent(context, AsignarEncomiendasCoche.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        Intent i = new Intent(context, ListadoDeCoches.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         i.putExtra("codigo", viaje.getId());
+                        Farcade.viajeSeleccionado = viaje;
                         getContext().getApplicationContext().startActivity(i);
 
                     }
@@ -92,7 +93,7 @@ public class InteractiveArrayAdapterViajes extends ArrayAdapter<DataViaje>{
             view.setTag(viewHolder);
             viewHolder.recorrido.setTag(lista.get(position));
             viewHolder.horario.setTag(lista.get(position));
-            viewHolder.cocheId.setTag(lista.get(position));
+           // viewHolder.cocheId.setTag(lista.get(position));
             viewHolder.boton.setTag(lista.get(position));
         }else {
             view = convertView;
@@ -100,8 +101,8 @@ public class InteractiveArrayAdapterViajes extends ArrayAdapter<DataViaje>{
         }
         ViewHolder holder = (ViewHolder) view.getTag();
         holder.recorrido.setText(lista.get(position).getRecorrido().getNombre());
-        holder.horario.setText("Salida:" + " " + lista.get(position)+"NumeroCoche");
-        holder.cocheId.setText("Nro Coche:"+" "+String.valueOf(lista.get(position).getFechaSalida().toString()));
+        holder.horario.setText("Fecha Salida:"+" "+String.valueOf(lista.get(position).getFechaSalida().getDay()+"/"+lista.get(position).getFechaSalida().getMonth()+"/"+lista.get(position).getFechaSalida().getYear()));
+       // holder.cocheId.setText("Fecha Salida:"+" "+String.valueOf(lista.get(position).getFechaSalida().toString()));
         //holder.boton.setText("Recorrido:"+" "+lista.get(position).getNombre());
         return view;
     }

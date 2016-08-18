@@ -20,7 +20,7 @@ public class TerminalApi {
     public static TerminalApiInterface createService() {
         if (terminalService == null) {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://192.168.1.191:8080")
+                    .baseUrl("http://192.168.1.41:8080")
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(httpClient.build())
                     .build();
@@ -33,7 +33,7 @@ public class TerminalApi {
 
     public interface TerminalApiInterface {
 
-        @GET("/lcbsapi/rest/viajes/getterminales/1/8")
+        @GET("/lcbsapi/rest/viajes/getterminales/1/99888888")
         Call<List<DataTerminal>> getAll();
 
 
