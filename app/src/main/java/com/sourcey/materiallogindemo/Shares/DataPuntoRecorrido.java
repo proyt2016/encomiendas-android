@@ -10,6 +10,10 @@ public class DataPuntoRecorrido {
     private String ubicacionMapa;
     private Boolean eliminado;
 
+    public String toString(){
+        return this.nombre;
+    }
+
     public void setId(String val){
         this.id = val;
     }

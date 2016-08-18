@@ -4,8 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,16 +11,10 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.sourcey.materiallogindemo.Shares.DataPuntoRecorrido;
-import com.sourcey.materiallogindemo.Shares.DataRecorrido;
-import com.sourcey.materiallogindemo.Shares.DataTerminal;
-import com.sourcey.materiallogindemo.Shares.DataViaje;
-import com.sourcey.materiallogindemo.api.TerminalApi;
+import com.sourcey.materiallogindemo.Shares.DataViajeConvertor;
 import com.sourcey.materiallogindemo.api.ViajeApi;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -32,7 +24,7 @@ import retrofit2.Response;
 
 public class RegistroGrupal extends AppCompatActivity implements View.OnClickListener{
     public String codTerminal;
-    private ArrayAdapter<DataViaje> adapter;
+    private ArrayAdapter<DataViajeConvertor> adapter;
     //private List<Coche> lista = new ArrayList<Coche>();
     private ListView listadoRecorridos;
     private boolean cargo;
@@ -54,11 +46,11 @@ public class RegistroGrupal extends AppCompatActivity implements View.OnClickLis
         listadoRecorridos.setTextFilterEnabled(true);
         filtro.setOnClickListener(this);
 
-        Call<List<DataViaje>> call = ViajeApi.createService().getViajesPorTerminal(codTerminal);
-        call.enqueue(new Callback<List<DataViaje>>() {
+        Call<List<DataViajeConvertor>> call = ViajeApi.createService().getViajesPorTerminal(codTerminal);
+        call.enqueue(new Callback<List<DataViajeConvertor>>() {
             @Override
-            public void onResponse(Call<List<DataViaje>> call, Response<List<DataViaje>> response) {
-                List<DataViaje> listaViajes = response.body();
+            public void onResponse(Call<List<DataViajeConvertor>> call, Response<List<DataViajeConvertor>> response) {
+                List<DataViajeConvertor> listaViajes = response.body();
                 System.out.println(listaViajes);
                 if(response.isSuccessful()) {
 
@@ -78,14 +70,14 @@ public class RegistroGrupal extends AppCompatActivity implements View.OnClickLis
                 }
 
             @Override
-            public void onFailure(Call<List<DataViaje>> call, Throwable t) {
+            public void onFailure(Call<List<DataViajeConvertor>> call, Throwable t) {
                 System.out.println("onFailure"+"-------->ERROR:"+" "+t.getCause());}
         });
 
 
 
         //SE CARGA ADAPTADOR EVITANDO CONFLICOS CON LISTVIEW
-           /* for (DataRecorrido t : l) {
+           /* for (DataRecorridoConvertor t : l) {
                 adapter.notifyDataSetChanged();
             }*/
 
@@ -107,9 +99,9 @@ public class RegistroGrupal extends AppCompatActivity implements View.OnClickLis
             });
         }*/
     }
-    /*private List<DataRecorrido> getModel() {
-        List<DataRecorrido> list = new ArrayList<DataRecorrido>();
-        for(DataRecorrido c: Farcade.listaCoches){
+    /*private List<DataRecorridoConvertor> getModel() {
+        List<DataRecorridoConvertor> list = new ArrayList<DataRecorridoConvertor>();
+        for(DataRecorridoConvertor c: Farcade.listaCoches){
             list.add(c);
         }return list;
     }*/

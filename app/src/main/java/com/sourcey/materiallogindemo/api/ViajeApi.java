@@ -1,8 +1,6 @@
 package com.sourcey.materiallogindemo.api;
 
-import com.sourcey.materiallogindemo.Shares.DataEncomienda;
-import com.sourcey.materiallogindemo.Shares.DataRecorrido;
-import com.sourcey.materiallogindemo.Shares.DataViaje;
+import com.sourcey.materiallogindemo.Shares.DataViajeConvertor;
 
 import java.util.List;
 
@@ -36,8 +34,8 @@ public class ViajeApi {
 
     public interface ViajeApiInterface {
         //ACA VAN LOS VIAJES FILTRADOS POR TERMINAL DESTINO ORIGEN O QUE PASE POR AHI
-        @GET("/lcbsapi/rest/viajes/getviajesxterminal/{idTerminal}/1/9")
-        Call<List<DataViaje>> getViajesPorTerminal(@Path("idTerminal") String idTerminal);
+        @GET("/lcbsapi/rest/viajes/getviajesxterminal/{idTerminal}/1/98888888")
+        Call<List<DataViajeConvertor>> getViajesPorTerminal(@Path("idTerminal") String idTerminal);
 
 
 

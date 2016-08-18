@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         lv = (ListView) findViewById(R.id.listaTerminales);
         filtro = (EditText) findViewById(R.id.inputSearch);
-        filtro.setOnClickListener(this);
+        filtro.addTextChangedListener(filterTextWatcher);
         lv.setTextFilterEnabled(true);
 
             if (cargo == false) {
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                      List<DataTerminal> ListaTerminal = response.body();
                         if (cargoAdapter == false && cargo == true ) {
                             cargoAdapter = true;
-                            adapter = new InteractiveArrayAdapterTerminales(MainActivity.this,ListaTerminal);
+                            adapter = new InteractiveArrayAdapterTerminales(MainActivity.this,0,ListaTerminal);
                             lv.setAdapter(adapter);
                             for (DataTerminal t : ListaTerminal) {
                                 adapter.notifyDataSetChanged();
@@ -66,25 +67,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 });
             }
 
-        if (filtro.getText() != null || filtro.getText().toString()!= " ") {
-        //FILTRO DE BUSQUEDA
-            filtro.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-                    if(arg0!=null && adapter != null ){
-                            MainActivity.this.adapter.getFilter().filter(arg0);
-                    }else{}
-                }
-                @Override
-                public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
-                @Override
-                public void afterTextChanged(Editable arg0) {}
-            });
+
         //SE CARGAR VISTA LOGIN
        // Intent intent = new Intent(this, LoginActivity.class);
        // startActivity(intent);
         }
-    }
+    private TextWatcher filterTextWatcher = new TextWatcher() {
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count,
+                                      int after) {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before,
+                                  int count) {
+            if (adapter != null) {
+                adapter.getFilter().filter(s);
+            } else {
+                Log.d("filter", "no filter availible");
+            }
+        }
+    };
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

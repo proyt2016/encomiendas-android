@@ -7,7 +7,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.sourcey.materiallogindemo.Shares.DataVehiculo;
-import com.sourcey.materiallogindemo.Shares.DataViaje;
+import com.sourcey.materiallogindemo.Shares.DataViajeConvertor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +30,9 @@ public class ListadoDeCoches extends AppCompatActivity{
         titulo = (TextView) findViewById(R.id.titulo2);
 
 
-        DataViaje viaje = farcade.getViajeSeleccionado();
+        DataViajeConvertor viaje = farcade.getViajeSeleccionado();
         List<DataVehiculo> listaVehiculo = new ArrayList<>();
-        listaVehiculo = viaje.getListaCoches();
+        listaVehiculo = viaje.getCoches();
 
       /*  DataVehiculo coche = new DataVehiculo();
 

@@ -25,6 +25,10 @@ public class DataTerminal extends DataPuntoRecorrido {
         this.aceptaEncomiendas = acEnc;
     }
 
+    public String toString(){
+        return super.getNombre();
+    }
+
 
     public void setTelefonosContacto(List<DataTelefono> val){
         this.telefonosContacto = val;

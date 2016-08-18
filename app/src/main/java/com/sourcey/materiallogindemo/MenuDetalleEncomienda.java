@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.sourcey.materiallogindemo.Shares.DataEncomienda;
-
 /**
  * Created by maxi on 28/05/2016.
  */
@@ -24,7 +22,7 @@ public class MenuDetalleEncomienda extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detalle_encomienda);
         CodEncomienda = getIntent().getExtras().getInt("codigoEncomienda");
-       /* DataEncomienda e = Farcade.BuscarEncomiendaId(CodEncomienda);
+       /* DataEncomiendaConvertor e = Farcade.BuscarEncomiendaId(CodEncomienda);
         //COMPONENTES XML
 
         img =(ImageView)findViewById(R.id.imageView);

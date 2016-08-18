@@ -1,7 +1,7 @@
 package com.sourcey.materiallogindemo.api;
 
 
-import com.sourcey.materiallogindemo.Shares.DataEncomienda;
+import com.sourcey.materiallogindemo.Shares.DataEncomiendaConvertor;
 
 import java.util.List;
 
@@ -33,13 +33,13 @@ public class EncomiendaApi {
 
     public interface EncomiendaApiInterface {
         @GET("/lcbsapi/rest/encomiendas/getencomiendasporvehiculo/{idViaje}")
-        Call<List<DataEncomienda>> getByVehiculo(@Path("idViaje") String idViaje);
+        Call<List<DataEncomiendaConvertor>> getByVehiculo(@Path("idViaje") String idViaje);
 
         @GET("/lcbsapi/rest/encomiendas")
-        Call<List<DataEncomienda>> getAll();
+        Call<List<DataEncomiendaConvertor>> getAll();
 
         @GET("/lcbsapi/rest/coche/{cocheId}/encomiendas/{id}")
-        Call<DataEncomienda> getById(@Path("cocheId") int cocheId, @Path("id") int id);
+        Call<DataEncomiendaConvertor> getById(@Path("cocheId") int cocheId, @Path("id") int id);
     }
 }
 

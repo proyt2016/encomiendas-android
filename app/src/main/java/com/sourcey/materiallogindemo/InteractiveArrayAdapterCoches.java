@@ -1,7 +1,6 @@
 package com.sourcey.materiallogindemo;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,16 +8,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.sourcey.materiallogindemo.Shares.DataEncomienda;
 import com.sourcey.materiallogindemo.Shares.DataVehiculo;
-import com.sourcey.materiallogindemo.Shares.DataViaje;
-import com.sourcey.materiallogindemo.api.EncomiendaApi;
+import com.sourcey.materiallogindemo.Shares.DataViajeConvertor;
 
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by maxi on 15/08/16.
@@ -58,7 +51,7 @@ public class InteractiveArrayAdapterCoches extends ArrayAdapter<DataVehiculo> {
                 public void onClick(View v) {
 
                     if(flag == 1){
-                        final DataViaje viaje = (DataViaje) v.getTag();
+                        final DataViajeConvertor viaje = (DataViajeConvertor) v.getTag();
 
                     }
 

@@ -16,14 +16,11 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.sourcey.materiallogindemo.Shares.DataEncomienda;
+import com.sourcey.materiallogindemo.Shares.DataEncomiendaConvertor;
 import com.sourcey.materiallogindemo.Shares.DataEstadosEncomienda;
-import com.sourcey.materiallogindemo.Shares.DataVehiculo;
 import com.sourcey.materiallogindemo.api.EncomiendaApi;
 import com.sourcey.materiallogindemo.api.EstadoApi;
-import com.sourcey.materiallogindemo.api.VehiculoApi;
 import com.sourcey.materiallogindemo.com.google.zxing.integration.android.IntentIntegrator;
-import com.sourcey.materiallogindemo.com.google.zxing.integration.android.IntentResult;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -36,7 +33,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class BusquedaMasivaManual extends AppCompatActivity implements View.OnClickListener{
-    ArrayAdapter<DataEncomienda> adapter;
+    ArrayAdapter<DataEncomiendaConvertor> adapter;
     TextView t;
     ListView listaEncomiendas;
     Button escaner;
@@ -51,7 +48,7 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
     Button detalle,confirmar;
     CheckBox noProcesada;
     List<String> estados = new ArrayList<>();
-    List<DataEncomienda> listaEnco = new ArrayList<>();
+    List<DataEncomiendaConvertor> listaEnco = new ArrayList<>();
     String codViaje;
 
 
@@ -75,21 +72,21 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
         listaEncomiendas.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
 
-        Call<List<DataEncomienda>> call2 = EncomiendaApi.createService().getByVehiculo(codViaje);
-        call2.enqueue(new Callback<List<DataEncomienda>>() {
+        Call<List<DataEncomiendaConvertor>> call2 = EncomiendaApi.createService().getByVehiculo(codViaje);
+        call2.enqueue(new Callback<List<DataEncomiendaConvertor>>() {
             @Override
-            public void onResponse(Call<List<DataEncomienda>> call, Response<List<DataEncomienda>> response) {
-                List<DataEncomienda> datos = response.body();
+            public void onResponse(Call<List<DataEncomiendaConvertor>> call, Response<List<DataEncomiendaConvertor>> response) {
+                List<DataEncomiendaConvertor> datos = response.body();
                 Farcade.listaEncomiendas = datos;
                 if(Farcade.listaEncomiendas!=null)
                 adapter = new InteractiveArrayAdapterEncomiendas(BusquedaMasivaManual.this, Farcade.listaEncomiendas);
                 listaEncomiendas.setAdapter(adapter);
                 if(Farcade.listaEncomiendas!=null)
-                for (DataEncomienda e : Farcade.listaEncomiendas) {
+                for (DataEncomiendaConvertor e : Farcade.listaEncomiendas) {
                     adapter.notifyDataSetChanged();}
             }
             @Override
-            public void onFailure(Call<List<DataEncomienda>> call, Throwable t) {
+            public void onFailure(Call<List<DataEncomiendaConvertor>> call, Throwable t) {
                 System.out.println("SE CAGO");}
         });
         //CREATE DATA
@@ -111,14 +108,14 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
                 adapter = new InteractiveArrayAdapterEncomiendas(BusquedaMasivaManual.this,getModelNoProcesadas());
                 listaEncomiendas.setAdapter(adapter);
                 if(Farcade.getEncomiendasNoProcesadas()!=null)
-                    for (DataEncomienda e : Farcade.getEncomiendasNoProcesadas()) {
+                    for (DataEncomiendaConvertor e : Farcade.getEncomiendasNoProcesadas()) {
                         adapter.notifyDataSetChanged();}
 
             }else if(noProcesada.isChecked()==false){
                      adapter = new InteractiveArrayAdapterEncomiendas(BusquedaMasivaManual.this,getModel());
                      listaEncomiendas.setAdapter(adapter);
                     if( Farcade.listaEncomiendas!=null)
-                        for (DataEncomienda e : Farcade.listaEncomiendas) {
+                        for (DataEncomiendaConvertor e : Farcade.listaEncomiendas) {
                              adapter.notifyDataSetChanged();}
                     }
             }
@@ -128,7 +125,7 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
         listaEncomiendas.setAdapter(adapter);
         if( Farcade.listaEncomiendas!=null)
         if(Farcade.listaEncomiendas!=null)
-        for (DataEncomienda e : Farcade.listaEncomiendas) {
+        for (DataEncomiendaConvertor e : Farcade.listaEncomiendas) {
             adapter.notifyDataSetChanged();}
         escaner.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -149,17 +146,17 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
         });
 
     }
-    private List<DataEncomienda> getModel() {
-        List<DataEncomienda> list = new ArrayList<DataEncomienda>();
+    private List<DataEncomiendaConvertor> getModel() {
+        List<DataEncomiendaConvertor> list = new ArrayList<DataEncomiendaConvertor>();
 
         if(Farcade.listaEncomiendas!=null)
-        for(DataEncomienda e: Farcade.listaEncomiendas){
+        for(DataEncomiendaConvertor e: Farcade.listaEncomiendas){
             list.add(e);
         }return list;
     }
-    private  List<DataEncomienda> getModelNoProcesadas() {
-        List<DataEncomienda> list = new ArrayList<DataEncomienda>();
-        for(DataEncomienda e: Farcade.getEncomiendasNoProcesadas()) {
+    private  List<DataEncomiendaConvertor> getModelNoProcesadas() {
+        List<DataEncomiendaConvertor> list = new ArrayList<DataEncomiendaConvertor>();
+        for(DataEncomiendaConvertor e: Farcade.getEncomiendasNoProcesadas()) {
             list.add(e);
         }return list;
     }
@@ -177,7 +174,7 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
                        listaEstados =  response.body();
                        final DataEstadosEncomienda estadoNuevo = Farcade.retornarEstado(listaEstados,valOfSpinner);
 
-                        for (final DataEncomienda e : Farcade.listaEncomiendasAcambiar) {
+                        for (final DataEncomiendaConvertor e : Farcade.listaEncomiendasAcambiar) {
 
                             Call<Boolean> call2 = EstadoApi.createService().setEstado(e.getId(),estadoNuevo);
                             call2.enqueue(new Callback<Boolean>() {
@@ -188,19 +185,19 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
                                         noProcesada.setChecked(false);}
 
                                     //traigo las encomiendas
-                                    Call<List<DataEncomienda>> call2 = EncomiendaApi.createService().getByVehiculo(codViaje);
-                                    call2.enqueue(new Callback<List<DataEncomienda>>() {
+                                    Call<List<DataEncomiendaConvertor>> call2 = EncomiendaApi.createService().getByVehiculo(codViaje);
+                                    call2.enqueue(new Callback<List<DataEncomiendaConvertor>>() {
                                         @Override
-                                        public void onResponse(Call<List<DataEncomienda>> call, Response<List<DataEncomienda>> response) {
-                                            List<DataEncomienda> datos = response.body();
+                                        public void onResponse(Call<List<DataEncomiendaConvertor>> call, Response<List<DataEncomiendaConvertor>> response) {
+                                            List<DataEncomiendaConvertor> datos = response.body();
                                             Farcade.listaEncomiendas = datos;
                                             adapter = new InteractiveArrayAdapterEncomiendas(BusquedaMasivaManual.this, Farcade.listaEncomiendas);
                                             listaEncomiendas.setAdapter(adapter);
-                                            for (DataEncomienda e : Farcade.listaEncomiendas) {
+                                            for (DataEncomiendaConvertor e : Farcade.listaEncomiendas) {
                                                 adapter.notifyDataSetChanged();}
                                         }
                                         @Override
-                                        public void onFailure(Call<List<DataEncomienda>> call, Throwable t) {
+                                        public void onFailure(Call<List<DataEncomiendaConvertor>> call, Throwable t) {
                                             System.out.println("SE CAGO");}
                                     });
                                 }
@@ -245,8 +242,8 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
                 public void onResponse(Call<List<DataVehiculo>> call, Response<List<DataVehiculo>> response) {
                     List<DataVehiculo> datos = response.body();
                     for (DataVehiculo dato : datos) {
-                        List<DataEncomienda> encomiendas;
-                        for (DataEncomienda e : encomiendas) {
+                        List<DataEncomiendaConvertor> encomiendas;
+                        for (DataEncomiendaConvertor e : encomiendas) {
                             if (scanContent.equals(e.getId())){
                                 Encuentro = true;
                                 dialogCodigo(1).show();

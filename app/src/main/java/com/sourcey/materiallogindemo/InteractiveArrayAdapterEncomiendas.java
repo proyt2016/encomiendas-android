@@ -12,19 +12,19 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import com.sourcey.materiallogindemo.Shares.DataEncomienda;
+import com.sourcey.materiallogindemo.Shares.DataEncomiendaConvertor;
 
 import java.util.List;
 
 /**
  * Created by maxi on 28/05/2016.
  */
-public class InteractiveArrayAdapterEncomiendas extends ArrayAdapter<DataEncomienda> {
+public class InteractiveArrayAdapterEncomiendas extends ArrayAdapter<DataEncomiendaConvertor> {
 
-    private final List<DataEncomienda> lista;
+    private final List<DataEncomiendaConvertor> lista;
     private final Activity context;
 
-    public InteractiveArrayAdapterEncomiendas(Activity context, List<DataEncomienda> lista){
+    public InteractiveArrayAdapterEncomiendas(Activity context, List<DataEncomiendaConvertor> lista){
         super(context,R.layout.checkbox_list_encomiendas, lista);
         this.context = context;
         this.lista = lista;
@@ -48,7 +48,7 @@ public class InteractiveArrayAdapterEncomiendas extends ArrayAdapter<DataEncomie
 
                 @Override
                 public void onClick(View v) {
-                    DataEncomienda e =(DataEncomienda) v.getTag();
+                    DataEncomiendaConvertor e =(DataEncomiendaConvertor) v.getTag();
                     cambioDeEsado(e).show();
                     /* Intent i = new Intent(context,MenuDetalleEncomienda.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     i.putExtra("codigoEncomienda",e.getId());
@@ -59,7 +59,7 @@ public class InteractiveArrayAdapterEncomiendas extends ArrayAdapter<DataEncomie
 
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    DataEncomienda element = (DataEncomienda) viewHolder.checkbox.getTag();
+                    DataEncomiendaConvertor element = (DataEncomiendaConvertor) viewHolder.checkbox.getTag();
                     element.setSelected(buttonView.isChecked());
                     if (element.isSelected()) {
                         Farcade.listaEncomiendasAcambiar.add(element);
@@ -81,7 +81,7 @@ public class InteractiveArrayAdapterEncomiendas extends ArrayAdapter<DataEncomie
         return view;
 
     }
-    private AlertDialog cambioDeEsado(DataEncomienda e)
+    private AlertDialog cambioDeEsado(DataEncomiendaConvertor e)
     {   AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
         alertDialogBuilder.setTitle("Detalle de Encomienda:");
         alertDialogBuilder.setMessage("Id:"+"  "+e.getId()+"\n"+"\n"

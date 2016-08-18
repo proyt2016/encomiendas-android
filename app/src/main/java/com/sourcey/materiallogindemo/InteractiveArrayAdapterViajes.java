@@ -9,10 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.sourcey.materiallogindemo.Shares.DataEncomienda;
-import com.sourcey.materiallogindemo.Shares.DataRecorrido;
-import com.sourcey.materiallogindemo.Shares.DataVehiculo;
-import com.sourcey.materiallogindemo.Shares.DataViaje;
+import com.sourcey.materiallogindemo.Shares.DataEncomiendaConvertor;
+import com.sourcey.materiallogindemo.Shares.DataViajeConvertor;
 import com.sourcey.materiallogindemo.api.EncomiendaApi;
 
 import java.util.List;
@@ -25,12 +23,12 @@ import retrofit2.Response;
 /**
  * Created by maxi on 01/06/2016.
  */
-public class InteractiveArrayAdapterViajes extends ArrayAdapter<DataViaje>{
-    private final List<DataViaje> lista;
+public class InteractiveArrayAdapterViajes extends ArrayAdapter<DataViajeConvertor>{
+    private final List<DataViajeConvertor> lista;
     private final Activity context;
     private int flag = 0;
 
-    public InteractiveArrayAdapterViajes(Activity context, List<DataViaje> lista, int flag){
+    public InteractiveArrayAdapterViajes(Activity context, List<DataViajeConvertor> lista, int flag){
         super(context,R.layout.lista_coches_items, lista);
         this.context = context;
         this.lista = lista;
@@ -59,13 +57,13 @@ public class InteractiveArrayAdapterViajes extends ArrayAdapter<DataViaje>{
                 public void onClick(View v) {
 
                     if(flag == 1){
-                    final DataViaje viaje = (DataViaje) v.getTag();
+                    final DataViajeConvertor viaje = (DataViajeConvertor) v.getTag();
 
-                        Call<List<DataEncomienda>> call = EncomiendaApi.createService().getByVehiculo(viaje.getId());
-                        call.enqueue(new Callback<List<DataEncomienda>>() {
+                        Call<List<DataEncomiendaConvertor>> call = EncomiendaApi.createService().getByVehiculo(viaje.getId());
+                        call.enqueue(new Callback<List<DataEncomiendaConvertor>>() {
                             @Override
-                            public void onResponse(Call<List<DataEncomienda>> call, Response<List<DataEncomienda>> response) {
-                                List<DataEncomienda> datos = response.body();
+                            public void onResponse(Call<List<DataEncomiendaConvertor>> call, Response<List<DataEncomiendaConvertor>> response) {
+                                List<DataEncomiendaConvertor> datos = response.body();
                                 Farcade.listaEncomiendas = datos;
                                 Intent i = new Intent(context, BusquedaMasivaManual.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 i.putExtra("codigo", viaje.getId());
@@ -73,14 +71,14 @@ public class InteractiveArrayAdapterViajes extends ArrayAdapter<DataViaje>{
                             }
 
                             @Override
-                            public void onFailure(Call<List<DataEncomienda>> call, Throwable t) {
+                            public void onFailure(Call<List<DataEncomiendaConvertor>> call, Throwable t) {
                                 System.out.println("onFailure");
                             }
                         });
 
                     }
                     if(flag == 2){
-                        DataViaje viaje = (DataViaje) v.getTag();
+                        DataViajeConvertor viaje = (DataViajeConvertor) v.getTag();
                         Intent i = new Intent(context, ListadoDeCoches.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         i.putExtra("codigo", viaje.getId());
                         Farcade.viajeSeleccionado = viaje;

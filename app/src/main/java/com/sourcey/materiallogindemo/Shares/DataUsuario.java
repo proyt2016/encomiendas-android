@@ -14,14 +14,14 @@ public class DataUsuario extends DataPersona {
     private String redSocialUsada;
     private String idRedSocial;
     private DataCuponera cuponera;
-    private List<DataEncomienda> encomiendas;
+    private List<DataEncomiendaConvertor> encomiendas;
     private List<DataNotificacion> notificaciones;
 
 
 
     public DataUsuario() {}
 
-    public DataUsuario(String id, String nom, String ape, DataEmail mail, List<DataTelefono> tels, Date fecNac, Boolean elim, String nomMos, String clave, String redSoc, String idRedsoc, DataCuponera cup, List<DataEncomienda> enc, List<DataNotificacion> not) {
+    public DataUsuario(String id, String nom, String ape, DataEmail mail, List<DataTelefono> tels, Date fecNac, Boolean elim, String nomMos, String clave, String redSoc, String idRedsoc, DataCuponera cup, List<DataEncomiendaConvertor> enc, List<DataNotificacion> not) {
         super(id, ape, mail, tels, fecNac, elim);
         this.nombreAMostrar = nomMos;
         this.clave = clave;
@@ -72,11 +72,11 @@ public class DataUsuario extends DataPersona {
         return this.cuponera;
     }
 
-    public void setEncomiendas(List<DataEncomienda> val){
+    public void setEncomiendas(List<DataEncomiendaConvertor> val){
         this.encomiendas = val;
     }
 
-    public List<DataEncomienda> getEncomiendas(){
+    public List<DataEncomiendaConvertor> getEncomiendas(){
         return this.encomiendas;
     }
 
