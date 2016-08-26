@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFFFF">
+    android:background="@color/white">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:background="#050505">
         <TextView
             android:id="@+id/txt"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:padding="15dp"
-            android:layout_gravity="center"
-            android:text="Listado de Coches"
+            android:layout_marginLeft="50dp"
+            android:text="SELECCIONE UN ESTADO"
             android:textSize="20dip"
             android:textColor="@color/white"
             android:textStyle="bold"
@@ -23,18 +23,41 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="65dp"
-        android:background="#9eff8c8c">
+        android:layout_height="70dp"
+        android:layout_marginTop="75dp"
+        android:background="@color/white">
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_marginLeft="135dp"
+            android:id="@+id/spinner"
+            android:textAlignment="center"
+
+            android:spinnerMode="dialog"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/boton_redondo"
+
+            android:overlapAnchor="false" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="175dp"
+        android:background="@color/black">
 
         <TextView
             android:id="@+id/titulo2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="12dp"
+           android:layout_marginLeft="70dp"
             android:text="SELECCIONE UN COCHE"
-            android:textSize="19dip"
+            android:textSize="20dip"
             android:textColor="@color/white"/>
 
     </LinearLayout>
@@ -42,7 +65,7 @@
 <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="85dp">
+        android:layout_marginTop="230dp">
 
         <ListView
             android:id="@+id/listado"
@@ -58,4 +81,4 @@
 
 
 
-</LinearLayout>
+</RelativeLayout>

@@ -7,33 +7,26 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="271dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:id="@+id/linearLayout5">
             <TextView
                 android:id="@+id/recorrido"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:padding="3dp"
-                android:textSize="13dip"
+                android:layout_marginLeft="15dp"
+                android:textSize="15dip"
                 android:textColor="@color/black"
                 />
             <TextView
                 android:id="@+id/horario"
                 android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:padding="2dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="15dp"
                 android:textSize="12dip"
                 android:textColor="@color/primary_dark_material_light"
                 />
-            <TextView
-                android:id="@+id/idCoche"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:padding="2dp"
-                android:textSize="10dip"
-                android:textColor="@color/primary_dark_material_light"
-                />
-        </LinearLayout>
+    </LinearLayout>
 
         <LinearLayout
             android:orientation="vertical"
@@ -58,7 +51,7 @@
             android:clickable="true"
             android:onClick="onClick"
             android:background="@drawable/siguiente"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="8dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
 

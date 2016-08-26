@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by maxi on 05/07/16.
  */
-public class DataTerminal extends DataPuntoRecorrido {
+public class DataTerminal extends DataPuntoRecorridoConverter {
 
     private List<DataTelefono> telefonosContacto;
     private List<DataEmail> mailsDeContacto;

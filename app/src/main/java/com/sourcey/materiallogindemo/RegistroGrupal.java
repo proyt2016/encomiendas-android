@@ -4,6 +4,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,7 +47,7 @@ public class RegistroGrupal extends AppCompatActivity implements View.OnClickLis
         listadoRecorridos = (ListView) findViewById(R.id.listadoCoches);
         filtro = (EditText) findViewById(R.id.inputSearch);
         listadoRecorridos.setTextFilterEnabled(true);
-        filtro.setOnClickListener(this);
+        filtro.addTextChangedListener(filterTextWatcher);
 
         Call<List<DataViajeConvertor>> call = ViajeApi.createService().getViajesPorTerminal(codTerminal);
         call.enqueue(new Callback<List<DataViajeConvertor>>() {
@@ -52,63 +55,53 @@ public class RegistroGrupal extends AppCompatActivity implements View.OnClickLis
             public void onResponse(Call<List<DataViajeConvertor>> call, Response<List<DataViajeConvertor>> response) {
                 List<DataViajeConvertor> listaViajes = response.body();
                 System.out.println(listaViajes);
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
 
 
-                        if (flag == 1) {
-                           adapter = new InteractiveArrayAdapterViajes(RegistroGrupal.this, listaViajes, 1);
-                           listadoRecorridos.setAdapter(adapter);
-                        }
-                        if (flag == 2) {
-                           adapter = new InteractiveArrayAdapterViajes(RegistroGrupal.this, listaViajes, 2);
-                           listadoRecorridos.setAdapter(adapter);
-                        }
-
-                    } else {
-                        responseNull().show();
+                    if (flag == 1) {
+                        adapter = new InteractiveArrayAdapterViajes(RegistroGrupal.this, listaViajes, 1);
+                        listadoRecorridos.setAdapter(adapter);
                     }
+                    if (flag == 2) {
+                        adapter = new InteractiveArrayAdapterViajes(RegistroGrupal.this, listaViajes, 2);
+                        listadoRecorridos.setAdapter(adapter);
+                    }
+
+                } else {
+                    responseNull().show();
                 }
+            }
 
             @Override
             public void onFailure(Call<List<DataViajeConvertor>> call, Throwable t) {
-                System.out.println("onFailure"+"-------->ERROR:"+" "+t.getCause());}
+                System.out.println("onFailure" + "-------->ERROR:" + " " + t.getCause());
+            }
         });
 
-
-
-        //SE CARGA ADAPTADOR EVITANDO CONFLICOS CON LISTVIEW
-           /* for (DataRecorridoConvertor t : l) {
-                adapter.notifyDataSetChanged();
-            }*/
-
-/*
-        if (filtro.getText() != null || filtro.getText().toString() != " ") {
-            filtro.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-                    RegistroGrupal.this.adapter.getFilter().filter(arg0);
-                }
-
-                @Override
-                public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-                }
-
-                @Override
-                public void afterTextChanged(Editable arg0) {
-                }
-            });
-        }*/
     }
-    /*private List<DataRecorridoConvertor> getModel() {
-        List<DataRecorridoConvertor> list = new ArrayList<DataRecorridoConvertor>();
-        for(DataRecorridoConvertor c: Farcade.listaCoches){
-            list.add(c);
-        }return list;
-    }*/
-       @Override
-       public void onClick(View v) {
 
-       }
+    @Override
+    public void onClick(View v) {
+
+
+    }
+    private TextWatcher filterTextWatcher = new TextWatcher() {
+        @Override
+        public void afterTextChanged(Editable s) {}
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count,
+                                      int after) {}
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before,
+                                  int count) {
+            if (adapter != null) {
+                adapter.getFilter().filter(s);
+            } else {
+                Log.d("filter", "no filter availible");
+            }
+        }
+    };
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

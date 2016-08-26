@@ -6,10 +6,7 @@ package com.sourcey.materiallogindemo.Shares;
 public class DataEstadosEncomienda {
 
     private String id;
-
     private String nombre;
-
-
 
     public DataEstadosEncomienda() {
         id = "";
@@ -19,6 +16,10 @@ public class DataEstadosEncomienda {
     public DataEstadosEncomienda(String id, String nom) {
         this.id = id;
         this.nombre = nom;
+    }
+
+    public String toString(){
+        return this.getNombre();
     }
 
     public void setId(String val){

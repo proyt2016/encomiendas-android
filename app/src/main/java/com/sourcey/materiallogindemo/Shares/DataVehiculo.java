@@ -7,9 +7,9 @@ import java.util.List;
  * Created by maxi on 05/07/16.
  */
 public class DataVehiculo {
-
     private String id;
-    private String numeroDataVehiculo;
+
+    private String numeroVehiculo;
     private String matricula;
     private String marca;
     private String modelo;
@@ -20,11 +20,12 @@ public class DataVehiculo {
     private List<DataMantenimientoVehiculo> mantenimientos;
     private Boolean eliminado;
 
-    public DataVehiculo(){}
+
+    public DataVehiculo() {}
 
     public DataVehiculo(String id, String numV, String mat, String mar, String mod, Integer anioFab, Date fecAlta, Integer cantAs, Boolean conG, List<DataMantenimientoVehiculo> mant, Boolean elim) {
         this.id = id;
-        this.numeroDataVehiculo = numV;
+        this.numeroVehiculo = numV;
         this.matricula = mat;
         this.marca = mar;
         this.modelo = mod;
@@ -36,10 +37,6 @@ public class DataVehiculo {
         this.eliminado = elim;
     }
 
-    public String toString(){
-        return this.marca;
-    }
-
     public void setId(String val){
         this.id = val;
     }
@@ -49,11 +46,11 @@ public class DataVehiculo {
     }
 
     public void setNumeroVehiculo(String val){
-        this.numeroDataVehiculo = val;
+        this.numeroVehiculo = val;
     }
 
     public String getNumeroVehiculo(){
-        return this.numeroDataVehiculo;
+        return this.numeroVehiculo;
     }
 
     public void setMatricula(String val){

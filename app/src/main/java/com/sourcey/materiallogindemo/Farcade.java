@@ -12,9 +12,29 @@ import java.util.List;
  * Created by maxi on 16/05/2016.
  */
 public class Farcade {
-  static List<DataEncomiendaConvertor> listaEncomiendas = new ArrayList<>();
+
+    static List<DataEncomiendaConvertor> listaEncomiendas = new ArrayList<>();
     static List<DataEncomiendaConvertor> listaEncomiendasAcambiar  = new ArrayList<>();
-    static List<DataVehiculo> listaCoches = new ArrayList<>();
+    static DataVehiculo cocheSeleccionado = new DataVehiculo();
+
+    static boolean flag;
+
+    public boolean getFlag(){
+       return flag;
+    }
+
+    public void setFlag(boolean caca){
+        flag = caca;
+
+    }
+
+    public DataVehiculo getCocheSeleccionado(){
+        return  cocheSeleccionado;
+    }
+
+    public void setCocheSeleccionado(DataVehiculo coche){
+        cocheSeleccionado = coche;
+    }
 
     static DataViajeConvertor viajeSeleccionado = new DataViajeConvertor();
 
@@ -30,7 +50,7 @@ public class Farcade {
         List<DataEncomiendaConvertor> noProcesadas = new ArrayList<>();
         if( Farcade.listaEncomiendas!=null)
         for(DataEncomiendaConvertor e: Farcade.listaEncomiendas){
-            if(e.getEstadoActual().getNombre().equals("En Viaje")){
+            if(e.getEstadoActual().getNombre().equals("En viaje")){
                 noProcesadas.add(e);
             }
         }return noProcesadas;
@@ -44,6 +64,22 @@ public class Farcade {
         }return null;
     }
 
+    public void setListaEncomiendasAcambiar(List<DataEncomiendaConvertor> lista){
+        listaEncomiendasAcambiar = lista;
+    }
+
+    public List<DataEncomiendaConvertor> getListaEncomiendasAcambiar(){
+        return listaEncomiendasAcambiar;
+    }
+
+    public DataEncomiendaConvertor findEncomienda(List<DataEncomiendaConvertor> lista, DataEncomiendaConvertor enco){
+        for(DataEncomiendaConvertor encomienda : lista){
+            if(encomienda.equals(enco)){
+                return encomienda;
+            }
+        }
+        return null;
+    }
 
 
 }

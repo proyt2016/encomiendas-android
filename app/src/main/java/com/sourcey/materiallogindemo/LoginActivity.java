@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
+import com.sourcey.materiallogindemo.Shares.DataEmpleado;
 import com.sourcey.materiallogindemo.api.EmpleadoApi;
 
 import butterknife.Bind;
@@ -63,17 +64,17 @@ public class LoginActivity extends AppCompatActivity {
         empleado.addProperty("usuario",_userText.getText().toString());
         empleado.addProperty("clave",_passwordText.getText().toString());
 
-        Call<Boolean> call = EmpleadoApi.createService().login(empleado);
-        call.enqueue(new Callback<Boolean>() {
+        Call<DataEmpleado> call = EmpleadoApi.createService().login(empleado);
+        call.enqueue(new Callback<DataEmpleado>() {
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+            public void onResponse(Call<DataEmpleado> call, Response<DataEmpleado> response) {
                 if(response.isSuccessful()) {
 
-                    Boolean existe = response.body();
+                    DataEmpleado empleado = response.body();
 
-                    if (existe!=null) {
+                    if (empleado!=null) {
 
-                        if (existe == true) {
+                        if (empleado.getEmail().getEmail().equals(_userText.getText().toString()) && empleado.getClave().equals(_passwordText.getText().toString())) {
                             new android.os.Handler().postDelayed(
                                     new Runnable() {
                                         public void run() {
@@ -83,20 +84,29 @@ public class LoginActivity extends AppCompatActivity {
                                         }
                                     }, 3000);
                         } else {
-                            System.out.println("No existe Usuario Registrado");
-                            onLoginFailed();
-                            progressDialog.dismiss();
-                        }
+                                if(empleado.getEmail().getEmail() != _userText.getText().toString()){
+                                    System.out.println("Usuario ingresado incorrecto");
+                                    Toast.makeText(LoginActivity.this,"Usuario ingresado incorrecto",Toast.LENGTH_LONG).show();
+                                    _loginButton.setEnabled(true);
+                                    progressDialog.dismiss();
+                                }else {
+                                       System.out.println("Contrasenia ingresada incorrecta");
+                                       Toast.makeText(LoginActivity.this,"Contrasenia ingresada incorrecta",Toast.LENGTH_LONG).show();
+                                        _loginButton.setEnabled(true);
+                                   }
+                    }
                     } else {
-                        onLoginFailed();
-                        System.out.println("Fallo la consulta, Response = NULL, contactar con LacBus");
+                      //  onLoginFailed();
+                        System.out.println("No existe Usuario Registrado");
+                        Toast.makeText(LoginActivity.this,"Usuario y/o Contraseña Incorrectos",Toast.LENGTH_LONG).show();
+                        _loginButton.setEnabled(true);
                         progressDialog.dismiss();
                     }
                 }
             }
 
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
+            public void onFailure(Call<DataEmpleado> call, Throwable t) {
                 System.out.println("Fallo el Servicio, contactar LacBus");
                 onLoginFailed();
                 progressDialog.dismiss();
@@ -116,7 +126,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "SE ROMPIO", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Fallo el Servicio, contactar LacBus", Toast.LENGTH_LONG).show();
 
         _loginButton.setEnabled(true);
     }

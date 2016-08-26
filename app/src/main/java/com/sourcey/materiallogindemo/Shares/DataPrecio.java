@@ -6,15 +6,15 @@ package com.sourcey.materiallogindemo.Shares;
 public class DataPrecio {
 
     private String id;
-    private DataPuntoRecorrido origen;
-    private DataPuntoRecorrido destino;
+    private DataPuntoRecorridoConverter origen;
+    private DataPuntoRecorridoConverter destino;
     private float monto;
 
     public DataPrecio() {
 
     }
 
-    public DataPrecio(DataPuntoRecorrido orig, DataPuntoRecorrido dest, float monto) {
+    public DataPrecio(DataPuntoRecorridoConverter orig, DataPuntoRecorridoConverter dest, float monto) {
         this.origen = orig;
         this.destino = dest;
         this.monto = monto;
@@ -28,19 +28,19 @@ public class DataPrecio {
         return this.id;
     }
 
-    public void setOrigen(DataPuntoRecorrido val){
+    public void setOrigen(DataPuntoRecorridoConverter val){
         this.origen = val;
     }
 
-    public DataPuntoRecorrido getOrigen(){
+    public DataPuntoRecorridoConverter getOrigen(){
         return this.origen;
     }
 
-    public void setDestino(DataPuntoRecorrido val){
+    public void setDestino(DataPuntoRecorridoConverter val){
         this.destino = val;
     }
 
-    public DataPuntoRecorrido getDestino(){
+    public DataPuntoRecorridoConverter getDestino(){
         return this.destino;
     }
 

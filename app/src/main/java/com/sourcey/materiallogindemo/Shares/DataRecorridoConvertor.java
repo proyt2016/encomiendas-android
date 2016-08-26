@@ -10,7 +10,7 @@ public class DataRecorridoConvertor {
     private String id;
 
     private String nombre;
-    private List<DataPuntoRecorrido> puntosDeRecorrido;
+    private List<DataPuntoRecorridoConverter> puntosDeRecorrido;
     private List<DataGrupoHorario> horarios;
     private List<DataPrecio> precios;
     private Boolean eliminado;
@@ -19,7 +19,7 @@ public class DataRecorridoConvertor {
 
     public DataRecorridoConvertor() {}
 
-    public DataRecorridoConvertor(String id, String nom, List<DataPuntoRecorrido> punRec, List<DataGrupoHorario> hor, List<DataPrecio> prec, Boolean elim) {
+    public DataRecorridoConvertor(String id, String nom, List<DataPuntoRecorridoConverter> punRec, List<DataGrupoHorario> hor, List<DataPrecio> prec, Boolean elim) {
         this.id = id;
         this.nombre = nom;
         this.puntosDeRecorrido = punRec;
@@ -44,11 +44,11 @@ public class DataRecorridoConvertor {
         return this.nombre;
     }
 
-    public void setPuntosDeRecorrido(List<DataPuntoRecorrido> val){
+    public void setPuntosDeRecorrido(List<DataPuntoRecorridoConverter> val){
         this.puntosDeRecorrido = val;
     }
 
-    public List<DataPuntoRecorrido> getPuntosDeRecorrido(){
+    public List<DataPuntoRecorridoConverter> getPuntosDeRecorrido(){
         return this.puntosDeRecorrido;
     }
 

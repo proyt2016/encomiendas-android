@@ -9,8 +9,8 @@ import java.util.List;
 public class DataEncomiendaConvertor {
 
     private String id;
-    private DataPuntoRecorrido origen;
-    private DataPuntoRecorrido destino;
+    private DataPuntoRecorridoConverter origen;
+    private DataPuntoRecorridoConverter destino;
     private DataUsuario emisor;
     private String ciEmisor;
     private DataTelefono telEmisor;
@@ -24,6 +24,8 @@ public class DataEncomiendaConvertor {
     private DataViajeConvertor viajeAsignado;
     private List<DataHistorialEstadosEncomienda> estados;
     private DataEstadosEncomienda estadoActual;
+    private int codigoEncomienda;
+    private DataVehiculo cocheAsignado;
     private Date fechaIngreso;
     private Date fechaEntrega;
     private boolean retiraEnSucursal;
@@ -32,11 +34,9 @@ public class DataEncomiendaConvertor {
 
 
 
-
-
     public DataEncomiendaConvertor() {}
 
-    public DataEncomiendaConvertor(String id, DataPuntoRecorrido orig, DataPuntoRecorrido dest, DataUsuario emi, String ciEm, DataTelefono telEm, DataUsuario rec, String ciRec, DataTelefono telRec, String dirRec, DataReglaCobroEncomienda regCob, float mont, boolean pagaRec, DataViajeConvertor viajeAs, List<DataHistorialEstadosEncomienda> estds, DataEstadosEncomienda estAc, Date fecIng, Date fecEn, boolean retiraSuc, boolean elim, boolean selected) {
+    public DataEncomiendaConvertor(String id, DataPuntoRecorridoConverter orig, DataPuntoRecorridoConverter dest, DataUsuario emi, String ciEm, DataTelefono telEm, DataUsuario rec, String ciRec, DataTelefono telRec, String dirRec, DataReglaCobroEncomienda regCob, float mont, boolean pagaRec, DataViajeConvertor viajeAs, List<DataHistorialEstadosEncomienda> estds, DataEstadosEncomienda estAc, Date fecIng, Date fecEn, boolean retiraSuc, boolean elim, DataVehiculo codCoche, int codEnco,boolean selected) {
         this.id = id;
         this.origen = orig;
         this.destino = dest;
@@ -57,14 +57,38 @@ public class DataEncomiendaConvertor {
         this.fechaEntrega = fecEn;
         this.retiraEnSucursal = retiraSuc;
         this.eliminada = elim;
+        this.codigoEncomienda = codEnco;
+        this.cocheAsignado = codCoche;
         this.selected = selected;
+    }
+
+    public String toString(){
+        return "Codigo:"+" "+this.codigoEncomienda+" "+"Estado:"+" "+this.estadoActual;
     }
 
     public boolean isSelected(){
         return this.selected;
     }
-    public void setSelected(Boolean selected){
-        this.selected = selected;
+
+    public void setSelected(boolean bol){
+        this.selected = bol;
+    }
+
+
+
+    public void setCodigoEncomienda(int codEnco){
+        this.codigoEncomienda = codEnco;
+    }
+
+    public int getCodigoEncomienda(){
+        return this.codigoEncomienda;
+    }
+    public void setCocheAsignado(DataVehiculo val){
+        this.cocheAsignado = val;
+    }
+
+    public DataVehiculo getCocheAsignado(){
+        return this.cocheAsignado;
     }
 
     public void setId(String val){
@@ -75,19 +99,19 @@ public class DataEncomiendaConvertor {
         return this.id;
     }
 
-    public void setOrigen(DataPuntoRecorrido val){
+    public void setOrigen(DataPuntoRecorridoConverter val){
         this.origen = val;
     }
 
-    public DataPuntoRecorrido getOrigen(){
+    public DataPuntoRecorridoConverter getOrigen(){
         return this.origen;
     }
 
-    public void setDestino(DataPuntoRecorrido val){
+    public void setDestino(DataPuntoRecorridoConverter val){
         this.destino = val;
     }
 
-    public DataPuntoRecorrido getDestino(){
+    public DataPuntoRecorridoConverter getDestino(){
         return this.destino;
     }
 

@@ -3,7 +3,7 @@ package com.sourcey.materiallogindemo.Shares;
 /**
  * Created by maxi on 05/07/16.
  */
-public class DataPuntoRecorrido {
+public class DataPuntoRecorridoConverter {
 
     private String id;
     private String nombre;

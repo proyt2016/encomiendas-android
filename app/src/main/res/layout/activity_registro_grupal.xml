@@ -22,7 +22,7 @@
             android:padding="15dp"
             android:layout_gravity="center"
             android:layout_marginLeft="0dp"
-            android:text="Listado Coches"
+            android:text="Listado de Viajes"
             android:textSize="20dip"
             android:textColor="@color/white"
             android:textStyle="bold"
@@ -56,7 +56,7 @@
         android:layout_below="@+id/inputSearch"
         android:layout_alignParentLeft="true"
         android:textFilterEnabled="true"
-        android:layout_marginLeft="16dp"
+
         android:background="#b7ffffff" />
 
 

@@ -63,8 +63,18 @@ public class InteractiveArrayAdapterEncomiendas extends ArrayAdapter<DataEncomie
                     element.setSelected(buttonView.isChecked());
                     if (element.isSelected()) {
                         Farcade.listaEncomiendasAcambiar.add(element);
+                        System.out.println("Objeto Agregado a lista Estados ----------->" + " " + "ID:" + " " + element.getCodigoEncomienda());
                     }
+                    if(!element.isSelected()){
+                        Farcade fabrica = new Farcade();
+                        DataEncomiendaConvertor enco = fabrica.findEncomienda(fabrica.getListaEncomiendasAcambiar(), element);
+                        if (enco != null) {
+                            fabrica.getListaEncomiendasAcambiar().remove(element);
+                            System.out.println("Objeto Borrado----------->" + " " + "ID:" + " " + element.getId());
+                        }
 
+
+                    }
                 }
             });
             view.setTag(viewHolder);
@@ -86,10 +96,10 @@ public class InteractiveArrayAdapterEncomiendas extends ArrayAdapter<DataEncomie
         alertDialogBuilder.setTitle("Detalle de Encomienda:");
         alertDialogBuilder.setMessage("Id:"+"  "+e.getId()+"\n"+"\n"
                                         +"Estado Actual:"+"  "+e.getEstadoActual().getNombre()+"\n"+"\n"
-                                        +"Emisor:"+"  "+e.getEmisor().getNombreAMostrar()+"\n"+"\n"
-                                        +"Receptor:"+" "+e.getReceptor().getNombreAMostrar()+"\n"+"\n"
+                                       /* +"Emisor:"+"  "+e.getEmisor().getNombrePila()+"\n"+"\n"
+                                        +"Receptor:"+" "+e.getReceptor().getNombrePila()+"\n"+"\n"
                                         +"Fecha emision:"+"  "+e.getFechaEntrega().toString()+"\n"+"\n"
-                                        +"Fecha entrega:"+" "+e.getFechaEntrega().toString());
+                                        +"Fecha entrega:"+" "+e.getFechaEntrega().toString()*/);
         alertDialogBuilder.setIcon(R.drawable.boton_detalle);;
         DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
             @Override

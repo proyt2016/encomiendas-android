@@ -1,7 +1,9 @@
 package com.sourcey.materiallogindemo.api;
 
 
+import com.google.gson.JsonObject;
 import com.sourcey.materiallogindemo.Shares.DataEncomiendaConvertor;
+import com.sourcey.materiallogindemo.Shares.DataEstadosEncomienda;
 
 import java.util.List;
 
@@ -9,7 +11,9 @@ import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public class EncomiendaApi {
@@ -20,7 +24,7 @@ public class EncomiendaApi {
     public static EncomiendaApiInterface createService() {
         if (encomiendaService == null) {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://192.168.1.41:8080")
+                    .baseUrl("http://192.168.1.191:8080")
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(httpClient.build())
                     .build();
@@ -35,11 +39,15 @@ public class EncomiendaApi {
         @GET("/lcbsapi/rest/encomiendas/getencomiendasporvehiculo/{idViaje}")
         Call<List<DataEncomiendaConvertor>> getByVehiculo(@Path("idViaje") String idViaje);
 
-        @GET("/lcbsapi/rest/encomiendas")
-        Call<List<DataEncomiendaConvertor>> getAll();
+        @GET("/lcbsapi/rest/encomiendas/getestados/1/99998888")
+        Call<List<DataEstadosEncomienda>> getAllEstados();
 
-        @GET("/lcbsapi/rest/coche/{cocheId}/encomiendas/{id}")
-        Call<DataEncomiendaConvertor> getById(@Path("cocheId") int cocheId, @Path("id") int id);
+        @POST("/lcbsapi/rest/encomiendas/setestadoencomienda/{idEncomienda}")
+        Call<Void> setEstadoEncomienda(@Path("idEncomienda") String idEncomienda, @Body DataEstadosEncomienda estadosEncomienda);
+
+        @GET("/lcbsapi/rest/encomiendas/getencomiendaxcodigo/{codigoEnc}")
+        Call<DataEncomiendaConvertor> getEncomiendaPorCodigo(@Path("codigoEnc") int codEncomienda);
+
     }
 }
 

@@ -8,9 +8,6 @@ import java.util.List;
  */
 public class DataUsuario extends DataPersona {
 
-
-    private String nombreAMostrar;
-    private String clave;
     private String redSocialUsada;
     private String idRedSocial;
     private DataCuponera cuponera;
@@ -21,31 +18,20 @@ public class DataUsuario extends DataPersona {
 
     public DataUsuario() {}
 
-    public DataUsuario(String id, String nom, String ape, DataEmail mail, List<DataTelefono> tels, Date fecNac, Boolean elim, String nomMos, String clave, String redSoc, String idRedsoc, DataCuponera cup, List<DataEncomiendaConvertor> enc, List<DataNotificacion> not) {
-        super(id, ape, mail, tels, fecNac, elim);
-        this.nombreAMostrar = nomMos;
-        this.clave = clave;
+    public DataUsuario(String id, String nm, String ape, DataEmail mail, List<DataTelefono> tels, Date fecNac, Boolean elim, String nomMos, String redSoc, String idRedsoc, DataCuponera cup, List<DataEncomiendaConvertor> enc, List<DataNotificacion> not, String clv) {
+        super.setId(id);
+        super.setNombrePila(nm);
+        super.setApellido(ape);
+        super.setEmail(mail);
+        super.setTelefonosContacto(tels);
+        super.setFechaNacimiento(fecNac);
+        super.setEliminado(elim);
+        super.setClave(clv);
         this.redSocialUsada = redSoc;
         this.idRedSocial = idRedsoc;
         this.cuponera = cup;
         this.encomiendas = enc;
         this.notificaciones = not;
-    }
-
-    public void setNombreAMostrar(String val){
-        this.nombreAMostrar = val;
-    }
-
-    public String getNombreAMostrar(){
-        return this.nombreAMostrar;
-    }
-
-    public void setClave(String val){
-        this.clave = val;
-    }
-
-    public String getClave(){
-        return this.clave;
     }
 
     public void setRedSocialUsada(String val){

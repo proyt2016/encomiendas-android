@@ -69,8 +69,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         //SE CARGAR VISTA LOGIN
-       // Intent intent = new Intent(this, LoginActivity.class);
-       // startActivity(intent);
+     //  Intent intent = new Intent(this, LoginActivity.class);
+      // startActivity(intent);
         }
     private TextWatcher filterTextWatcher = new TextWatcher() {
 

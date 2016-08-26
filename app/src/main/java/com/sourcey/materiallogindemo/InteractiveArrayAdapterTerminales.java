@@ -31,7 +31,7 @@ public class InteractiveArrayAdapterTerminales extends ArrayAdapter<DataTerminal
     }
     static class ViewHolder {
         protected TextView titulo;
-        protected TextView subTitulo;
+        //protected TextView subTitulo;
         protected Button boton;
     }
 
@@ -58,7 +58,7 @@ public class InteractiveArrayAdapterTerminales extends ArrayAdapter<DataTerminal
             view = inflator.inflate(R.layout.lista_terminales_items,null);
             final ViewHolder viewHolder = new ViewHolder();
             viewHolder.titulo = (TextView) view.findViewById(R.id.titulo);
-            viewHolder.subTitulo = (TextView) view.findViewById(R.id.subTitulo);
+         //   viewHolder.subTitulo = (TextView) view.findViewById(R.id.subTitulo);
             viewHolder.boton = (Button) view.findViewById(R.id.next);
             viewHolder.boton.setOnClickListener(new View.OnClickListener() {
 

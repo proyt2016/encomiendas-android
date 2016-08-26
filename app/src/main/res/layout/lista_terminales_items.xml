@@ -16,20 +16,12 @@
         <TextView
             android:id="@+id/titulo"
             android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:padding="3dp"
-            android:textSize="13dip"
-            android:textColor="@color/black"
-            />
+            android:layout_height="35dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="12dp"
+            android:textSize="15dip"
+            android:textColor="@color/black"/>
 
-        <TextView
-            android:id="@+id/subTitulo"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:padding="2dp"
-            android:textSize="11dip"
-            android:textColor="@color/primary_dark_material_light"
-            />
     </LinearLayout>
 
     <LinearLayout
@@ -42,11 +34,12 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:weightSum="1">
+
         <Button
             style="?android:attr/buttonStyleSmall"
             android:layout_width="30dp"
             android:layout_height="30dp"
-
+            android:layout_marginTop="8dp"
             android:layout_marginLeft="15dp"
             android:id="@+id/next"
             android:layout_gravity="center"
@@ -55,7 +48,6 @@
             android:clickable="true"
             android:onClick="onClick"
             android:background="@drawable/siguiente"
-            android:layout_marginTop="5dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
 

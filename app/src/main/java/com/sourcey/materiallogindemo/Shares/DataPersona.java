@@ -7,35 +7,37 @@ import java.util.List;
  * Created by maxi on 05/07/16.
  */
 public class DataPersona {
-
     private String id;
-
-
+    private String nombrePila;
     private String apellido;
     private DataEmail email;
+    private String clave;
     private List<DataTelefono> telefonosContacto;
     private Date fechaNacimiento;
     private boolean eliminado;
-
-
-    public DataPersona() {}
-
-    public DataPersona(String id,   String ape, DataEmail mail, List<DataTelefono> tels, Date fecNac, Boolean elim) {
-        this.id = id;
-
-        this.apellido = ape;
-        this.email = mail;
-        this.telefonosContacto = tels;
-        this.fechaNacimiento = fecNac;
-        this.eliminado = elim;
-    }
 
     public void setId(String val){
         this.id = val;
     }
 
+    public void setClave(String c){
+        this.clave = c;
+    }
+
+    public String getClave(){
+        return this.clave;
+    }
+
     public String getId(){
         return this.id;
+    }
+
+    public void setNombrePila(String val){
+        this.nombrePila = val;
+    }
+
+    public String getNombrePila(){
+        return this.nombrePila;
     }
 
     public void setApellido(String val){
@@ -78,4 +80,7 @@ public class DataPersona {
     public Boolean getEliminado(){
         return this.eliminado;
     }
+
+
+
 }

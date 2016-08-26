@@ -84,18 +84,17 @@ public class MenuPrincipal extends AppCompatActivity implements NavigationView.O
 
         if (id == R.id.BusquedaMasiva) {
             codTerminal = getIntent().getExtras().getString("idTerminal");
-            System.out.println("------------------------------->"+codTerminal);
-
             int AsignarEncomiendas = 1;
             Intent i = new Intent(MenuPrincipal.this, RegistroGrupal.class);
             i.putExtra("codigo", codTerminal);
             i.putExtra("flag",AsignarEncomiendas);
             startActivity(i);
         } else if (id == R.id.BusquedaIndividual) {
+            /*
             codTerminal = getIntent().getExtras().getString("idTerminal");
             Intent i = new Intent(MenuPrincipal.this, RegistroIndividual.class);
             i.putExtra("codigo", codTerminal);
-            startActivity(i);
+            startActivity(i);*/
         }
         else if (id == R.id.AsignarEncomiendasCoche) {
             codTerminal = getIntent().getExtras().getString("idTerminal");
