@@ -41,6 +41,7 @@ public class RegistroGrupal extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro_grupal);
+
         flag = getIntent().getExtras().getInt("flag");
         codTerminal = getIntent().getExtras().getString("codigo");
 

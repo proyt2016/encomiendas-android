@@ -55,22 +55,29 @@
 
     </LinearLayout>
 
-    <Button
-         style="?android:attr/buttonStyleSmall"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:text="CONFIRMAR"
-         android:id="@+id/button"
-         android:layout_marginTop="500dp"
-         android:background="@drawable/boton_confirmar"/>
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="match_parent"
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/button"
+        android:layout_width="310dp"
+        android:layout_marginLeft="25dp"
         android:layout_height="wrap_content"
-        android:text="ESCANEAR"
+        android:layout_marginTop="500dp"
+        android:background="@color/primary"
+        android:textColor="@color/white"
+
+        android:padding="10dp"
+        android:text="CONFIRMAR"/>
+    <android.support.v7.widget.AppCompatButton
         android:id="@+id/escaner"
+        android:layout_width="310dp"
+        android:layout_marginLeft="25dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="440dp"
-        android:background="@drawable/boton_confirmar"/>
+        android:background="@color/primary"
+        android:textColor="@color/white"
+
+        android:padding="10dp"
+        android:text="ESCANEAR"/>
+
     <Spinner
         android:layout_width="100dp"
         android:layout_height="35dp"

@@ -8,7 +8,6 @@ import java.util.List;
  */
 public class DataVehiculo {
     private String id;
-
     private String numeroVehiculo;
     private String matricula;
     private String marca;

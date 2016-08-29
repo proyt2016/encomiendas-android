@@ -19,24 +19,29 @@ public class DataEncomiendaConvertor {
     private DataTelefono telReceptor;
     private String direccionReceptor;
     private DataReglaCobroEncomienda reglaCobro;
-    private float monto;
-    private boolean pagaReceptor;
+    private Float monto;
+    private Float precio;
+    private Boolean pagaReceptor;
     private DataViajeConvertor viajeAsignado;
     private List<DataHistorialEstadosEncomienda> estados;
     private DataEstadosEncomienda estadoActual;
-    private int codigoEncomienda;
+    private Integer codigoEncomienda;
+
     private DataVehiculo cocheAsignado;
+
     private Date fechaIngreso;
+
     private Date fechaEntrega;
-    private boolean retiraEnSucursal;
-    private boolean eliminada;
+    private Boolean retiraEnSucursal;
+    private Boolean eliminada;
     private boolean selected;
+
 
 
 
     public DataEncomiendaConvertor() {}
 
-    public DataEncomiendaConvertor(String id, DataPuntoRecorridoConverter orig, DataPuntoRecorridoConverter dest, DataUsuario emi, String ciEm, DataTelefono telEm, DataUsuario rec, String ciRec, DataTelefono telRec, String dirRec, DataReglaCobroEncomienda regCob, float mont, boolean pagaRec, DataViajeConvertor viajeAs, List<DataHistorialEstadosEncomienda> estds, DataEstadosEncomienda estAc, Date fecIng, Date fecEn, boolean retiraSuc, boolean elim, DataVehiculo codCoche, int codEnco,boolean selected) {
+    public DataEncomiendaConvertor(String id, DataPuntoRecorridoConverter orig, DataPuntoRecorridoConverter dest, DataUsuario emi, String ciEm, DataTelefono telEm, DataUsuario rec, String ciRec, DataTelefono telRec, String dirRec, DataReglaCobroEncomienda regCob, Float mont, Float prec, Boolean pagaRec, DataViajeConvertor viajeAs, List<DataHistorialEstadosEncomienda> estds, DataEstadosEncomienda estAc, Date fecIng, Date fecEn, Boolean retiraSuc, Boolean elim, DataVehiculo codCoche, int codEnco, boolean selected) {
         this.id = id;
         this.origen = orig;
         this.destino = dest;
@@ -49,8 +54,10 @@ public class DataEncomiendaConvertor {
         this.direccionReceptor = dirRec;
         this.reglaCobro = regCob;
         this.monto = mont;
+        this.precio = prec;
         this.pagaReceptor = pagaRec;
         this.viajeAsignado = viajeAs;
+        this.selected = selected;
         this.estados = estds;
         this.estadoActual = estAc;
         this.fechaIngreso = fecIng;
@@ -59,7 +66,6 @@ public class DataEncomiendaConvertor {
         this.eliminada = elim;
         this.codigoEncomienda = codEnco;
         this.cocheAsignado = codCoche;
-        this.selected = selected;
     }
 
     public String toString(){
@@ -179,19 +185,27 @@ public class DataEncomiendaConvertor {
         return this.reglaCobro;
     }
 
-    public void setMonto(float val){
+    public void setMonto(Float val){
         this.monto = val;
     }
 
-    public float getMonto(){
+    public Float getMonto(){
         return this.monto;
     }
 
-    public void setPagaReceptor(boolean val){
+    public void setPrecio(Float val){
+        this.precio = val;
+    }
+
+    public Float getPrecio(){
+        return this.precio;
+    }
+
+    public void setPagaReceptor(Boolean val){
         this.pagaReceptor = val;
     }
 
-    public boolean getPagaReceptor(){
+    public Boolean getPagaReceptor(){
         return this.pagaReceptor;
     }
 
@@ -235,19 +249,21 @@ public class DataEncomiendaConvertor {
         return this.fechaEntrega;
     }
 
-    public void setRetiraEnSucursal(boolean val){
+    public void setRetiraEnSucursal(Boolean val){
         this.retiraEnSucursal = val;
     }
 
-    public boolean getRetiraEnSucursal(){
+    public Boolean getRetiraEnSucursal(){
         return this.retiraEnSucursal;
     }
 
-    public void setEliminada(boolean val){
+    public void setEliminada(Boolean val){
         this.eliminada = val;
     }
 
-    public boolean getEliminada(){
+    public Boolean getEliminada(){
         return this.eliminada;
     }
-}
+
+
+ }

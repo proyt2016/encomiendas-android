@@ -9,12 +9,14 @@
         android:layout_height="wrap_content"
         android:id="@+id/linearLayout5">
 
+
+
         <TextView
             android:id="@+id/coche"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
 
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="20dp"
            android:textSize="16dp"
             android:textColor="@color/black"
             />
@@ -22,7 +24,7 @@
             android:id="@+id/matricula"
             android:layout_width="300dp"
             android:layout_height="fill_parent"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="20dp"
 
             android:textSize="14dp"
             android:textColor="@color/primary_dark_material_light"
@@ -31,7 +33,7 @@
             android:id="@+id/marca"
             android:layout_width="300dp"
             android:layout_height="fill_parent"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="20dp"
 
             android:textSize="13dp"
             android:textColor="@color/primary_dark_material_light"
@@ -43,31 +45,17 @@
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="95dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_weight="0.21"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:weightSum="1"
-        android:id="@+id/linearLayout4">
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="5dp"
-            android:id="@+id/next"
-            android:layout_gravity="center"
-            android:enabled="true"
-            android:focusable="true"
-            android:clickable="true"
-            android:onClick="onClick"
-            android:background="@drawable/siguiente"
-            android:layout_marginTop="13dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></LinearLayout>
 
-    </LinearLayout>
-</RelativeLayout>
+    <RadioButton
+        android:id="@+id/radio"
+        android:checked="false"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="280dp"
+        android:focusable="false"
+        android:clickable="false"
+        android:layout_height="40dp"
+        android:layout_width="40dp" />
+
+    </RelativeLayout>

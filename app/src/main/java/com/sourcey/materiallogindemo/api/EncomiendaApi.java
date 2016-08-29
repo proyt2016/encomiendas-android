@@ -24,7 +24,7 @@ public class EncomiendaApi {
     public static EncomiendaApiInterface createService() {
         if (encomiendaService == null) {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://192.168.1.191:8080")
+                    .baseUrl("http://192.168.1.41:8080")
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(httpClient.build())
                     .build();
@@ -36,17 +36,21 @@ public class EncomiendaApi {
     }
 
     public interface EncomiendaApiInterface {
-        @GET("/lcbsapi/rest/encomiendas/getencomiendasporvehiculo/{idViaje}")
-        Call<List<DataEncomiendaConvertor>> getByVehiculo(@Path("idViaje") String idViaje);
+        @GET("/lcbsapi/rest/encomiendas/getencomiendasporvehiculo/{idCoche}")
+        Call<List<DataEncomiendaConvertor>> getByVehiculo(@Path("idCoche")final String idCoche);
 
         @GET("/lcbsapi/rest/encomiendas/getestados/1/99998888")
         Call<List<DataEstadosEncomienda>> getAllEstados();
 
         @POST("/lcbsapi/rest/encomiendas/setestadoencomienda/{idEncomienda}")
-        Call<Void> setEstadoEncomienda(@Path("idEncomienda") String idEncomienda, @Body DataEstadosEncomienda estadosEncomienda);
+        Call<Void> setEstadoEncomienda(@Path("idEncomienda")final String idEncomienda, @Body DataEstadosEncomienda estadosEncomienda);
 
         @GET("/lcbsapi/rest/encomiendas/getencomiendaxcodigo/{codigoEnc}")
-        Call<DataEncomiendaConvertor> getEncomiendaPorCodigo(@Path("codigoEnc") int codEncomienda);
+        Call<DataEncomiendaConvertor> getEncomiendaPorCodigo(@Path("codigoEnc")final int codEncomienda);
+
+        @POST("/lcbsapi/rest/encomiendas/asignarencomiendavehiculo/")
+        Call<Void> asignarEncomiendas(@Body JsonObject data);
+
 
     }
 }

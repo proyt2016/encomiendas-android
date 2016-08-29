@@ -12,7 +12,6 @@ public class DataViajeConvertor {
     private String id;
     private DataRecorridoConvertor recorrido;
     private DataHorario horario;
-
     private Date fechaSalida;
     private List<DataEmpleado> empleados;
     private List<DataVehiculo> coches;

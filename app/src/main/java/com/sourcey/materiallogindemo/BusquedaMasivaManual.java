@@ -52,7 +52,7 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
     CheckBox noProcesada;
     List<String> estados = new ArrayList<>();
 
-    String codViaje;
+    String codCoche;
 
 
 
@@ -61,7 +61,7 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
         super.onCreate(icicle);
         setContentView(R.layout.activity_busqueda_masiva_manual);
 
-        codViaje = getIntent().getExtras().getString("codigo");
+        codCoche = getIntent().getExtras().getString("idCoche");
         spinner = (Spinner)findViewById(R.id.spinner);
         listaEncomiendas = (ListView)findViewById(android.R.id.list);
         noProcesada = (CheckBox)findViewById(R.id.NoProcesadas);
@@ -75,18 +75,16 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
         listaEncomiendas.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
 
-        Call<List<DataEncomiendaConvertor>> call2 = EncomiendaApi.createService().getByVehiculo(codViaje);
+        Call<List<DataEncomiendaConvertor>> call2 = EncomiendaApi.createService().getByVehiculo(codCoche);
         call2.enqueue(new Callback<List<DataEncomiendaConvertor>>() {
             @Override
             public void onResponse(Call<List<DataEncomiendaConvertor>> call, Response<List<DataEncomiendaConvertor>> response) {
                 List<DataEncomiendaConvertor> datos = response.body();
+
+                System.out.println("ENCOMIENDAS---------------------"+datos.toString());
                 Farcade.listaEncomiendas = datos;
-                if(Farcade.listaEncomiendas!=null)
-                adapter = new InteractiveArrayAdapterEncomiendas(BusquedaMasivaManual.this, Farcade.listaEncomiendas);
+                adapter = new InteractiveArrayAdapterEncomiendas(BusquedaMasivaManual.this,Farcade.listaEncomiendas);
                 listaEncomiendas.setAdapter(adapter);
-                if(Farcade.listaEncomiendas!=null)
-                for (DataEncomiendaConvertor e : Farcade.listaEncomiendas) {
-                    adapter.notifyDataSetChanged();}
             }
             @Override
             public void onFailure(Call<List<DataEncomiendaConvertor>> call, Throwable t) {
@@ -207,7 +205,7 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
 
                                                     //ACTUALIZAR LISTA
 
-                                                    Call<List<DataEncomiendaConvertor>> call2 = EncomiendaApi.createService().getByVehiculo(codViaje);
+                                                    Call<List<DataEncomiendaConvertor>> call2 = EncomiendaApi.createService().getByVehiculo(codCoche);
                                                     call2.enqueue(new Callback<List<DataEncomiendaConvertor>>() {
                                                         @Override
                                                         public void onResponse(Call<List<DataEncomiendaConvertor>> call, Response<List<DataEncomiendaConvertor>> response) {
@@ -376,6 +374,20 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
     {   AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle("Atencion!");
         alertDialogBuilder.setMessage("Debe seleccionar un estado Correcto");
+        alertDialogBuilder.setIcon(R.drawable.icono_alerta);;
+        DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {}};
+        DialogInterface.OnClickListener listenerCancelar = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {return;}};
+        alertDialogBuilder.setPositiveButton(R.string.ACEPTAR, listenerOk);
+        return alertDialogBuilder.create();
+    }
+    private AlertDialog SinEncomiendas()
+    {   AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("Atencion!");
+        alertDialogBuilder.setMessage("No existen Encomiendas");
         alertDialogBuilder.setIcon(R.drawable.icono_alerta);;
         DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
             @Override

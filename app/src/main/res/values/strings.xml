@@ -14,5 +14,7 @@
     <string name="title_activity_menu_cambio_de_estado_escaner">MenuCambioDeEstadoEscaner</string>
     <string name="title_activity_menu_estados">MenuEstados</string>
     <string name="title_activity_datos_encomienda">DatosDeEncomienda</string>
+    <string name="title_activity_vista_busqueda_individual">Busqueda Individual</string>
+    <string name="title_activity_vista_listado_coches">Listado de Coches</string>
 
 </resources>

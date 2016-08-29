@@ -21,7 +21,7 @@ public class ViajeApi {
     public static ViajeApiInterface createService() {
         if (viajeservice == null) {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://192.168.1.191:8080")
+                    .baseUrl("http://192.168.1.41:8080")
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(httpClient.build())
                     .build();
@@ -36,6 +36,9 @@ public class ViajeApi {
         //ACA VAN LOS VIAJES FILTRADOS POR TERMINAL DESTINO ORIGEN O QUE PASE POR AHI
         @GET("/lcbsapi/rest/viajes/getviajesxterminal/{idTerminal}/1/98888888")
         Call<List<DataViajeConvertor>> getViajesPorTerminal(@Path("idTerminal") String idTerminal);
+
+        @GET("/lcbsapi/rest/viajes/getviaje/{idViaje}")
+        Call<DataViajeConvertor> getViajePorId(@Path("idViaje") final String idViaje);
 
 
 

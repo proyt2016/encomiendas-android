@@ -17,16 +17,7 @@ public class Farcade {
     static List<DataEncomiendaConvertor> listaEncomiendasAcambiar  = new ArrayList<>();
     static DataVehiculo cocheSeleccionado = new DataVehiculo();
 
-    static boolean flag;
 
-    public boolean getFlag(){
-       return flag;
-    }
-
-    public void setFlag(boolean caca){
-        flag = caca;
-
-    }
 
     public DataVehiculo getCocheSeleccionado(){
         return  cocheSeleccionado;
@@ -50,6 +41,7 @@ public class Farcade {
         List<DataEncomiendaConvertor> noProcesadas = new ArrayList<>();
         if( Farcade.listaEncomiendas!=null)
         for(DataEncomiendaConvertor e: Farcade.listaEncomiendas){
+            if(e.getEstadoActual()!=null)
             if(e.getEstadoActual().getNombre().equals("En viaje")){
                 noProcesadas.add(e);
             }

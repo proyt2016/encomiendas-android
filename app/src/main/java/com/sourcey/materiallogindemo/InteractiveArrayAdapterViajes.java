@@ -79,27 +79,14 @@ public class InteractiveArrayAdapterViajes extends ArrayAdapter<DataViajeConvert
                     if(flag == 1){
                     final DataViajeConvertor viaje = (DataViajeConvertor) v.getTag();
 
-                        Call<List<DataEncomiendaConvertor>> call = EncomiendaApi.createService().getByVehiculo(viaje.getId());
-                        call.enqueue(new Callback<List<DataEncomiendaConvertor>>() {
-                            @Override
-                            public void onResponse(Call<List<DataEncomiendaConvertor>> call, Response<List<DataEncomiendaConvertor>> response) {
-                                List<DataEncomiendaConvertor> datos = response.body();
-                                Farcade.listaEncomiendas = datos;
-                                Intent i = new Intent(context, BusquedaMasivaManual.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                i.putExtra("codigo", viaje.getId());
-                                getContext().getApplicationContext().startActivity(i);
-                            }
-
-                            @Override
-                            public void onFailure(Call<List<DataEncomiendaConvertor>> call, Throwable t) {
-                                System.out.println("onFailure");
-                            }
-                        });
+                        Intent i = new Intent(context,ListadoCoches.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        i.putExtra("idViaje",viaje.getId());
+                        getContext().getApplicationContext().startActivity(i);
 
                     }
                     if(flag == 2){
                         DataViajeConvertor viaje = (DataViajeConvertor) v.getTag();
-                        Intent i = new Intent(context, ListadoDeCoches.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        Intent i = new Intent(context, AsignarEncomiendas.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         i.putExtra("codigo", viaje.getId());
                         Farcade.viajeSeleccionado = viaje;
                        // System.out.println("COCHE NUMERO ------------------>"+" "+viaje.getCoches().get(0).getNumeroVehiculo());

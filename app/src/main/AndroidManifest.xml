@@ -28,7 +28,7 @@
             android:theme="@style/AppTheme.Dark" />
 
         <activity
-            android:name=".ListadoDeCoches"
+            android:name=".AsignarEncomiendas"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -47,6 +47,16 @@
             android:label="@string/title_activity_menu_cambio_de_estado_escaner"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".BusquedaIndividual"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_vista_busqueda_individual"
+            android:theme="@style/Theme.AppCompat" />
+        <activity
+            android:name=".ListadoCoches"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_vista_listado_coches"
+            android:theme="@style/Theme.AppCompat" />
     </application>
 
 </manifest>

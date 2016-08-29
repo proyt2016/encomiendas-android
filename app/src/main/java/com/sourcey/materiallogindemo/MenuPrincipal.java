@@ -90,11 +90,11 @@ public class MenuPrincipal extends AppCompatActivity implements NavigationView.O
             i.putExtra("flag",AsignarEncomiendas);
             startActivity(i);
         } else if (id == R.id.BusquedaIndividual) {
-            /*
+
             codTerminal = getIntent().getExtras().getString("idTerminal");
-            Intent i = new Intent(MenuPrincipal.this, RegistroIndividual.class);
+            Intent i = new Intent(MenuPrincipal.this, BusquedaIndividual.class);
             i.putExtra("codigo", codTerminal);
-            startActivity(i);*/
+            startActivity(i);
         }
         else if (id == R.id.AsignarEncomiendasCoche) {
             codTerminal = getIntent().getExtras().getString("idTerminal");
