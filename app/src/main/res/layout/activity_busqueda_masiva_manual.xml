@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".BusquedaMasivaManual"
-    android:background="#FFFFFFFF"
+    android:background="@drawable/side_nav_bar"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <android.support.design.widget.AppBarLayout
+    <!--<android.support.design.widget.AppBarLayout
         android:id="@+id/id_appbar"
         android:layout_width="match_parent"
         android:layout_height="55dp"
@@ -25,13 +25,13 @@
             android:textColor="@color/white"
             android:textStyle="bold"
             />
-    </android.support.design.widget.AppBarLayout>
+    </android.support.design.widget.AppBarLayout>-->
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="320dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="15dp"
         android:id="@+id/linearLayout"
         android:baselineAligned="false">
         <CheckBox
@@ -49,42 +49,55 @@
         <ListView
             android:id="@android:id/list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="300dp"
             android:layout_marginTop="1dp">
         </ListView>
 
     </LinearLayout>
 
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/button"
-        android:layout_width="310dp"
-        android:layout_marginLeft="25dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="500dp"
-        android:background="@color/primary"
-        android:textColor="@color/white"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="340dp">
 
-        android:padding="10dp"
-        android:text="CONFIRMAR"/>
+        <Spinner
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="130dp"
+            android:id="@+id/spinner"
+
+
+            android:background="@drawable/boton_redondo"/>
+
+    </LinearLayout>
+
+
+
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/escaner"
         android:layout_width="310dp"
         android:layout_marginLeft="25dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="440dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="390dp"
         android:background="@color/primary"
         android:textColor="@color/white"
 
         android:padding="10dp"
         android:text="ESCANEAR"/>
 
-    <Spinner
-        android:layout_width="100dp"
-        android:layout_height="35dp"
-        android:layout_marginLeft="130dp"
-        android:id="@+id/spinner"
-        android:layout_marginTop="393dp"
-        android:background="@drawable/boton_redondo"/>
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/button"
+        android:layout_width="310dp"
+        android:layout_marginLeft="25dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="440dp"
+        android:background="@color/primary"
+        android:textColor="@color/white"
+
+        android:padding="10dp"
+        android:text="CONFIRMAR"/>
+
+
 
 
 </RelativeLayout>

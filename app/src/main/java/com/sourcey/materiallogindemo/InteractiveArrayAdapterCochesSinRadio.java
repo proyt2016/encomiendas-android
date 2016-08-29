@@ -95,7 +95,7 @@ public class InteractiveArrayAdapterCochesSinRadio extends ArrayAdapter<DataVehi
             ((ViewHolder) view.getTag()).boton.setTag(lista.get(position));
         }
         ViewHolder holder = (ViewHolder) view.getTag();
-        holder.coche.setText(lista.get(position).getNumeroVehiculo());
+        holder.coche.setText("Nro Coche:"+" "+lista.get(position).getNumeroVehiculo());
         holder.matricula.setText("Matricula:"+" "+lista.get(position).getMatricula());
         holder.marca.setText("Marca:"+" "+lista.get(position).getMarca());
         return view;

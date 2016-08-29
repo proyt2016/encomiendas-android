@@ -1,20 +1,22 @@
 <resources>
-    <string name="app_name">Gestión de Encomiendas</string>
+   <!-- <string name="app_name">Gestión de Encomiendas</string>-->
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_main2">Main2Activity</string>
-    <string name="title_activity_menu_principal">MenuPrincipal</string>
+    <string name="title_activity_menu_principal">Menu</string>
 
     <string name="scan">Scan</string>
     <string name="ACEPTAR">ACEPTAR</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="title_activity_registro_individual">RegistroIndividual</string>
-    <string name="title_activity_registro_grupal">RegistroGrupal</string>
-    <string name="title_activity_menu_cambio_de_estado_escaner">MenuCambioDeEstadoEscaner</string>
+    <string name="title_activity_registro_grupal">Listado de Viajes</string>
+    <string name="title_activity_menu_cambio_de_estado_escaner">Listado de Encomiendas</string>
     <string name="title_activity_menu_estados">MenuEstados</string>
+    <string name="title_activity_vista_coches">Asignar Encomiendas</string>
     <string name="title_activity_datos_encomienda">DatosDeEncomienda</string>
     <string name="title_activity_vista_busqueda_individual">Busqueda Individual</string>
     <string name="title_activity_vista_listado_coches">Listado de Coches</string>
+    <string name="title_activity_dialog_estados_encomienda">Seleccione un Estado</string>
 
 </resources>

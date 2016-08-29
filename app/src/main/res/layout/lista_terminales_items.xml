@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:baselineAligned="false"
-    android:background="#FFFFFFFF"
+    android:background="@drawable/side_nav_bar"
     android:weightSum="1">
     <!-- Los elementos de la lista se setean en textview  -->
 
@@ -20,7 +20,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginTop="12dp"
             android:textSize="15dip"
-            android:textColor="@color/black"/>
+            android:textColor="@color/white"/>
 
     </LinearLayout>
 

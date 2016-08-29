@@ -6,26 +6,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+
     tools:openDrawer="start"
-    android:background="#FFFFFFFF">
+    android:background="@drawable/side_nav_bar">
 
     <include
         layout="@layout/app_bar_menu_principal"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:weightSum="2">
-    <ImageView
-        android:src="@drawable/omnibus"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_gravity="center"
-        android:layout_margin="60dp"/>
-</LinearLayout>
-    <LinearLayout
+
+
+
+
+
+<!--    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <TextView
@@ -45,8 +40,8 @@
             android:textColorLink="#8df983"
 
 
-            />
-    </LinearLayout>
+
+    </LinearLayout>/>-->
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"

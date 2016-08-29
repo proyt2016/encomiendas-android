@@ -293,6 +293,26 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
                                         @Override
                                         public void onResponse(Call<Void> call, Response<Void> response) {
                                             cambioDeEsado().show();
+
+                                            Call<List<DataEncomiendaConvertor>> call2 = EncomiendaApi.createService().getByVehiculo(codCoche);
+                                            call2.enqueue(new Callback<List<DataEncomiendaConvertor>>() {
+                                                @Override
+                                                public void onResponse(Call<List<DataEncomiendaConvertor>> call, Response<List<DataEncomiendaConvertor>> response) {
+                                                    List<DataEncomiendaConvertor> datos = response.body();
+
+                                                    Farcade.listaEncomiendas = datos;
+                                                    adapter = new InteractiveArrayAdapterEncomiendas(BusquedaMasivaManual.this, Farcade.listaEncomiendas);
+                                                    listaEncomiendas.setAdapter(adapter);
+                                                    adapter.notifyDataSetChanged();
+
+                                                }
+
+                                                @Override
+                                                public void onFailure(Call<List<DataEncomiendaConvertor>> call, Throwable t) {
+                                                    System.out.println("SE CAGO");
+                                                }
+                                            });
+
                                         }
                                         @Override
                                         public void onFailure(Call<Void> call, Throwable t) {

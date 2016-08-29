@@ -4,6 +4,7 @@ import com.sourcey.materiallogindemo.Shares.DataEncomiendaConvertor;
 import com.sourcey.materiallogindemo.Shares.DataEstadosEncomienda;
 import com.sourcey.materiallogindemo.Shares.DataVehiculo;
 import com.sourcey.materiallogindemo.Shares.DataViajeConvertor;
+import com.sourcey.materiallogindemo.com.google.zxing.integration.android.IntentIntegrator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +17,26 @@ public class Farcade {
     static List<DataEncomiendaConvertor> listaEncomiendas = new ArrayList<>();
     static List<DataEncomiendaConvertor> listaEncomiendasAcambiar  = new ArrayList<>();
     static DataVehiculo cocheSeleccionado = new DataVehiculo();
+    static DataEstadosEncomienda estadoSeleccionado = new DataEstadosEncomienda();
+    static int flag = 0;
+
+    public int getFlag(){
+        return this.flag;
+    }
+
+    public void setFlag(int f){
+        this.flag = f;
+    }
 
 
+
+    public DataEstadosEncomienda getEstadoSeleccionado(){
+        return estadoSeleccionado;
+    }
+
+    public void setEstadoSeleccionado(DataEstadosEncomienda e){
+        estadoSeleccionado = e;
+    }
 
     public DataVehiculo getCocheSeleccionado(){
         return  cocheSeleccionado;

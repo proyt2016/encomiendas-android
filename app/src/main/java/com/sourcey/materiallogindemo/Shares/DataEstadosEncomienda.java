@@ -13,6 +13,8 @@ public class DataEstadosEncomienda {
         nombre = "";
     }
 
+
+
     public DataEstadosEncomienda(String id, String nom) {
         this.id = id;
         this.nombre = nom;

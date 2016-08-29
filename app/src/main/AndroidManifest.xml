@@ -8,7 +8,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:screenOrientation="portrait"
-        android:label="Gestion de Encomiendas"
+
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
@@ -30,23 +30,29 @@
         <activity
             android:name=".AsignarEncomiendas"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_vista_coches"
+            android:theme="@style/Theme.AppCompat" />
+        <activity
+            android:name=".DialogEstados"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_dialog_estados_encomienda"
+            android:theme="@style/Theme.AppCompat.Dialog" />
         <activity
             android:name=".MenuPrincipal"
             android:screenOrientation="portrait"
-            android:label="@string/title_activity_menu_principal"
+           android:label="@string/title_activity_menu_principal"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name=".RegistroGrupal"
             android:label="@string/title_activity_registro_grupal"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.AppCompat" />
         <activity
             android:name=".BusquedaMasivaManual"
             android:label="@string/title_activity_menu_cambio_de_estado_escaner"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.AppCompat" />
         <activity
             android:name=".BusquedaIndividual"
             android:screenOrientation="portrait"

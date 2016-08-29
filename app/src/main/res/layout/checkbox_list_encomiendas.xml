@@ -1,12 +1,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
    android:layout_height="wrap_content"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:background="@drawable/side_nav_bar">
     <TextView
         android:id="@+id/label"
         android:layout_width="280dp"
         android:layout_height="30dp"
         android:layout_centerHorizontal="true"
-        android:layout_alignBottom="@+id/check"
+        android:layout_marginTop="5dp"
         android:textColor="@color/black"
         android:textSize="15dp" >
     </TextView>

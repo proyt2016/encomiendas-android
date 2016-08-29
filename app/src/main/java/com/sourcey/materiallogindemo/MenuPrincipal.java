@@ -10,12 +10,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
-public class MenuPrincipal extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+import com.sourcey.materiallogindemo.com.google.zxing.integration.android.IntentIntegrator;
+import com.sourcey.materiallogindemo.com.google.zxing.integration.android.IntentResult;
+
+public class MenuPrincipal extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     public String codTerminal;
-    public boolean cargo = false;
+    private Button btnManual;
+    private Button btnEscaner;
+
     private TextView txt;
 
 
@@ -25,12 +33,15 @@ public class MenuPrincipal extends AppCompatActivity implements NavigationView.O
         setContentView(R.layout.activity_menu_principal);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        txt = (TextView) findViewById(R.id.id);
+
         codTerminal = getIntent().getExtras().getString("idTerminal");
 
+        btnManual = (Button) findViewById(R.id.manual);
+        btnEscaner = (Button) findViewById(R.id.Escaner);
 
+        btnManual.setOnClickListener(this);
+        btnEscaner.setOnClickListener(this);
 
-        //LLAMO APICOCHES
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -91,10 +102,7 @@ public class MenuPrincipal extends AppCompatActivity implements NavigationView.O
             startActivity(i);
         } else if (id == R.id.BusquedaIndividual) {
 
-            codTerminal = getIntent().getExtras().getString("idTerminal");
-            Intent i = new Intent(MenuPrincipal.this, BusquedaIndividual.class);
-            i.putExtra("codigo", codTerminal);
-            startActivity(i);
+
         }
         else if (id == R.id.AsignarEncomiendasCoche) {
             codTerminal = getIntent().getExtras().getString("idTerminal");
@@ -112,5 +120,38 @@ public class MenuPrincipal extends AppCompatActivity implements NavigationView.O
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v.getId()==R.id.Escaner){
+            //ESCANERO
+            Intent i = new Intent(this,DialogEstados.class);
+            startActivity(i);
+            //IntentIntegrator scanIntegrator = new IntentIntegrator(this);
+            //scanIntegrator.initiateScan();
+        }
+        if(v.getId() == R.id.manual){
+
+            Intent i = new Intent(MenuPrincipal.this, BusquedaIndividual.class);
+            i.putExtra("codigo", codTerminal);
+            startActivity(i);
+
+        }
+    }
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+
+        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+
+        if (resultCode != RESULT_CANCELED) {
+
+            if (scanningResult != null) {
+                final String scanContent = scanningResult.getContents();
+
+
+
+
+            }
+        }
     }
 }

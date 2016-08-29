@@ -3,22 +3,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="#FFFFFFFF">
+    android:background="@drawable/side_nav_bar">
 
     <!-- Editext para busqueda  -->
     <EditText
         android:id="@+id/inputSearch"
-        android:layout_width="fill_parent"
+        android:layout_width="330dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:hint="Ingrese Terminal.."
+        android:hint="Ingrese Terminal..."
         android:textSize="16dp"
         android:layout_marginLeft="16dp"
         android:textColorLink="@color/white"
-        android:textColorHint="@color/material_blue_grey_800"
+        android:textColorHint="@color/white"
+        android:textColorHighlight="@color/white"
         android:inputType="textVisiblePassword"
+
+
         android:textColor="@color/black"
-        android:background="@color/white"
+
         android:drawableLeft="@drawable/buscar"/>
 
     <!-- List View de elementos  -->
@@ -26,11 +29,12 @@
         android:id="@+id/listaTerminales"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="15dp"
+
+        android:layout_marginTop="10dp"
         android:layout_below="@+id/inputSearch"
         android:layout_alignParentLeft="true"
         android:textFilterEnabled="true"
-        android:background="@color/white" />
+        android:background="@drawable/side_nav_bar" />
 
 
 </RelativeLayout>
