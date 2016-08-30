@@ -9,6 +9,7 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 
 /**
  * Created by andres on 14/5/16.
@@ -18,23 +19,32 @@ public class TerminalApi {
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
     public static TerminalApiInterface createService() {
-        if (terminalService == null) {
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://192.168.1.41:8080")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .client(httpClient.build())
-                    .build();
 
-            terminalService = retrofit.create(TerminalApiInterface.class);
-        }
 
-        return terminalService;
+            if(terminalService==null)
+
+            {
+                Retrofit retrofit = new Retrofit.Builder()
+
+                        .baseUrl("http://192.168.1.41:8080")
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .client(httpClient.build())
+                        .build();
+
+                terminalService = retrofit.create(TerminalApiInterface.class);
+
+            }
+
+
+            return terminalService;
+
     }
 
     public interface TerminalApiInterface {
 
+
         @GET("/lcbsapi/rest/viajes/getterminales/1/99888888")
-        Call<List<DataTerminal>> getAll();
+        Call<List<DataTerminal>> getAll(@Header("clave") String clave);
 
 
 
@@ -45,4 +55,5 @@ public class TerminalApi {
 //        @GET("/terminales/{id}?search={search}")
 //        Call<List<Terminal>> getSearch(@Path("id") int id, @Path("search") String search);
     }
+
 }

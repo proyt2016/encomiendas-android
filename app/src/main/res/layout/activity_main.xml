@@ -36,5 +36,8 @@
         android:textFilterEnabled="true"
         android:background="@drawable/side_nav_bar" />
 
+ <include layout="@layout/abc_popup_menu_item_layout">
+
+ </include>
 
 </RelativeLayout>

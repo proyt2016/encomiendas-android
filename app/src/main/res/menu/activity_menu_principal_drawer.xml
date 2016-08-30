@@ -6,11 +6,7 @@
             android:id="@+id/BusquedaMasiva"
             android:icon="@drawable/buscar"
             android:title="Cambiar estado Masivo"/>
-        <item
-            android:id="@+id/BusquedaIndividual"
-            android:title="Cambiar estado Individual"
-            android:icon="@drawable/buscar"
-          />\
+        \
         <item
             android:id="@+id/AsignarEncomiendasCoche"
             android:title="Asignar Encomiendas"

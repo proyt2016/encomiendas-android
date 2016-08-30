@@ -28,6 +28,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private   ListView lv;
     private EditText filtro;
+    private AddHeader header = new AddHeader();
     private  TextView txt;
     public int cod;
     private static boolean cargo;
@@ -47,11 +48,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (cargo == false) {
                 cargo = true;
              //LLAMO TODAS LAS TERMINALES
-                Call<List<DataTerminal>> call = TerminalApi.createService().getAll();
+                Call<List<DataTerminal>> call = TerminalApi.createService().getAll(header.CreateHeader());
                 call.enqueue(new Callback<List<DataTerminal>>() {
                     @Override
                     public void onResponse(Call<List<DataTerminal>> call, Response<List<DataTerminal>> response) {
                      List<DataTerminal> ListaTerminal = response.body();
+
+                        System.out.println("HEADERS REQUEST******************"+" "+call.request().headers().toString());
+
+                        System.out.println("HEADERS RESPONSE******************"+" "+response.headers().toString());
+
+
                         if (cargoAdapter == false && cargo == true ) {
                             cargoAdapter = true;
                             adapter = new InteractiveArrayAdapterTerminales(MainActivity.this,0,ListaTerminal);
@@ -110,7 +117,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
        int id = item.getItemId();
-       if (id == R.id.action_settings) {return true;}
+       /*if (id == R.id.action_settings) {return true;}*/
+
         return super.onOptionsItemSelected(item);
     }
 

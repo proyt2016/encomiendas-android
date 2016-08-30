@@ -8,6 +8,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:screenOrientation="portrait"
+        android:label="Gestion de Encomiendas"
 
         android:theme="@style/AppTheme">
         <activity
@@ -56,8 +57,9 @@
         <activity
             android:name=".BusquedaIndividual"
             android:screenOrientation="portrait"
+
             android:label="@string/title_activity_vista_busqueda_individual"
-            android:theme="@style/Theme.AppCompat" />
+            android:theme="@style/Theme.AppCompat.Dialog" />
         <activity
             android:name=".ListadoCoches"
             android:screenOrientation="portrait"

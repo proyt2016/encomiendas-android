@@ -1,5 +1,7 @@
 package com.sourcey.materiallogindemo;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -14,16 +16,25 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.sourcey.materiallogindemo.Shares.DataEncomiendaConvertor;
+import com.sourcey.materiallogindemo.Shares.DataViajeConvertor;
+import com.sourcey.materiallogindemo.api.EncomiendaApi;
+import com.sourcey.materiallogindemo.api.ViajeApi;
 import com.sourcey.materiallogindemo.com.google.zxing.integration.android.IntentIntegrator;
 import com.sourcey.materiallogindemo.com.google.zxing.integration.android.IntentResult;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MenuPrincipal extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     public String codTerminal;
     private Button btnManual;
     private Button btnEscaner;
-
+    private Farcade farcade;
     private TextView txt;
 
 
@@ -79,9 +90,9 @@ public class MenuPrincipal extends AppCompatActivity implements NavigationView.O
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+       /* if (id == R.id.action_settings) {
             return true;
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
@@ -100,10 +111,10 @@ public class MenuPrincipal extends AppCompatActivity implements NavigationView.O
             i.putExtra("codigo", codTerminal);
             i.putExtra("flag",AsignarEncomiendas);
             startActivity(i);
-        } else if (id == R.id.BusquedaIndividual) {
+        } /*else if (id == R.id.BusquedaIndividual) {
 
 
-        }
+        }*/
         else if (id == R.id.AsignarEncomiendasCoche) {
             codTerminal = getIntent().getExtras().getString("idTerminal");
             int AsignarEncomiendas = 2;
@@ -139,19 +150,5 @@ public class MenuPrincipal extends AppCompatActivity implements NavigationView.O
 
         }
     }
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 
-        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-
-        if (resultCode != RESULT_CANCELED) {
-
-            if (scanningResult != null) {
-                final String scanContent = scanningResult.getContents();
-
-
-
-
-            }
-        }
-    }
 }
