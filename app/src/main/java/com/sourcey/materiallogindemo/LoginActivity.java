@@ -64,13 +64,15 @@ public class LoginActivity extends AppCompatActivity {
         empleado.addProperty("usuario",_userText.getText().toString());
         empleado.addProperty("clave",_passwordText.getText().toString());
 
-        Call<DataEmpleado> call = EmpleadoApi.createService().login(AddHeader.clave, empleado);
+        Call<DataEmpleado> call = EmpleadoApi.createService().login(empleado);
         call.enqueue(new Callback<DataEmpleado>() {
             @Override
             public void onResponse(Call<DataEmpleado> call, Response<DataEmpleado> response) {
                 if(response.isSuccessful()) {
 
                     DataEmpleado empleado = response.body();
+
+
 
                     if (empleado!=null) {
 

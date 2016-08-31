@@ -1,5 +1,6 @@
 package com.sourcey.materiallogindemo.api;
 
+import com.sourcey.materiallogindemo.AddHeaderInterceptor;
 import com.sourcey.materiallogindemo.Shares.DataViajeConvertor;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Path;
 
 /**
@@ -20,6 +22,8 @@ public class ViajeApi {
 
     public static ViajeApiInterface createService() {
         if (viajeservice == null) {
+
+            httpClient.addInterceptor(new AddHeaderInterceptor());
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl("http://192.168.1.41:8080")
                     .addConverterFactory(GsonConverterFactory.create())

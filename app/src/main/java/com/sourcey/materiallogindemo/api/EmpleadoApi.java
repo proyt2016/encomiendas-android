@@ -1,6 +1,7 @@
 package com.sourcey.materiallogindemo.api;
 
 import com.google.gson.JsonObject;
+import com.sourcey.materiallogindemo.AddHeaderInterceptor;
 import com.sourcey.materiallogindemo.Shares.DataEmpleado;
 import com.sourcey.materiallogindemo.Shares.DataUsuario;
 
@@ -21,6 +22,7 @@ public class EmpleadoApi {
 
     public static UsuarioApiInterface createService() {
         if (usuarioService == null) {
+            httpClient.addInterceptor(new AddHeaderInterceptor());
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl("http://192.168.1.41:8080")
                     .addConverterFactory(GsonConverterFactory.create())
@@ -36,7 +38,7 @@ public class EmpleadoApi {
 
     public interface UsuarioApiInterface {
         @POST("/lcbsapi/rest/usuarios/loginempleado")
-        Call<DataEmpleado> login(@Header("clave") String clave, @Body JsonObject caca);
+        Call<DataEmpleado> login(@Body JsonObject caca);
 
     }
 }

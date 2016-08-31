@@ -10,12 +10,9 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:layout_gravity="center"
         android:layout_marginTop="5dp"
         android:textColor="@android:color/white"
-        android:textSize="18dip"
-
-        />
+        android:textSize="16dip"/>
 
 
 </LinearLayout>

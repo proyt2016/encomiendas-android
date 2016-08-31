@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,6 +32,9 @@ public class BusquedaIndividual extends AppCompatActivity implements View.OnClic
     private EditText codigoEnco;
     private int codigo;
     private Spinner estados;
+    private List<DataEstadosEncomienda> listaEstados;
+    private String valOfSpinner;
+    private DataEstadosEncomienda estadoSeleccionado;
 
     private ArrayAdapter<DataEstadosEncomienda> adapter;
 
@@ -57,14 +61,17 @@ public class BusquedaIndividual extends AppCompatActivity implements View.OnClic
                 System.out.println("FALLO LA API CAMBIO DE ESTADO");
             }
         });
+        estados.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            //GET SPINNER
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                estadoSeleccionado = (DataEstadosEncomienda) estados.getSelectedItem();
 
-
-
-
-
-
-
-
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+            }
+        });
     }
 
     @Override
@@ -78,17 +85,17 @@ public class BusquedaIndividual extends AppCompatActivity implements View.OnClic
                 @Override
                 public void onResponse(Call<DataEncomiendaConvertor> call, Response<DataEncomiendaConvertor> response) {
 
-                    DataEncomiendaConvertor encomiendaConvertor = response.body();
+                  final  DataEncomiendaConvertor encomiendaConvertor = response.body();
 
-                    System.out.println("ENCOMIENDA"+ encomiendaConvertor);
+                    System.out.println("ENCOMIENDA"+ encomiendaConvertor.toString());
 
-                    Call<Void> call2 = EncomiendaApi.createService().setEstadoEncomienda(encomiendaConvertor.getId(),Farcade.estadoSeleccionado);
+                    Call<Void> call2 = EncomiendaApi.createService().setEstadoEncomienda(encomiendaConvertor.getId(),estadoSeleccionado);
                     call2.enqueue(new Callback<Void>() {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
-
+                            System.out.println("ESTADO"+ response.body());
                             if(response.isSuccessful()){
-                                cambioDeEstado(Farcade.estadoSeleccionado.getNombre()).show();
+                                cambioDeEstado(estadoSeleccionado.getNombre()).show();
                             }else{
                                 FalloApi().show();
                             }
@@ -98,6 +105,25 @@ public class BusquedaIndividual extends AppCompatActivity implements View.OnClic
                             System.out.println("FALLO LA API CAMBIO DE ESTADO");
                         }
                     });
+
+                   /* Call<List<DataEstadosEncomienda>> call2 = EstadoApi.createService().getAll();
+                    call2.enqueue(new Callback<List<DataEstadosEncomienda>>() {
+                        @Override
+                        public void onResponse(Call<List<DataEstadosEncomienda>> call, Response<List<DataEstadosEncomienda>> response) {
+
+                            listaEstados = response.body();
+                            for(DataEstadosEncomienda e : listaEstados){
+                                if(e.equals(Farcade.estadoSeleccionado)){
+                                    final DataEstadosEncomienda es = e;
+
+                                }
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<List<DataEstadosEncomienda>> call, Throwable t) {
+                            System.out.println("FALLO LA API CAMBIO DE ESTADO");
+                        }
+                    });*/
                 }
                 @Override
                 public void onFailure(Call<DataEncomiendaConvertor> call, Throwable t) {

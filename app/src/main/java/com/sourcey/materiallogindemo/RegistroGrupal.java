@@ -27,6 +27,7 @@ import retrofit2.Response;
 
 public class RegistroGrupal extends AppCompatActivity implements View.OnClickListener{
     public String codTerminal;
+    private TenantProvider header;
     private ArrayAdapter<DataViajeConvertor> adapter;
     //private List<Coche> lista = new ArrayList<Coche>();
     private ListView listadoRecorridos;

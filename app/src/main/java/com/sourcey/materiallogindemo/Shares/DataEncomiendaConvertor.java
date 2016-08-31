@@ -26,7 +26,7 @@ public class DataEncomiendaConvertor {
     private List<DataHistorialEstadosEncomienda> estados;
     private DataEstadosEncomienda estadoActual;
     private Integer codigoEncomienda;
-
+    private boolean selected;
     private DataVehiculo cocheAsignado;
 
     private Date fechaIngreso;
@@ -34,14 +34,12 @@ public class DataEncomiendaConvertor {
     private Date fechaEntrega;
     private Boolean retiraEnSucursal;
     private Boolean eliminada;
-    private boolean selected;
-
 
 
 
     public DataEncomiendaConvertor() {}
 
-    public DataEncomiendaConvertor(String id, DataPuntoRecorridoConverter orig, DataPuntoRecorridoConverter dest, DataUsuario emi, String ciEm, DataTelefono telEm, DataUsuario rec, String ciRec, DataTelefono telRec, String dirRec, DataReglaCobroEncomienda regCob, Float mont, Float prec, Boolean pagaRec, DataViajeConvertor viajeAs, List<DataHistorialEstadosEncomienda> estds, DataEstadosEncomienda estAc, Date fecIng, Date fecEn, Boolean retiraSuc, Boolean elim, DataVehiculo codCoche, int codEnco, boolean selected) {
+    public DataEncomiendaConvertor(String id, DataPuntoRecorridoConverter orig, DataPuntoRecorridoConverter dest, DataUsuario emi, String ciEm, DataTelefono telEm, DataUsuario rec, String ciRec, DataTelefono telRec, String dirRec, DataReglaCobroEncomienda regCob, Float mont, Float prec, Boolean pagaRec, DataViajeConvertor viajeAs, List<DataHistorialEstadosEncomienda> estds, DataEstadosEncomienda estAc, Date fecIng, Date fecEn, Boolean retiraSuc, Boolean elim, DataVehiculo codCoche, Integer codEnco) {
         this.id = id;
         this.origen = orig;
         this.destino = dest;
@@ -57,7 +55,6 @@ public class DataEncomiendaConvertor {
         this.precio = prec;
         this.pagaReceptor = pagaRec;
         this.viajeAsignado = viajeAs;
-        this.selected = selected;
         this.estados = estds;
         this.estadoActual = estAc;
         this.fechaIngreso = fecIng;
@@ -80,13 +77,11 @@ public class DataEncomiendaConvertor {
         this.selected = bol;
     }
 
-
-
-    public void setCodigoEncomienda(int codEnco){
+    public void setCodigoEncomienda(Integer codEnco){
         this.codigoEncomienda = codEnco;
     }
 
-    public int getCodigoEncomienda(){
+    public Integer getCodigoEncomienda(){
         return this.codigoEncomienda;
     }
     public void setCocheAsignado(DataVehiculo val){
@@ -265,5 +260,18 @@ public class DataEncomiendaConvertor {
         return this.eliminada;
     }
 
+}
+/* private boolean selected;
 
- }
+    public String toString(){
+        return "Codigo:"+" "+this.codigoEncomienda+" "+"Estado:"+" "+this.estadoActual;
+    }
+
+    public boolean isSelected(){
+        return this.selected;
+    }
+
+    public void setSelected(boolean bol){
+        this.selected = bol;
+    }
+ */

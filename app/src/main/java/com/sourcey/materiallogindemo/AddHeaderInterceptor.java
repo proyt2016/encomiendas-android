@@ -11,7 +11,7 @@ public class AddHeaderInterceptor implements Interceptor {
         public Response intercept(Chain chain) throws IOException {
 
             Request.Builder builder = chain.request().newBuilder();
-            builder.addHeader("Authorization", "lcbs-tenant");
+            builder.addHeader("lcbs-tenant", TenantProvider.GetTenant());
 
             return chain.proceed(builder.build());
         }

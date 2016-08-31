@@ -28,7 +28,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private   ListView lv;
     private EditText filtro;
-    private AddHeader header = new AddHeader();
+    private TenantProvider header = new TenantProvider();
     private  TextView txt;
     public int cod;
     private static boolean cargo;
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (cargo == false) {
                 cargo = true;
              //LLAMO TODAS LAS TERMINALES
-                Call<List<DataTerminal>> call = TerminalApi.createService().getAll(header.CreateHeader());
+                Call<List<DataTerminal>> call = TerminalApi.createService().getAll();
                 call.enqueue(new Callback<List<DataTerminal>>() {
                     @Override
                     public void onResponse(Call<List<DataTerminal>> call, Response<List<DataTerminal>> response) {

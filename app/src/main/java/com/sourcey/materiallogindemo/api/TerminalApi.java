@@ -1,5 +1,7 @@
 package com.sourcey.materiallogindemo.api;
 
+import com.sourcey.materiallogindemo.AddHeaderInterceptor;
+import com.sourcey.materiallogindemo.LogJsonInterceptor;
 import com.sourcey.materiallogindemo.Shares.DataTerminal;
 
 import java.util.List;
@@ -24,12 +26,15 @@ public class TerminalApi {
             if(terminalService==null)
 
             {
+               //httpClient.addNetworkInterceptor(new AddHeaderInterceptor());
+               httpClient.addInterceptor(new AddHeaderInterceptor());
                 Retrofit retrofit = new Retrofit.Builder()
 
                         .baseUrl("http://192.168.1.41:8080")
                         .addConverterFactory(GsonConverterFactory.create())
                         .client(httpClient.build())
                         .build();
+
 
                 terminalService = retrofit.create(TerminalApiInterface.class);
 
@@ -44,7 +49,7 @@ public class TerminalApi {
 
 
         @GET("/lcbsapi/rest/viajes/getterminales/1/99888888")
-        Call<List<DataTerminal>> getAll(@Header("clave") String clave);
+        Call<List<DataTerminal>> getAll();
 
 
 
