@@ -5,7 +5,7 @@ package com.sourcey.materiallogindemo;
  */
 public class TenantProvider {
 
-    static  String clave = "0ed63beb-fdc1-42c5-81b1-68e404774c6f";
+    static  String clave = BuildConfig.API_KEY;
 
     public static String GetTenant(){
 

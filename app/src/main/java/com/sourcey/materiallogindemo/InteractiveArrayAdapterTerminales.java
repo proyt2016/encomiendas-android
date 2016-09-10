@@ -2,12 +2,15 @@ package com.sourcey.materiallogindemo;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Filter;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sourcey.materiallogindemo.Shares.DataTerminal;
@@ -31,7 +34,8 @@ public class InteractiveArrayAdapterTerminales extends ArrayAdapter<DataTerminal
     }
     static class ViewHolder {
         protected TextView titulo;
-        //protected TextView subTitulo;
+        protected RelativeLayout fondoPrincipal;
+        protected LinearLayout fondoNombre;
         protected Button boton;
     }
 
@@ -58,6 +62,8 @@ public class InteractiveArrayAdapterTerminales extends ArrayAdapter<DataTerminal
             view = inflator.inflate(R.layout.lista_terminales_items,null);
             final ViewHolder viewHolder = new ViewHolder();
             viewHolder.titulo = (TextView) view.findViewById(R.id.titulo);
+            viewHolder.fondoPrincipal = (RelativeLayout) view.findViewById(R.id.listaterminaleslayout);
+            viewHolder.fondoNombre = (LinearLayout) view.findViewById(R.id.layoutelementoterminal);
          //   viewHolder.subTitulo = (TextView) view.findViewById(R.id.subTitulo);
             viewHolder.boton = (Button) view.findViewById(R.id.next);
             viewHolder.boton.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +87,21 @@ public class InteractiveArrayAdapterTerminales extends ArrayAdapter<DataTerminal
             ((ViewHolder) view.getTag()).boton.setTag(lista.get(position));
         }
         ViewHolder holder = (ViewHolder) view.getTag();
+        if(Farcade.configuracionEmpresa.getId()!=null){
+            if(Farcade.configuracionEmpresa.getColorFondoLista()!=null){
+                holder.fondoPrincipal.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondoLista()));
+                holder.fondoNombre.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondoLista()));
+                holder.titulo.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondoLista()));
+            }
+            if(Farcade.configuracionEmpresa.getColorTextoLista()!=null){
+                holder.titulo.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorTextoLista()));
+            }else{
+                holder.titulo.setTextColor(Color.parseColor("#FFFFFFFF"));
+            }
+        }else{
+            //NO ESXISTE CONFIGURACION CARGADA
+             holder.titulo.setTextColor(Color.parseColor("#FFFFFFFF"));
+        }
         holder.titulo.setText(lista.get(position).getNombre().toString());
         //holder.subTitulo.setText("Id:"+" "+lista.get(position).getId());
         return view;

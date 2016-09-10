@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -15,13 +14,10 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
-import com.google.gson.JsonObject;
 import com.sourcey.materiallogindemo.Shares.DataEncomiendaConvertor;
 import com.sourcey.materiallogindemo.Shares.DataEstadosEncomienda;
 import com.sourcey.materiallogindemo.api.EncomiendaApi;
-import com.sourcey.materiallogindemo.api.EstadoApi;
 import com.sourcey.materiallogindemo.com.google.zxing.integration.android.IntentIntegrator;
 import com.sourcey.materiallogindemo.com.google.zxing.integration.android.IntentResult;
 
@@ -175,75 +171,80 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
 
                 if (valOfSpinner != "Seleccionar") {
 
-
-                    Date fecha = new Date();
-                    DateFormat dat = new SimpleDateFormat("yy/MM/dd");
-                    //SE TRAEN LOS ESTADOS DE LA BD
-                    Call<List<DataEstadosEncomienda>> call2 = EncomiendaApi.createService().getAllEstados();
-                    call2.enqueue(new Callback<List<DataEstadosEncomienda>>() {
-                        @Override
-                        public void onResponse(Call<List<DataEstadosEncomienda>> call, Response<List<DataEstadosEncomienda>> response) {
-                            ListaEstados = response.body();
+                    if(Farcade.listaEncomiendasAcambiar != null) {
 
 
-                            for (DataEstadosEncomienda estado : ListaEstados) {
-                                if (estado.getNombre().equals(valOfSpinner.toString())) {
+                        Date fecha = new Date();
+                        DateFormat dat = new SimpleDateFormat("yy/MM/dd");
+                        //SE TRAEN LOS ESTADOS DE LA BD
+                        Call<List<DataEstadosEncomienda>> call2 = EncomiendaApi.createService().getAllEstados();
+                        call2.enqueue(new Callback<List<DataEstadosEncomienda>>() {
+                            @Override
+                            public void onResponse(Call<List<DataEstadosEncomienda>> call, Response<List<DataEstadosEncomienda>> response) {
+                                ListaEstados = response.body();
 
-                                    estadoEnco = estado;
 
-                                }
-                            }
-                                    for (DataEncomiendaConvertor encomienda : Farcade.listaEncomiendasAcambiar) {
+                                for (DataEstadosEncomienda estado : ListaEstados) {
+                                    if (estado.getNombre().equals(valOfSpinner.toString())) {
 
-                                        System.out.println("SE VAN A CAMBIAR"+" "+Farcade.listaEncomiendasAcambiar.size()+" "+"Encomiendas");
-
-                                        if (encomienda.isSelected()) {
-                                            Call<Void> call3 = EncomiendaApi.createService().setEstadoEncomienda(encomienda.getId(), estadoEnco);
-                                            call3.enqueue(new Callback<Void>() {
-                                                @Override
-                                                public void onResponse(Call<Void> call, Response<Void> response) {
-
-                                                    //ACTUALIZAR LISTA
-
-                                                    Call<List<DataEncomiendaConvertor>> call2 = EncomiendaApi.createService().getByVehiculo(codCoche);
-                                                    call2.enqueue(new Callback<List<DataEncomiendaConvertor>>() {
-                                                        @Override
-                                                        public void onResponse(Call<List<DataEncomiendaConvertor>> call, Response<List<DataEncomiendaConvertor>> response) {
-                                                            List<DataEncomiendaConvertor> datos = response.body();
-
-                                                            Farcade.listaEncomiendas = datos;
-                                                            adapter = new InteractiveArrayAdapterEncomiendas(BusquedaMasivaManual.this, Farcade.listaEncomiendas);
-                                                            listaEncomiendas.setAdapter(adapter);
-                                                            adapter.notifyDataSetChanged();
-
-                                                            cambioDeEsado().show();
-                                                        }
-
-                                                        @Override
-                                                        public void onFailure(Call<List<DataEncomiendaConvertor>> call, Throwable t) {
-                                                            System.out.println("SE CAGO");
-                                                        }
-                                                    });
-                                                }
-
-                                                @Override
-                                                public void onFailure(Call<Void> call, Throwable t) {
-                                                    System.out.println("SE CAGO");
-                                                }
-                                            });
-                                        }
+                                        estadoEnco = estado;
 
                                     }
-                            Farcade.listaEncomiendasAcambiar.clear();
+                                }
+                                for (DataEncomiendaConvertor encomienda : Farcade.listaEncomiendasAcambiar) {
+
+                                    System.out.println("SE VAN A CAMBIAR" + " " + Farcade.listaEncomiendasAcambiar.size() + " " + "Encomiendas");
+
+                                    if (encomienda.isSelected()) {
+                                        Call<Void> call3 = EncomiendaApi.createService().setEstadoEncomienda(encomienda.getId(), estadoEnco);
+                                        call3.enqueue(new Callback<Void>() {
+                                            @Override
+                                            public void onResponse(Call<Void> call, Response<Void> response) {
+
+                                                //ACTUALIZAR LISTA
+
+                                                Call<List<DataEncomiendaConvertor>> call2 = EncomiendaApi.createService().getByVehiculo(codCoche);
+                                                call2.enqueue(new Callback<List<DataEncomiendaConvertor>>() {
+                                                    @Override
+                                                    public void onResponse(Call<List<DataEncomiendaConvertor>> call, Response<List<DataEncomiendaConvertor>> response) {
+                                                        List<DataEncomiendaConvertor> datos = response.body();
+
+                                                        Farcade.listaEncomiendas = datos;
+                                                        adapter = new InteractiveArrayAdapterEncomiendas(BusquedaMasivaManual.this, Farcade.listaEncomiendas);
+                                                        listaEncomiendas.setAdapter(adapter);
+                                                        adapter.notifyDataSetChanged();
+
+                                                        cambioDeEsado().show();
+                                                    }
+
+                                                    @Override
+                                                    public void onFailure(Call<List<DataEncomiendaConvertor>> call, Throwable t) {
+                                                        System.out.println("SE CAGO");
+                                                    }
+                                                });
+                                            }
+
+                                            @Override
+                                            public void onFailure(Call<Void> call, Throwable t) {
+                                                System.out.println("SE CAGO");
+                                            }
+                                        });
+                                    }
+
+                                }
+                                Farcade.listaEncomiendasAcambiar.clear();
 
 
-                        }
+                            }
 
-                        @Override
-                        public void onFailure(Call<List<DataEstadosEncomienda>> call, Throwable t) {
-                            System.out.println("SE CAGO");
-                        }
-                    });
+                            @Override
+                            public void onFailure(Call<List<DataEstadosEncomienda>> call, Throwable t) {
+                                System.out.println("SE CAGO");
+                            }
+                        });
+                    }else{
+                        NoSeleccionaEncomiendas().show();
+                    }
                 } else {
                     spinnerSeleccionar().show();
                 }
@@ -408,6 +409,20 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
     {   AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle("Atencion!");
         alertDialogBuilder.setMessage("No existen Encomiendas");
+        alertDialogBuilder.setIcon(R.drawable.icono_alerta);;
+        DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {}};
+        DialogInterface.OnClickListener listenerCancelar = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {return;}};
+        alertDialogBuilder.setPositiveButton(R.string.ACEPTAR, listenerOk);
+        return alertDialogBuilder.create();
+    }
+    private AlertDialog NoSeleccionaEncomiendas()
+    {   AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("Atencion!");
+        alertDialogBuilder.setMessage("Debe seleccionar un al menos una Encomienda");
         alertDialogBuilder.setIcon(R.drawable.icono_alerta);;
         DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
             @Override

@@ -38,13 +38,20 @@
         android:layout_width="330dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:hint="Ingrese Recorrido..."
+        android:hint="Ingrese Terminal..."
         android:textSize="16dp"
+        android:layout_marginLeft="16dp"
         android:textColorLink="@color/white"
         android:textColorHint="@color/white"
+        android:background="@drawable/side_nav_bar"
+        android:textCursorDrawable="@drawable/color_cursor_edit_text"
+        android:backgroundTint="@color/abc_background_cache_hint_selector_material_dark"
+        android:textColorHighlight="@color/white"
         android:inputType="textVisiblePassword"
+
+
         android:textColor="@color/black"
-        android:layout_marginLeft="16dp"
+
         android:drawableLeft="@drawable/buscar"/>
 
     <!-- List View de elementos  -->

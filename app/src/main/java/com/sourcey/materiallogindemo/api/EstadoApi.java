@@ -15,7 +15,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -29,7 +28,7 @@ public class EstadoApi {
 
             httpClient.addInterceptor(new AddHeaderInterceptor());
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://192.168.1.41:8080")
+                    .baseUrl("http://192.168.1.3:8080")
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(httpClient.build())
                     .build();

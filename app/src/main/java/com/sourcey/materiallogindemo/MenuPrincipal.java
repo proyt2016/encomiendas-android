@@ -1,9 +1,10 @@
 package com.sourcey.materiallogindemo;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,29 +15,28 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.sourcey.materiallogindemo.Shares.DataEncomiendaConvertor;
-import com.sourcey.materiallogindemo.Shares.DataViajeConvertor;
-import com.sourcey.materiallogindemo.api.EncomiendaApi;
-import com.sourcey.materiallogindemo.api.ViajeApi;
-import com.sourcey.materiallogindemo.com.google.zxing.integration.android.IntentIntegrator;
-import com.sourcey.materiallogindemo.com.google.zxing.integration.android.IntentResult;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MenuPrincipal extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     public String codTerminal;
     private Button btnManual;
     private Button btnEscaner;
+    private DrawerLayout pantalla;
+    private RelativeLayout fondoPantalla;
     private Farcade farcade;
-    private TextView txt;
-
+    private TextView titulo;
+    private TextView tituloEscaner;
+    private TextView tituloManual;
+    private LinearLayout MenuDesplegable;
+    private TextView nombreEmpresa;
+    private TextView emailEmpresa;
+    private ImageView logoEmpresa;
+    private CoordinatorLayout trozoDePantalla;
+    private NavigationView nav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +50,98 @@ public class MenuPrincipal extends AppCompatActivity implements NavigationView.O
         btnManual = (Button) findViewById(R.id.manual);
         btnEscaner = (Button) findViewById(R.id.Escaner);
 
+        pantalla = (DrawerLayout)findViewById(R.id.drawer_layout);
+        fondoPantalla = (RelativeLayout)findViewById(R.id.fondolayout);
+        MenuDesplegable = (LinearLayout)findViewById(R.id.menudesplegableheader);
+        trozoDePantalla = (CoordinatorLayout)findViewById(R.id.trozodepantalla);
+        nav = (NavigationView) findViewById(R.id.nav_view);
+        logoEmpresa = (ImageView)findViewById(R.id.imageview);
+
+        //TEXTOS MENU DESPLEGABLE
+        nombreEmpresa = (TextView)findViewById(R.id.nombreempresa);
+        emailEmpresa = (TextView)findViewById(R.id.mailempresa);
+
+
+        titulo = (TextView)findViewById(R.id.titulo);
+        tituloEscaner = (TextView)findViewById(R.id.subtituloescaner);
+        tituloManual = (TextView)findViewById(R.id.subtitulomanual);
+
+
         btnManual.setOnClickListener(this);
         btnEscaner.setOnClickListener(this);
 
+        if(Farcade.configuracionEmpresa.getId()!=null){
+
+            if(Farcade.configuracionEmpresa.getColorFondosDePantalla()!=null){
+                pantalla.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondosDePantalla()));
+                fondoPantalla.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondosDePantalla()));
+                trozoDePantalla.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondosDePantalla()));
+                MenuDesplegable.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                nav.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondosDePantalla()));
+            }else{
+                pantalla.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                MenuDesplegable.setBackgroundResource(R.drawable.side_nav_bar);
+                fondoPantalla.setBackgroundResource(R.drawable.side_nav_bar);
+                trozoDePantalla.setBackgroundResource(R.drawable.side_nav_bar);
+                nav.setBackgroundColor(Color.parseColor("#FFFFFF"));
+
+
+            }
+            if(Farcade.configuracionEmpresa.getColorTitulo()!=null){
+                titulo.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorTitulo()));
+            }else{
+                titulo.setTextColor(Color.parseColor("#FFFFFF"));
+            }
+            if(Farcade.configuracionEmpresa.getColorLetras()!=null){
+                tituloManual.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorLetras()));
+                tituloEscaner.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorLetras()));
+
+                nombreEmpresa.setTextColor(Color.parseColor("#000000"));
+               emailEmpresa.setTextColor(Color.parseColor("#000000"));
+
+            }else{
+                tituloEscaner.setTextColor(Color.parseColor("#FFFFFF"));
+                tituloManual.setTextColor(Color.parseColor("#FFFFFF"));
+                nombreEmpresa.setTextColor(Color.parseColor("#FFFFFF"));
+                emailEmpresa.setTextColor(Color.parseColor("#FFFFFF"));
+            }
+            if(Farcade.configuracionEmpresa.getNombre()!=null){
+                nombreEmpresa.setText(Farcade.configuracionEmpresa.getNombre());
+            }else{
+                nombreEmpresa.setText("LAC BUS");
+            }
+            if(Farcade.configuracionEmpresa.getEmails()!=null) {
+                if (!Farcade.configuracionEmpresa.getEmails().isEmpty()) {
+                    emailEmpresa.setText(Farcade.configuracionEmpresa.getEmails().get(0).getEmail());
+                } else {
+                    emailEmpresa.setText("tecnologo2016@gmail.com");
+                }
+            }else {
+                emailEmpresa.setText("tecnologo2016@gmail.com");
+            }
+            if(Farcade.configuracionEmpresa.getIconoEmpresa()!=null){
+                logoEmpresa.setImageURI(Uri.parse(Farcade.configuracionEmpresa.getIconoEmpresa()));
+            }else{
+                logoEmpresa.setImageResource(R.drawable.icono_bondi);
+            }
+
+
+        }else{
+            //No existe configuracion disponible
+            pantalla.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            MenuDesplegable.setBackgroundResource(R.drawable.side_nav_bar);
+            fondoPantalla.setBackgroundResource(R.drawable.side_nav_bar);
+            titulo.setTextColor(Color.parseColor("#FFFFFF"));
+            tituloEscaner.setTextColor(Color.parseColor("#FFFFFF"));
+            tituloManual.setTextColor(Color.parseColor("#FFFFFF"));
+            nombreEmpresa.setTextColor(Color.parseColor("#FFFFFF"));
+            emailEmpresa.setTextColor(Color.parseColor("#FFFFFF"));
+            nombreEmpresa.setText("LAC BUS");
+            emailEmpresa.setText("tecnologo2016@gmail.com");
+            logoEmpresa.setImageResource(R.drawable.icono_bondi);
+
+
+        }
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

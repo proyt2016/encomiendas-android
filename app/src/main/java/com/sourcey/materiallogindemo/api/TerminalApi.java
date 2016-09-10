@@ -1,7 +1,6 @@
 package com.sourcey.materiallogindemo.api;
 
 import com.sourcey.materiallogindemo.AddHeaderInterceptor;
-import com.sourcey.materiallogindemo.LogJsonInterceptor;
 import com.sourcey.materiallogindemo.Shares.DataTerminal;
 
 import java.util.List;
@@ -11,7 +10,6 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 
 /**
  * Created by andres on 14/5/16.
@@ -30,7 +28,7 @@ public class TerminalApi {
                httpClient.addInterceptor(new AddHeaderInterceptor());
                 Retrofit retrofit = new Retrofit.Builder()
 
-                        .baseUrl("http://192.168.1.41:8080")
+                        .baseUrl("http://192.168.1.3:8080")
                         .addConverterFactory(GsonConverterFactory.create())
                         .client(httpClient.build())
                         .build();

@@ -1,6 +1,7 @@
 package com.sourcey.materiallogindemo;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -13,9 +14,12 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.sourcey.materiallogindemo.Shares.DataConfiguracionEmpresa;
 import com.sourcey.materiallogindemo.Shares.DataTerminal;
+import com.sourcey.materiallogindemo.api.EmpresaApi;
 import com.sourcey.materiallogindemo.api.TerminalApi;
 
 import java.util.List;
@@ -30,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText filtro;
     private TenantProvider header = new TenantProvider();
     private  TextView txt;
+    private RelativeLayout layoutMain;
     public int cod;
     private static boolean cargo;
     private  static boolean cargoAdapter;
@@ -40,10 +45,62 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        lv = (ListView) findViewById(R.id.listaTerminales);
-        filtro = (EditText) findViewById(R.id.inputSearch);
+        lv = (ListView) findViewById(R.id.listaterminales);
+        layoutMain = (RelativeLayout)findViewById(R.id.mainlayout);
+        filtro = (EditText) findViewById(R.id.inputsearch);
         filtro.addTextChangedListener(filterTextWatcher);
         lv.setTextFilterEnabled(true);
+
+        Call<DataConfiguracionEmpresa> call1 = EmpresaApi.createService().getConfiguracionEmpresa();
+        call1.enqueue(new Callback<DataConfiguracionEmpresa>() {
+            @Override
+            public void onResponse(Call<DataConfiguracionEmpresa> call, Response<DataConfiguracionEmpresa> response) {
+                if(response.isSuccessful()) {
+                    Farcade.configuracionEmpresa = response.body();
+
+                    if(Farcade.configuracionEmpresa.getId()!=null){
+                        if(Farcade.configuracionEmpresa.getColorFondosDePantalla()!=null){
+                            layoutMain.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondosDePantalla()));
+                        }else{
+                            layoutMain.setBackgroundResource(R.drawable.side_nav_bar);
+                            filtro.setBackgroundResource(R.drawable.side_nav_bar);
+                        }
+                        if(Farcade.configuracionEmpresa.getColorFondoLista()!=null){
+                            lv.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondoLista()));
+                        }else{
+                            lv.setBackgroundResource(R.drawable.side_nav_bar);
+                        }
+                        if(Farcade.configuracionEmpresa.getColorLetras()!=null){
+                            filtro.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorLetras()));
+                            filtro.setHintTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorLetras()));
+                            filtro.setLinkTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorLetras()));
+                        }else{
+                            filtro.setTextColor(Color.parseColor("#FFFFFFFF"));
+                            filtro.setHintTextColor(Color.parseColor("#333333"));
+                            filtro.setLinkTextColor(Color.parseColor("#333333"));
+                            filtro.setHighlightColor(Color.parseColor("#FFFFFFFF"));
+                        }
+
+
+                    }
+
+                }else{
+                    //NO EXISTE CONFIGURACION CARGADA
+                    layoutMain.setBackgroundResource(R.drawable.side_nav_bar);
+                    filtro.setBackgroundResource(R.drawable.side_nav_bar);
+                    lv.setBackgroundResource(R.drawable.side_nav_bar);
+                    filtro.setTextColor(Color.parseColor("#FFFFFFFF"));
+                    filtro.setHintTextColor(Color.parseColor("#333333"));
+                    filtro.setLinkTextColor(Color.parseColor("#333333"));
+                    filtro.setHighlightColor(Color.parseColor("#FFFFFFFF"));
+                }
+            }
+            @Override
+            public void onFailure(Call<DataConfiguracionEmpresa> call, Throwable t) {
+                System.out.println("onFailure");}
+        });
+
+
 
             if (cargo == false) {
                 cargo = true;
@@ -52,22 +109,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 call.enqueue(new Callback<List<DataTerminal>>() {
                     @Override
                     public void onResponse(Call<List<DataTerminal>> call, Response<List<DataTerminal>> response) {
-                     List<DataTerminal> ListaTerminal = response.body();
+                        List<DataTerminal> ListaTerminal = response.body();
 
-                        System.out.println("HEADERS REQUEST******************"+" "+call.request().headers().toString());
+                        System.out.println("HEADERS REQUEST******************" + " " + call.request().headers().toString());
 
-                        System.out.println("HEADERS RESPONSE******************"+" "+response.headers().toString());
+                        System.out.println("HEADERS RESPONSE******************" + " " + response.headers().toString());
 
 
-                        if (cargoAdapter == false && cargo == true ) {
-                            cargoAdapter = true;
-                            adapter = new InteractiveArrayAdapterTerminales(MainActivity.this,0,ListaTerminal);
-                            lv.setAdapter(adapter);
-                            for (DataTerminal t : ListaTerminal) {
-                                adapter.notifyDataSetChanged();
+                        if (response.body() != null) {
+                            if (cargoAdapter == false && cargo == true) {
+                                cargoAdapter = true;
+                                adapter = new InteractiveArrayAdapterTerminales(MainActivity.this, 0, ListaTerminal);
+                                lv.setAdapter(adapter);
+                                for (DataTerminal t : ListaTerminal) {
+                                    adapter.notifyDataSetChanged();
+                                }
                             }
                         }
-                     }
+                    }
                     @Override
                     public void onFailure(Call<List<DataTerminal>> call, Throwable t) {
                         System.out.println("onFailure");}

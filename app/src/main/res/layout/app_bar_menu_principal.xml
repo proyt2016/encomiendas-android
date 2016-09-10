@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.sourcey.materiallogindemo.MenuPrincipal">
+    tools:context="com.sourcey.materiallogindemo.MenuPrincipal"
+    android:id="@+id/trozodepantalla">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

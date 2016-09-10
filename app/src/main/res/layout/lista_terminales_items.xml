@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:baselineAligned="false"
-    android:background="@drawable/side_nav_bar"
+    android:id="@+id/listaterminaleslayout"
     android:weightSum="1">
     <!-- Los elementos de la lista se setean en textview  -->
 
@@ -11,7 +11,7 @@
         android:orientation="vertical"
         android:layout_width="271dp"
         android:layout_height="wrap_content"
-        android:id="@+id/linearLayout6">
+        android:id="@+id/layoutelementoterminal">
 
         <TextView
             android:id="@+id/titulo"
@@ -20,7 +20,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginTop="12dp"
             android:textSize="15dip"
-            android:textColor="@color/white"/>
+          />
 
     </LinearLayout>
 
@@ -33,6 +33,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:id="@+id/layoutbutton"
         android:weightSum="1">
 
         <Button

@@ -3,14 +3,12 @@ package com.sourcey.materiallogindemo.api;
 import com.google.gson.JsonObject;
 import com.sourcey.materiallogindemo.AddHeaderInterceptor;
 import com.sourcey.materiallogindemo.Shares.DataEmpleado;
-import com.sourcey.materiallogindemo.Shares.DataUsuario;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
-import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 /**
@@ -24,7 +22,7 @@ public class EmpleadoApi {
         if (usuarioService == null) {
             httpClient.addInterceptor(new AddHeaderInterceptor());
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://192.168.1.41:8080")
+                    .baseUrl("http://192.168.1.3:8080")
                     .addConverterFactory(GsonConverterFactory.create())
 
                     .client(httpClient.build())
