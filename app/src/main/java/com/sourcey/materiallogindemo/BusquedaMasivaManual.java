@@ -3,6 +3,7 @@ package com.sourcey.materiallogindemo;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
@@ -12,7 +13,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import com.sourcey.materiallogindemo.Shares.DataEncomiendaConvertor;
@@ -47,8 +50,10 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
     Button detalle,confirmar;
     CheckBox noProcesada;
     List<String> estados = new ArrayList<>();
-
     String codCoche;
+    RelativeLayout pantalla;
+    LinearLayout pantallaCheckBox;
+    LinearLayout spinnerLayout;
 
 
 
@@ -60,11 +65,17 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
         codCoche = getIntent().getExtras().getString("idCoche");
         spinner = (Spinner)findViewById(R.id.spinner);
         listaEncomiendas = (ListView)findViewById(android.R.id.list);
-        noProcesada = (CheckBox)findViewById(R.id.NoProcesadas);
+        noProcesada = (CheckBox)findViewById(R.id.noprocesadas);
         escaner = (Button)findViewById(R.id.escaner);
 
         confirmar =(Button)findViewById(R.id.button);
         detalle = (Button)findViewById(R.id.detalle);
+        pantalla = (RelativeLayout)findViewById(R.id.layout_busqueda_manual);
+        pantallaCheckBox = (LinearLayout) findViewById(R.id.linearlayoutchek);
+        spinnerLayout = (LinearLayout) findViewById(R.id.layout_spinner_manual);
+
+
+
 
         confirmar.setOnClickListener(this);
         listaEncomiendas.setItemsCanFocus(true);
@@ -99,6 +110,53 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
         estadosAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, estados);
         estadosAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(estadosAdapter);
+
+        if(Farcade.configuracionEmpresa.getId()!=null){
+            if(Farcade.configuracionEmpresa.getColorFondosDePantalla()!=null){
+                pantalla.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondosDePantalla()));
+                pantallaCheckBox.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondosDePantalla()));
+                //spinnerLayout.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondosDePantalla()));
+
+            }else{
+                pantalla.setBackgroundResource(R.drawable.side_nav_bar);
+              //  spinnerLayout.setBackgroundResource(R.drawable.side_nav_bar);
+               // pantallaCheckBox.setBackgroundResource(R.drawable.side_nav_bar);
+
+            }
+            if(Farcade.configuracionEmpresa.getColorFondoLista()!=null){
+                listaEncomiendas.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondoLista()));
+            }else{
+               // listaEncomiendas.setBackgroundResource(R.drawable.side_nav_bar);
+            }
+            if(Farcade.configuracionEmpresa.getColorLetras()!=null){
+                escaner.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorLetras()));
+                confirmar.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorLetras()));
+                noProcesada.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorLetras()));
+            }else{
+                escaner.setTextColor(Color.WHITE);
+                confirmar.setTextColor(Color.WHITE);
+                noProcesada.setTextColor(Color.WHITE);
+            }if(Farcade.configuracionEmpresa.getColorBoton()!=null){
+                escaner.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorBoton()));
+                confirmar.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorBoton()));
+            }else{
+                escaner.setBackgroundColor(Color.parseColor("#ff757575"));
+                confirmar.setBackgroundColor(Color.parseColor("#ff757575"));
+            }
+
+
+        }else{
+            pantalla.setBackgroundResource(R.drawable.side_nav_bar);
+           // spinnerLayout.setBackgroundResource(R.drawable.side_nav_bar);
+          //  pantallaCheckBox.setBackgroundResource(R.drawable.side_nav_bar);
+            listaEncomiendas.setBackgroundResource(R.drawable.side_nav_bar);
+            escaner.setBackgroundColor(Color.parseColor("#ff757575"));
+            confirmar.setBackgroundColor(Color.parseColor("#ff757575"));
+            escaner.setTextColor(Color.WHITE);
+            confirmar.setTextColor(Color.WHITE);
+            noProcesada.setTextColor(Color.WHITE);
+
+        }
         //MANEJO CHECKBOX NO PROCESADAS
         noProcesada.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -264,10 +322,11 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
           IntentIntegrator scanIntegrator = new IntentIntegrator(BusquedaMasivaManual.this);
           scanIntegrator.initiateScan();
     }
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+    public void onActivityResult(final int requestCode, int resultCode, Intent intent) {
 
         IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         if (scanningResult.getContents() != null) {
+
 
             scanContent = scanningResult.getContents();
             String scanFormat = scanningResult.getFormatName();
@@ -276,61 +335,78 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
             call3.enqueue(new Callback<DataEncomiendaConvertor>() {
                 @Override
                 public void onResponse(Call<DataEncomiendaConvertor> call, Response<DataEncomiendaConvertor> response) {
+                    if (response.isSuccessful()) {
 
-                    final DataEncomiendaConvertor encomienda = response.body();
+                        if(response.body()!=null) {
 
-                    Call<List<DataEstadosEncomienda>> call4 = EncomiendaApi.createService().getAllEstados();
-                    call4.enqueue(new Callback<List<DataEstadosEncomienda>>() {
-                        @Override
-                        public void onResponse(Call<List<DataEstadosEncomienda>> call, Response<List<DataEstadosEncomienda>> response) {
+                            final DataEncomiendaConvertor encomienda = response.body();
 
-                            ListaEstados2 = response.body();
+                            Call<List<DataEstadosEncomienda>> call4 = EncomiendaApi.createService().getAllEstados();
+                            call4.enqueue(new Callback<List<DataEstadosEncomienda>>() {
+                                @Override
+                                public void onResponse(Call<List<DataEstadosEncomienda>> call, Response<List<DataEstadosEncomienda>> response) {
 
-                            for(DataEstadosEncomienda estadosEncomienda : ListaEstados2){
-                                if(estadosEncomienda.getNombre().equals(valOfSpinner.toString())){
+                                    ListaEstados2 = response.body();
 
-                                    Call<Void> call3 = EncomiendaApi.createService().setEstadoEncomienda(encomienda.getId(), estadosEncomienda);
-                                    call3.enqueue(new Callback<Void>() {
-                                        @Override
-                                        public void onResponse(Call<Void> call, Response<Void> response) {
-                                            cambioDeEsado().show();
+                                    for (DataEstadosEncomienda estadosEncomienda : ListaEstados2) {
+                                        if (estadosEncomienda.getNombre().equals(valOfSpinner.toString())) {
 
-                                            Call<List<DataEncomiendaConvertor>> call2 = EncomiendaApi.createService().getByVehiculo(codCoche);
-                                            call2.enqueue(new Callback<List<DataEncomiendaConvertor>>() {
+                                            Call<Void> call3 = EncomiendaApi.createService().setEstadoEncomienda(encomienda.getId(), estadosEncomienda);
+                                            call3.enqueue(new Callback<Void>() {
                                                 @Override
-                                                public void onResponse(Call<List<DataEncomiendaConvertor>> call, Response<List<DataEncomiendaConvertor>> response) {
-                                                    List<DataEncomiendaConvertor> datos = response.body();
+                                                public void onResponse(Call<Void> call, Response<Void> response) {
+                                                    cambioDeEsado().show();
 
-                                                    Farcade.listaEncomiendas = datos;
-                                                    adapter = new InteractiveArrayAdapterEncomiendas(BusquedaMasivaManual.this, Farcade.listaEncomiendas);
-                                                    listaEncomiendas.setAdapter(adapter);
-                                                    adapter.notifyDataSetChanged();
+
+                                                    Call<List<DataEncomiendaConvertor>> call2 = EncomiendaApi.createService().getByVehiculo(codCoche);
+                                                    call2.enqueue(new Callback<List<DataEncomiendaConvertor>>() {
+                                                        @Override
+                                                        public void onResponse(Call<List<DataEncomiendaConvertor>> call, Response<List<DataEncomiendaConvertor>> response) {
+                                                            List<DataEncomiendaConvertor> datos = response.body();
+
+                                                            Farcade.listaEncomiendas = datos;
+                                                            adapter = new InteractiveArrayAdapterEncomiendas(BusquedaMasivaManual.this, Farcade.listaEncomiendas);
+                                                            listaEncomiendas.setAdapter(adapter);
+                                                            adapter.notifyDataSetChanged();
+
+                                                        }
+
+                                                        @Override
+                                                        public void onFailure(Call<List<DataEncomiendaConvertor>> call, Throwable t) {
+                                                            System.out.println("SE CAGO");
+                                                        }
+                                                    });
 
                                                 }
 
                                                 @Override
-                                                public void onFailure(Call<List<DataEncomiendaConvertor>> call, Throwable t) {
+                                                public void onFailure(Call<Void> call, Throwable t) {
                                                     System.out.println("SE CAGO");
                                                 }
                                             });
 
                                         }
-                                        @Override
-                                        public void onFailure(Call<Void> call, Throwable t) {
-                                            System.out.println("SE CAGO");
-                                        }
-                                    });
+                                    }
 
                                 }
-                            }
 
+                                @Override
+                                public void onFailure(Call<List<DataEstadosEncomienda>> call, Throwable t) {
+                                    System.out.println("SE CAGO");
+                                }
+                            });
+                        }else{
+                            //ENCOMIENDA == NULL
+                            dialogCodigo(2).show();
                         }
-                        @Override
-                        public void onFailure(Call<List<DataEstadosEncomienda>> call, Throwable t) {
-                            System.out.println("SE CAGO");
-                        }
-                    });
-                }
+                    }else{
+                        //NO EXISTE ENCOMIENDA
+                        dialogCodigo(2).show();
+
+
+                    }
+                    }
+
 
                 @Override
                 public void onFailure(Call<DataEncomiendaConvertor> call, Throwable t) {
@@ -344,7 +420,7 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
     {   AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle("Cambio de Estado Encomiendas");
         alertDialogBuilder.setMessage("Se cambio estado a:" + " " +valorSpinner);
-        alertDialogBuilder.setIcon(R.drawable.asignar_encomiendas);;
+        alertDialogBuilder.setIcon(R.drawable.asignar_encomiendas);
         DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {}};
@@ -357,7 +433,7 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
     private AlertDialog cambioDeEsado()
     {   AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle("Cambio de Estado Encomiendas");
-        alertDialogBuilder.setMessage("Se cambio estado");
+        alertDialogBuilder.setMessage("Se cambio estado a"+" "+valOfSpinner.toString());
         alertDialogBuilder.setIcon(R.drawable.asignar_encomiendas);;
         DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
             @Override

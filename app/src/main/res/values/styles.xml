@@ -27,6 +27,12 @@
         <item name="android:background">@color/primary</item>
     </style>
 
+    <style name="AppTheme.Maxi" parent="Theme.AppCompat.Dialog">
+        <item name="colorAccent">@color/white</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:background">#ff757575</item>
+    </style>
+
 
 
     <style name="AppTheme.NoActionBar">

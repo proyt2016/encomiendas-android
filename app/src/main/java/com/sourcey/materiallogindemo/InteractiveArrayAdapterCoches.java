@@ -1,27 +1,19 @@
 package com.sourcey.materiallogindemo;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.sourcey.materiallogindemo.Shares.DataEncomiendaConvertor;
 import com.sourcey.materiallogindemo.Shares.DataVehiculo;
-import com.sourcey.materiallogindemo.api.EncomiendaApi;
-import com.sourcey.materiallogindemo.com.google.zxing.integration.android.IntentIntegrator;
 
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by maxi on 15/08/16.
@@ -50,6 +42,7 @@ public class InteractiveArrayAdapterCoches extends ArrayAdapter<DataVehiculo>  {
         protected TextView marca;
         protected TextView matricula;
         protected RadioButton radioButton;
+        protected RelativeLayout pantallaItems;
     }
     public View getView(final int position, View convertView, ViewGroup parent) {
         View view = null;
@@ -62,6 +55,7 @@ public class InteractiveArrayAdapterCoches extends ArrayAdapter<DataVehiculo>  {
             viewHolder.cocheId = (TextView) view.findViewById(R.id.coche);
             viewHolder.marca = (TextView) view.findViewById(R.id.marca);
             viewHolder.matricula = (TextView) view.findViewById(R.id.matricula);
+            viewHolder.pantallaItems = (RelativeLayout)view.findViewById(R.id.layout_row_coche);
 
             //EN VEZ DE UN BUTTON CAMBIAR A RADIOBUTTON HE INCLUIR SELECCION SINGLE DE APP GUARDA
             viewHolder.radioButton = (RadioButton) view.findViewById(R.id.radio);
@@ -124,6 +118,34 @@ public class InteractiveArrayAdapterCoches extends ArrayAdapter<DataVehiculo>  {
         }
        // holder.recorrido.setText("Recorrido"+" "+lista.get(position).getMarca());
        // holder.horario.setText("Nro Coche:"+" "+String.valueOf(lista.get(position).getNumeroVehiculo()));
+        if(Farcade.configuracionEmpresa.getId()!=null){
+            if (Farcade.configuracionEmpresa.getColorTextoLista()!=null) {
+                holder.cocheId.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorTextoLista()));
+                holder.marca.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorTextoLista()));
+                holder.matricula.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorTextoLista()));
+            }else{
+                holder.cocheId.setTextColor(Color.parseColor("#FFFFFF"));
+                holder.marca.setTextColor(Color.parseColor("#333333"));
+                holder.matricula.setTextColor(Color.parseColor("#333333"));
+
+            }
+            if(Farcade.configuracionEmpresa.getColorFondoLista()!=null){
+                holder.cocheId.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondoLista()));
+                holder.marca.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondoLista()));
+                holder.matricula.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondoLista()));
+                holder.pantallaItems.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondoLista()));
+            }else{
+                holder.pantallaItems.setBackgroundResource(R.drawable.side_nav_bar);
+            }
+        }else{
+            //NO EXISTE CONFIUGRACION
+            holder.cocheId.setTextColor(Color.parseColor("#FFFFFF"));
+            holder.marca.setTextColor(Color.parseColor("#333333"));
+            holder.matricula.setTextColor(Color.parseColor("#333333"));
+            holder.pantallaItems.setBackgroundResource(R.drawable.side_nav_bar);
+
+
+        }
         holder.cocheId.setText("Nro Coche:"+" "+(lista.get(position).getNumeroVehiculo()));
         holder.marca.setText("Marca:"+" "+(lista.get(position).getMarca()));
         holder.matricula.setText("Matricula:"+" "+(lista.get(position).getMatricula()));

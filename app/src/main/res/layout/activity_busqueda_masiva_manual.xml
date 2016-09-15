@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".BusquedaMasivaManual"
-    android:background="@drawable/side_nav_bar"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:id="@+id/layout_busqueda_manual">
 
     <!--<android.support.design.widget.AppBarLayout
         android:id="@+id/id_appbar"
@@ -32,14 +32,14 @@
         android:layout_width="match_parent"
         android:layout_height="320dp"
         android:layout_marginTop="15dp"
-        android:id="@+id/linearLayout"
+        android:id="@+id/linearlayoutchek"
         android:baselineAligned="false">
         <CheckBox
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="No Procesadas"
-            android:id="@+id/NoProcesadas"
+            android:buttonTint="@color/black"
+            android:id="@+id/noprocesadas"
             android:layout_below="@+id/textView2"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
@@ -58,15 +58,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginTop="340dp">
+        android:layout_marginTop="340dp"
+        android:id="@+id/layout_spinner_manual">
 
         <Spinner
             android:layout_width="100dp"
             android:layout_height="35dp"
             android:layout_marginLeft="130dp"
             android:id="@+id/spinner"
-
-
             android:background="@drawable/boton_redondo"/>
 
     </LinearLayout>
@@ -79,9 +78,6 @@
         android:layout_marginLeft="25dp"
         android:layout_height="40dp"
         android:layout_marginTop="390dp"
-        android:background="@color/primary_dark_material_light"
-        android:textColor="@color/white"
-
         android:padding="10dp"
         android:text="ESCANEAR"/>
 
@@ -91,9 +87,6 @@
         android:layout_marginLeft="25dp"
         android:layout_height="40dp"
         android:layout_marginTop="440dp"
-        android:background="@color/primary_dark_material_light"
-        android:textColor="@color/white"
-
         android:padding="10dp"
         android:text="CONFIRMAR"/>
 

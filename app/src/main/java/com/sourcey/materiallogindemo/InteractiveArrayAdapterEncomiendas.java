@@ -3,6 +3,7 @@ package com.sourcey.materiallogindemo;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sourcey.materiallogindemo.Shares.DataEncomiendaConvertor;
@@ -33,6 +35,7 @@ public class InteractiveArrayAdapterEncomiendas extends ArrayAdapter<DataEncomie
         protected TextView text;
         protected CheckBox checkbox;
         protected Button button;
+        protected RelativeLayout pantallaItems;
     }
     public View getView(int position, View convertView, ViewGroup parent){
         View view = null;
@@ -44,6 +47,7 @@ public class InteractiveArrayAdapterEncomiendas extends ArrayAdapter<DataEncomie
             viewHolder.text = (TextView) view.findViewById(R.id.label);
             viewHolder.checkbox = (CheckBox) view.findViewById(R.id.check);
             viewHolder.button = (Button) view.findViewById(R.id.detalle);
+            viewHolder.pantallaItems = (RelativeLayout) view.findViewById(R.id.checkbox_lista_encomiendas);
             viewHolder.button.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -85,6 +89,27 @@ public class InteractiveArrayAdapterEncomiendas extends ArrayAdapter<DataEncomie
             ((ViewHolder) view.getTag()).checkbox.setTag(lista.get(position));
         }
         ViewHolder holder = (ViewHolder) view.getTag();
+
+        if(Farcade.configuracionEmpresa.getId()!=null){
+
+            if(Farcade.configuracionEmpresa.getColorFondoLista()!=null){
+                holder.text.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondoLista()));
+            }else{
+           //     holder.text.setBackgroundResource(R.drawable.side_nav_bar);
+                holder.pantallaItems.setBackgroundResource(R.drawable.side_nav_bar);
+            }
+            if(Farcade.configuracionEmpresa.getColorTextoLista()!=null){
+                holder.text.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorTextoLista()));
+            }else{
+                holder.text.setTextColor(Color.WHITE);
+            }
+        }else{
+            //NO existe configuracion
+         //   holder.text.setBackgroundResource(R.drawable.side_nav_bar);
+            holder.text.setTextColor(Color.WHITE);
+            holder.pantallaItems.setBackgroundResource(R.drawable.side_nav_bar);
+        }
+
         holder.text.setText(lista.get(position).toString());//"Encomienda:"+" "+lista.get(position).getId().toString()+" "+"Estado:"+" "+lista.get(position).getUltimoEstado());//+" "+"Estado:"+" "+lista.get(position).getUltimoEstado().toString());
         holder.checkbox.setChecked(lista.get(position).isSelected());
 

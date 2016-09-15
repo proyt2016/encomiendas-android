@@ -1,26 +1,20 @@
 package com.sourcey.materiallogindemo;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Filter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.sourcey.materiallogindemo.Shares.DataEncomiendaConvertor;
-import com.sourcey.materiallogindemo.Shares.DataTerminal;
 import com.sourcey.materiallogindemo.Shares.DataVehiculo;
-import com.sourcey.materiallogindemo.api.EncomiendaApi;
 
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by maxi on 28/08/16.
@@ -41,6 +35,7 @@ public class InteractiveArrayAdapterCochesSinRadio extends ArrayAdapter<DataVehi
         protected TextView matricula;
         protected TextView marca;
         protected Button boton;
+        protected RelativeLayout pantallaItmes;
     }
 
     @Override
@@ -69,6 +64,7 @@ public class InteractiveArrayAdapterCochesSinRadio extends ArrayAdapter<DataVehi
             viewHolder.matricula = (TextView) view.findViewById(R.id.MATRICULA);
             viewHolder.marca = (TextView) view.findViewById(R.id.MARCA);
             viewHolder.boton = (Button) view.findViewById(R.id.NEXT);
+            viewHolder.pantallaItmes = (RelativeLayout)view.findViewById(R.id.coches_sin_radio_layout);
             viewHolder.boton.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -95,6 +91,42 @@ public class InteractiveArrayAdapterCochesSinRadio extends ArrayAdapter<DataVehi
             ((ViewHolder) view.getTag()).boton.setTag(lista.get(position));
         }
         ViewHolder holder = (ViewHolder) view.getTag();
+        if(Farcade.configuracionEmpresa.getId()!=null){
+            if (Farcade.configuracionEmpresa.getColorTextoLista()!=null) {
+                holder.coche.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorTextoLista()));
+                holder.marca.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorTextoLista()));
+                holder.matricula.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorTextoLista()));
+            }else{
+                holder.coche.setTextColor(Color.parseColor("#FFFFFF"));
+                holder.marca.setTextColor(Color.parseColor("#333333"));
+                holder.matricula.setTextColor(Color.parseColor("#333333"));
+
+            }
+            if(Farcade.configuracionEmpresa.getColorFondoLista()!=null){
+                holder.coche.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondoLista()));
+                holder.marca.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondoLista()));
+                holder.matricula.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondoLista()));
+                holder.pantallaItmes.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondoLista()));
+
+            }else{
+               // holder.coche.setBackgroundResource(R.drawable.side_nav_bar);
+               // holder.marca.setBackgroundResource(R.drawable.side_nav_bar);
+               // holder.matricula.setBackgroundResource(R.drawable.side_nav_bar);
+                holder.pantallaItmes.setBackgroundResource(R.drawable.side_nav_bar);
+
+            }
+        }else{
+            //NO EXISTE CONFIUGRACION
+            holder.coche.setTextColor(Color.parseColor("#FFFFFF"));
+            holder.marca.setTextColor(Color.parseColor("#333333"));
+            holder.matricula.setTextColor(Color.parseColor("#333333"));
+           // holder.coche.setBackgroundResource(R.drawable.side_nav_bar);
+           // holder.marca.setBackgroundResource(R.drawable.side_nav_bar);
+          //  holder.matricula.setBackgroundResource(R.drawable.side_nav_bar);
+            holder.pantallaItmes.setBackgroundResource(R.drawable.side_nav_bar);
+
+
+        }
         holder.coche.setText("Nro Coche:"+" "+lista.get(position).getNumeroVehiculo());
         holder.matricula.setText("Matricula:"+" "+lista.get(position).getMatricula());
         holder.marca.setText("Marca:"+" "+lista.get(position).getMarca());

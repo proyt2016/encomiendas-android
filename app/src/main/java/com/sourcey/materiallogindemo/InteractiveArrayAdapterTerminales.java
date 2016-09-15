@@ -73,6 +73,7 @@ public class InteractiveArrayAdapterTerminales extends ArrayAdapter<DataTerminal
                     DataTerminal terminal =(DataTerminal) v.getTag();
                     Intent i = new Intent(context,MenuPrincipal.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     i.putExtra("idTerminal",terminal.getId());
+                    Farcade.terminalSeleccionada = terminal;
                     System.out.println("------------------------------->"+terminal.getId());
                     getContext().getApplicationContext().startActivity(i);
                 }

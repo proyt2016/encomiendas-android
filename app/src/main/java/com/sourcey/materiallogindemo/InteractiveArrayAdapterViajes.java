@@ -2,24 +2,23 @@ package com.sourcey.materiallogindemo;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Filter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.sourcey.materiallogindemo.Shares.DataEncomiendaConvertor;
 import com.sourcey.materiallogindemo.Shares.DataViajeConvertor;
-import com.sourcey.materiallogindemo.api.EncomiendaApi;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 /**
@@ -38,7 +37,7 @@ public class InteractiveArrayAdapterViajes extends ArrayAdapter<DataViajeConvert
         this.flag = flag;
     }
     static class ViewHolder {
-        protected TextView cocheId;
+        protected RelativeLayout pantallaItems;
         protected TextView recorrido;
         protected TextView horario;
         protected Button boton;
@@ -67,7 +66,7 @@ public class InteractiveArrayAdapterViajes extends ArrayAdapter<DataViajeConvert
             final LayoutInflater inflator = context.getLayoutInflater();
             view = inflator.inflate(R.layout.lista_recorrido_items,null);
             final ViewHolder viewHolder = new ViewHolder();
-           // viewHolder.cocheId = (TextView) view.findViewById(R.id.idCoche);
+            viewHolder.pantallaItems = (RelativeLayout) view.findViewById(R.id.lista_recorrido_layout);
             viewHolder.horario = (TextView) view.findViewById(R.id.horario);
             viewHolder.recorrido = (TextView) view.findViewById(R.id.recorrido);
             viewHolder.boton = (Button) view.findViewById(R.id.next);
@@ -106,8 +105,39 @@ public class InteractiveArrayAdapterViajes extends ArrayAdapter<DataViajeConvert
             ((ViewHolder) view.getTag()).boton.setTag(lista.get(position));
         }
         ViewHolder holder = (ViewHolder) view.getTag();
+
+        if(Farcade.configuracionEmpresa.getId()!=null){
+            if(Farcade.configuracionEmpresa.getColorTextoLista()!=null){
+                holder.recorrido.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorTextoLista()));
+                holder.horario.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorTextoLista()));
+
+            }else{
+                holder.recorrido.setTextColor(Color.parseColor("#FFFFFF"));
+                holder.horario.setTextColor(Color.parseColor("#333333"));
+            }
+            if(Farcade.configuracionEmpresa.getColorFondoLista()!=null){
+                holder.recorrido.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondoLista()));
+                holder.horario.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondoLista()));
+                holder.pantallaItems.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondoLista()));
+            }else{
+              //  holder.recorrido.setBackgroundResource(R.drawable.side_nav_bar);
+              //  holder.horario.setBackgroundResource(R.drawable.side_nav_bar);
+                holder.pantallaItems.setBackgroundResource(R.drawable.side_nav_bar);
+            }
+        }else{
+            //no existe configuracion
+            holder.recorrido.setTextColor(Color.parseColor("#FFFFFF"));
+            holder.horario.setTextColor(Color.parseColor("#333333"));
+           // holder.recorrido.setBackgroundResource(R.drawable.side_nav_bar);
+           // holder.horario.setBackgroundResource(R.drawable.side_nav_bar);
+            holder.pantallaItems.setBackgroundResource(R.drawable.side_nav_bar);
+        }
+        Date fecha = new Date();
+        DateFormat dat = new SimpleDateFormat("dd/MM/yy");
+
+
         holder.recorrido.setText(lista.get(position).getRecorrido().getNombre());
-        holder.horario.setText("Fecha Salida:"+" "+String.valueOf(lista.get(position).getFechaSalida().getDay()+"/"+lista.get(position).getFechaSalida().getMonth()+"/"+lista.get(position).getFechaSalida().getYear()));
+        holder.horario.setText("Fecha Salida:"+" "+dat.format(lista.get(position).getFechaSalida()));
        // holder.cocheId.setText("Fecha Salida:"+" "+String.valueOf(lista.get(position).getFechaSalida().toString()));
         //holder.boton.setText("Recorrido:"+" "+lista.get(position).getNombre());
         return view;

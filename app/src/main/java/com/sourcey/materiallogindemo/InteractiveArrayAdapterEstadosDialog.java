@@ -1,7 +1,7 @@
 package com.sourcey.materiallogindemo;
 
 import android.app.Activity;
-import android.content.DialogInterface;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +12,6 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.sourcey.materiallogindemo.Shares.DataEstadosEncomienda;
-import com.sourcey.materiallogindemo.Shares.DataVehiculo;
-import com.sourcey.materiallogindemo.com.google.zxing.integration.android.IntentIntegrator;
 
 import java.util.List;
 
@@ -93,6 +91,17 @@ public class InteractiveArrayAdapterEstadosDialog extends ArrayAdapter<DataEstad
 
 
         final ViewHolder holder = (ViewHolder) view.getTag();
+
+        if(Farcade.configuracionEmpresa.getId()!=null){
+            if(Farcade.configuracionEmpresa.getColorTextoLista()!=null){
+                holder.EstadoNombre.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorTextoLista()));
+            }else{
+                holder.EstadoNombre.setTextColor(Color.WHITE);
+            }
+        }else{
+                holder.EstadoNombre.setTextColor(Color.WHITE);
+        }
+        //MAGIA EN RADIO BUTTON
         holder.radioButton.setOnClickListener(new View.OnClickListener() {
 
             @Override

@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/layput_pantalla_busqueda_individual"
 
     >
 
@@ -10,7 +11,7 @@
         android:layout_width="125dp"
         android:layout_marginTop="30dp"
         android:layout_height="45dp"
-        android:layout_marginLeft="75dp"
+        android:layout_marginLeft="79dp"
         android:backgroundTint="@color/white"
         android:spinnerMode="dialog"
         android:overlapAnchor="true"
@@ -22,7 +23,6 @@
         android:layout_height="wrap_content"
       android:layout_marginLeft="60dp"
         android:textAlignment="center"
-
         android:backgroundTint="@color/white"
         android:layout_marginTop="125dp"
         android:layout_marginBottom="8dp">
@@ -31,14 +31,8 @@
             android:layout_height="wrap_content"
             android:inputType="number"
             android:drawableLeft="@drawable/buscar"
-
             android:textAlignment="center"
-            android:textColorHint="@color/white"
-            android:textColor="@color/white"
-            android:textColorLink="@color/white"
             android:backgroundTint="@color/black"
-            android:textColorHighlight="@color/white"
-
             android:foregroundTint="#010101"
             android:hint="Ingresar Codigo Encomienda"/>
     </android.support.design.widget.TextInputLayout>

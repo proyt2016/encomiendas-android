@@ -2,6 +2,7 @@ package com.sourcey.materiallogindemo;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.sourcey.materiallogindemo.Shares.DataViajeConvertor;
 import com.sourcey.materiallogindemo.api.ViajeApi;
@@ -26,18 +28,15 @@ import retrofit2.Response;
 
 
 public class RegistroGrupal extends AppCompatActivity implements View.OnClickListener{
+
     public String codTerminal;
     private TenantProvider header;
     private ArrayAdapter<DataViajeConvertor> adapter;
-    //private List<Coche> lista = new ArrayList<Coche>();
     private ListView listadoRecorridos;
     private boolean cargo;
-    private boolean cargoAdapter;
     private  int flag;
     private EditText filtro;
-    static  int cod;
-
-
+    private RelativeLayout pantallaLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,10 +45,52 @@ public class RegistroGrupal extends AppCompatActivity implements View.OnClickLis
         flag = getIntent().getExtras().getInt("flag");
         codTerminal = getIntent().getExtras().getString("codigo");
 
-        listadoRecorridos = (ListView) findViewById(R.id.listadoCoches);
-        filtro = (EditText) findViewById(R.id.inputSearch);
+        listadoRecorridos = (ListView) findViewById(R.id.listadocoches);
+        filtro = (EditText) findViewById(R.id.inputsearch);
+        pantallaLayout = (RelativeLayout)findViewById(R.id.layout_pantalla_registro_grupal);
+
         listadoRecorridos.setTextFilterEnabled(true);
         filtro.addTextChangedListener(filterTextWatcher);
+
+        if(Farcade.configuracionEmpresa.getId()!=null){
+            if(Farcade.configuracionEmpresa.getColorFondosDePantalla()!=null){
+                pantallaLayout.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondosDePantalla()));
+                filtro.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondosDePantalla()));
+            }else{
+                pantallaLayout.setBackgroundResource(R.drawable.side_nav_bar);
+                filtro.setBackgroundResource(R.drawable.side_nav_bar);
+            }
+            if(Farcade.configuracionEmpresa.getColorFondoLista()!=null){
+                listadoRecorridos.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondoLista()));
+            }else{
+                listadoRecorridos.setBackgroundResource(R.drawable.side_nav_bar);
+            }
+            if(Farcade.configuracionEmpresa.getColorLetras()!=null){
+                filtro.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorLetras()));
+                filtro.setHintTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorLetras()));
+                filtro.setHighlightColor(Color.parseColor(Farcade.configuracionEmpresa.getColorLetras()));
+                filtro.setLinkTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorLetras()));
+
+            }else{
+                filtro.setTextColor(Color.WHITE);
+                filtro.setHintTextColor(Color.BLACK);
+                filtro.setHighlightColor(Color.BLACK);
+                filtro.setLinkTextColor(Color.BLACK);
+
+            }
+
+        }else{
+            //no existe configuracion
+            pantallaLayout.setBackgroundResource(R.drawable.side_nav_bar);
+            filtro.setBackgroundResource(R.drawable.side_nav_bar);
+            listadoRecorridos.setBackgroundResource(R.drawable.side_nav_bar);
+            filtro.setTextColor(Color.WHITE);
+            filtro.setHintTextColor(Color.BLACK);
+            filtro.setHighlightColor(Color.BLACK);
+            filtro.setLinkTextColor(Color.BLACK);
+
+
+        }
 
         Call<List<DataViajeConvertor>> call = ViajeApi.createService().getViajesPorTerminal(codTerminal);
         call.enqueue(new Callback<List<DataViajeConvertor>>() {

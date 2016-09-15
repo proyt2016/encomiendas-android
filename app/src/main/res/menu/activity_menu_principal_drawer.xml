@@ -23,8 +23,10 @@
                 android:icon="@drawable/icono_bondi"/>
             <item
                 android:id="@+id/datosEmpleado"
-                android:title="Datos Empleado"
+                android:title="Datos Usuario"
                 android:icon="@drawable/usuario"/>
+
+                />
 
         </menu>
 

@@ -5,6 +5,7 @@
     <string name="buscador">Buscar</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="title_activity_menu_principal">Menu</string>
+    <string name="title_activity_vista_informacion"></string>
 
     <string name="scan">Scan</string>
     <string name="ACEPTAR">ACEPTAR</string>

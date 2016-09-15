@@ -4,6 +4,7 @@ import com.sourcey.materiallogindemo.Shares.DataConfiguracionEmpresa;
 import com.sourcey.materiallogindemo.Shares.DataEmpleado;
 import com.sourcey.materiallogindemo.Shares.DataEncomiendaConvertor;
 import com.sourcey.materiallogindemo.Shares.DataEstadosEncomienda;
+import com.sourcey.materiallogindemo.Shares.DataTerminal;
 import com.sourcey.materiallogindemo.Shares.DataVehiculo;
 import com.sourcey.materiallogindemo.Shares.DataViajeConvertor;
 
@@ -21,6 +22,7 @@ public class Farcade {
     static DataEstadosEncomienda estadoSeleccionado = new DataEstadosEncomienda();
     static DataConfiguracionEmpresa configuracionEmpresa = new DataConfiguracionEmpresa();
     static DataEmpleado empleado = new DataEmpleado();
+    static DataTerminal terminalSeleccionada = new DataTerminal();
 
     public void setEmpleado(DataEmpleado emp){
         this.empleado = emp;
@@ -28,6 +30,14 @@ public class Farcade {
 
     public DataEmpleado getEmpleado(){
         return this.empleado;
+    }
+
+    public void setTerminalSeleccionada(DataTerminal emp){
+        this.terminalSeleccionada = emp;
+    }
+
+    public DataTerminal getTerminalSeleccionada(){
+        return this.terminalSeleccionada;
     }
 
     public  void SaveConfiguracionEmpresa(DataConfiguracionEmpresa empresa){

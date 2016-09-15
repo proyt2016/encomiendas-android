@@ -1,13 +1,12 @@
 package com.sourcey.materiallogindemo;
 
 import android.app.Activity;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
-import android.widget.RadioButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.sourcey.materiallogindemo.Shares.DataEstadosEncomienda;
@@ -29,6 +28,7 @@ public class InteractiveArrayAdapterSpinner extends ArrayAdapter<DataEstadosEnco
     }
     static class ViewHolder {
         protected TextView titulo;
+        protected LinearLayout pantallaItems;
 
     }
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -39,6 +39,7 @@ public class InteractiveArrayAdapterSpinner extends ArrayAdapter<DataEstadosEnco
             view = inflator.inflate(R.layout.rows_espinner,null);
             final ViewHolder viewHolder = new ViewHolder();
             viewHolder.titulo = (TextView) view.findViewById(R.id.titulos);
+            viewHolder.pantallaItems = (LinearLayout) view.findViewById(R.id.layout_spinner_adapter_items);
             view.setTag(viewHolder);
             viewHolder.titulo.setTag(lista.get(position));
 
@@ -48,6 +49,16 @@ public class InteractiveArrayAdapterSpinner extends ArrayAdapter<DataEstadosEnco
             ((ViewHolder) view.getTag()).titulo.setTag(lista.get(position).getNombre());
         }
         ViewHolder holder = (ViewHolder) view.getTag();
+        if(Farcade.configuracionEmpresa.getId()!=null){
+            if(Farcade.configuracionEmpresa.getColorTextoLista()!=null){
+                holder.titulo.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorTextoLista()));
+            }else{
+                holder.titulo.setTextColor(Color.WHITE);
+            }
+        }else{
+            //no hay conf
+            holder.titulo.setTextColor(Color.WHITE);
+        }
         holder.titulo.setText(lista.get(position).getNombre());
         return view;
     }

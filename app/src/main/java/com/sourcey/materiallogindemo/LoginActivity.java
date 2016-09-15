@@ -1,23 +1,30 @@
 package com.sourcey.materiallogindemo;
 
 import android.app.ProgressDialog;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
+import com.sourcey.materiallogindemo.Shares.DataConfiguracionEmpresa;
 import com.sourcey.materiallogindemo.Shares.DataEmpleado;
 import com.sourcey.materiallogindemo.api.EmpleadoApi;
+import com.sourcey.materiallogindemo.api.EmpresaApi;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
@@ -26,12 +33,78 @@ public class LoginActivity extends AppCompatActivity {
     @Bind(R.id.input_password) EditText _passwordText;
     @Bind(R.id.btn_login) Button _loginButton;
 
+    private ScrollView fondoPantalla;
+    private ImageView logo;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        
+
+        fondoPantalla = (ScrollView)findViewById(R.id.layout_login);
+        logo = (ImageView)findViewById(R.id.logo);
+
+        Call<DataConfiguracionEmpresa> call = EmpresaApi.createService().getConfiguracionEmpresa();
+        call.enqueue(new Callback<DataConfiguracionEmpresa>() {
+            @Override
+            public void onResponse(Call<DataConfiguracionEmpresa> call, Response<DataConfiguracionEmpresa> response) {
+                if(response.isSuccessful()) {
+                    Farcade.configuracionEmpresa = response.body();
+
+                    if(Farcade.configuracionEmpresa.getId()!=null){
+                        if(Farcade.configuracionEmpresa.getColorFondosDePantalla()!=null){
+                            fondoPantalla.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondosDePantalla()));
+                        }else{
+                           fondoPantalla.setBackgroundResource(R.drawable.side_nav_bar);
+                        }
+                       if(Farcade.configuracionEmpresa.getColorLetras()!=null){
+                           _userText.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorLetras()));
+                           _passwordText.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorLetras()));
+                           _loginButton.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorLetras()));
+
+                       }else{
+                           _userText.setTextColor(Color.WHITE);
+                           _passwordText.setTextColor(Color.WHITE);
+                           _loginButton.setTextColor(Color.WHITE);
+                       }
+                        if(Farcade.configuracionEmpresa.getColorBoton()!=null){
+                            _loginButton.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondosDePantalla()));
+                        }else{
+                            _loginButton.setBackgroundColor(Color.parseColor("#ff757575"));
+                        }
+                        if(Farcade.configuracionEmpresa.getIconoEmpresa()!=null){
+                            logo.setImageURI(Uri.parse(Farcade.configuracionEmpresa.getIconoEmpresa()));
+                        }else{
+                            logo.setImageResource(R.drawable.icono_bondi);
+                        }
+
+
+                    }else {
+                            fondoPantalla.setBackgroundResource(R.drawable.side_nav_bar);
+                            _userText.setTextColor(Color.WHITE);
+                            _passwordText.setTextColor(Color.WHITE);
+                            _loginButton.setTextColor(Color.WHITE);
+                            _loginButton.setBackgroundColor(Color.parseColor("#ff757575"));
+                            logo.setImageResource(R.drawable.icono_bondi);
+                    }
+                }else{
+
+                    //NO EXISTE CONFIGURACION CARGADA
+                    fondoPantalla.setBackgroundResource(R.drawable.side_nav_bar);
+                    _userText.setTextColor(Color.WHITE);
+                    _passwordText.setTextColor(Color.WHITE);
+                    _loginButton.setTextColor(Color.WHITE);
+                    _loginButton.setBackgroundColor(Color.parseColor("#ff757575"));
+                    logo.setImageResource(R.drawable.icono_bondi);
+
+                }
+            }
+            @Override
+            public void onFailure(Call<DataConfiguracionEmpresa> call, Throwable t) {
+                System.out.println("onFailure");}
+        });
+
         _loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,10 +123,13 @@ public class LoginActivity extends AppCompatActivity {
 
         _loginButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this, R.style.AppTheme_Dark_Dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Autenticando...");
-        progressDialog.show();
+
+
+            final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this, R.style.AppTheme_Maxi);
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage("Autenticando...");
+            progressDialog.show();
+
 
         String user = _userText.getText().toString();
         String password = _passwordText.getText().toString();
@@ -70,7 +146,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<DataEmpleado> call, Response<DataEmpleado> response) {
                 if(response.isSuccessful()) {
 
-                    DataEmpleado empleado = response.body();
+                    final DataEmpleado empleado = response.body();
 
 
 
@@ -82,6 +158,7 @@ public class LoginActivity extends AppCompatActivity {
                                         public void run() {
                                             // On complete call either onLoginSuccess or onLoginFailed
                                             onLoginSuccess();
+                                            Farcade.empleado = empleado;
                                             progressDialog.dismiss();
                                         }
                                     }, 3000);

@@ -3,6 +3,7 @@ package com.sourcey.materiallogindemo;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
@@ -10,8 +11,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
@@ -53,6 +57,13 @@ public class AsignarEncomiendas extends AppCompatActivity implements View.OnClic
     private List<DataEstadosEncomienda> ListaEstados = new ArrayList<>();
     private ArrayAdapter<DataVehiculo> adapter;
 
+    private RelativeLayout fondoDePantalla;
+    private LinearLayout layout_spinner;
+    private TextView titulo1;
+    private TextView titulo2;
+    private LinearLayout layput_lista_Coches;
+
+
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vista_coches);
@@ -64,9 +75,14 @@ public class AsignarEncomiendas extends AppCompatActivity implements View.OnClic
         listaCoches = (ListView) findViewById(R.id.listado);
         SpinnerEstados = (Spinner) findViewById(R.id.spinner);
         asignarEncomienda = (Button)findViewById(R.id.asignar);
+        titulo1 = (TextView)findViewById(R.id.txt);
+        titulo2 = (TextView)findViewById(R.id.titulo2);
+        layout_spinner = (LinearLayout)findViewById(R.id.layout_spinner_coche);
+        layput_lista_Coches = (LinearLayout)findViewById(R.id.layout_lista_coches);
+
+        fondoDePantalla = (RelativeLayout) findViewById(R.id.layout_vista_coches);
 
         asignarEncomienda.setOnClickListener(this);
-
 
 
         estados.add("Seleccionar");
@@ -80,6 +96,55 @@ public class AsignarEncomiendas extends AppCompatActivity implements View.OnClic
         estadosAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, estados);
         estadosAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         SpinnerEstados.setAdapter(estadosAdapter);
+
+        if(Farcade.configuracionEmpresa.getId()!=null){
+            if(Farcade.configuracionEmpresa.getColorFondosDePantalla()!=null){
+                fondoDePantalla.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondosDePantalla()));
+                layout_spinner.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondosDePantalla()));
+            }else{
+                fondoDePantalla.setBackgroundResource(R.drawable.side_nav_bar);
+                layout_spinner.setBackgroundResource(R.drawable.side_nav_bar);
+            }
+            if(Farcade.configuracionEmpresa.getColorTitulo()!=null){
+                titulo1.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorTitulo()));
+                titulo2.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorTitulo()));
+            }else{
+                titulo1.setTextColor(Color.WHITE);
+                titulo2.setTextColor(Color.WHITE);
+            }
+            if(Farcade.configuracionEmpresa.getColorFondoLista()!=null){
+                listaCoches.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondoLista()));
+                layput_lista_Coches.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondoLista()));
+            }else{
+                listaCoches.setBackgroundResource(R.drawable.side_nav_bar);
+                layput_lista_Coches.setBackgroundResource(R.drawable.side_nav_bar);
+            }
+            if(Farcade.configuracionEmpresa.getColorBoton()!=null){
+                asignarEncomienda.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorBoton()));
+            }else{
+                asignarEncomienda.setBackgroundColor(Color.parseColor("#ff757575"));
+            }
+            if(Farcade.configuracionEmpresa.getColorLetras()!=null){
+                asignarEncomienda.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorLetras()));
+            }else{
+                asignarEncomienda.setTextColor(Color.WHITE);
+            }
+
+
+        }else{
+            //NO EXISTE CONF
+            fondoDePantalla.setBackgroundResource(R.drawable.side_nav_bar);
+            layout_spinner.setBackgroundResource(R.drawable.side_nav_bar);
+            titulo1.setTextColor(Color.WHITE);
+            titulo2.setTextColor(Color.WHITE);
+            listaCoches.setBackgroundResource(R.drawable.side_nav_bar);
+            layput_lista_Coches.setBackgroundResource(R.drawable.side_nav_bar);
+            asignarEncomienda.setBackgroundColor(Color.parseColor("#ff757575"));
+            asignarEncomienda.setTextColor(Color.WHITE);
+
+        }
+
+
 
         DataViajeConvertor viaje = farcade.getViajeSeleccionado();
         List<DataVehiculo> listaVehiculo =  viaje.getCoches();
@@ -128,7 +193,9 @@ public class AsignarEncomiendas extends AppCompatActivity implements View.OnClic
         //SI EL RESULTADO ES DISTINTO DE NULL
         if (scanningResult.getContents() != null) {
 
+
             CodigoEncomienda = Integer.parseInt(scanningResult.getContents());
+
 
             //TRAIGO LOS ESTADO DE LA BASE DE DATOS
 
@@ -136,68 +203,80 @@ public class AsignarEncomiendas extends AppCompatActivity implements View.OnClic
                     call3.enqueue(new Callback<DataEncomiendaConvertor>() {
                         @Override
                         public void onResponse(Call<DataEncomiendaConvertor> call, Response<DataEncomiendaConvertor> response) {
-                         encomienda = response.body();
+                            if(response.isSuccessful()) {
+                                encomienda = response.body();
 
-                            Call<List<DataEstadosEncomienda>> call2 = EncomiendaApi.createService().getAllEstados();
-                            call2.enqueue(new Callback<List<DataEstadosEncomienda>>() {
-                                @Override
-                                public void onResponse(Call<List<DataEstadosEncomienda>> call, Response<List<DataEstadosEncomienda>> response) {
-                                    ListaEstados = response.body();
-                                    //ME QUEDO CON EL ESTADO IGAUL AL SELECCIONADO EN EL SPINNER estadoSelec;
+                                Call<List<DataEstadosEncomienda>> call2 = EncomiendaApi.createService().getAllEstados();
+                                call2.enqueue(new Callback<List<DataEstadosEncomienda>>() {
+                                    @Override
+                                    public void onResponse(Call<List<DataEstadosEncomienda>> call, Response<List<DataEstadosEncomienda>> response) {
+                                        ListaEstados = response.body();
+                                        //ME QUEDO CON EL ESTADO IGAUL AL SELECCIONADO EN EL SPINNER estadoSelec;
 
-                                    for (final DataEstadosEncomienda estado: ListaEstados){
-                                        if(estado.getNombre().equals(valOfSpinner.toString())){
-                                            final DataEstadosEncomienda estadoSelec = estado;
+                                        for (final DataEstadosEncomienda estado : ListaEstados) {
+                                            if (estado.getNombre().equals(valOfSpinner.toString())) {
+                                                final DataEstadosEncomienda estadoSelec = estado;
 
-                                    Call<Void> call2 = EncomiendaApi.createService().setEstadoEncomienda(encomienda.getId(),estadoSelec);
-                                    call2.enqueue(new Callback<Void>() {
-                                        @Override
-                                        public void onResponse(Call<Void> call, Response<Void> response) {
-                                            if(response.isSuccessful()){
-                                                Toast.makeText(AsignarEncomiendas.this,"ESTADO SETEADO",Toast.LENGTH_LONG).show();
-
-                                                final  JsonObject data = new JsonObject();
-
-                                                IdVehiculo = Farcade.cocheSeleccionado.getId();
-                                                data.addProperty("IdEncomienda", encomienda.getId());
-                                                data.addProperty("idViaje", IdViaje);
-                                                data.addProperty("idCoche", IdVehiculo);
-
-                                                Call<Void> call5 = EncomiendaApi.createService().asignarEncomiendas(data);
-                                                call5.enqueue(new Callback<Void>() {
+                                                Call<Void> call2 = EncomiendaApi.createService().setEstadoEncomienda(encomienda.getId(), estadoSelec);
+                                                call2.enqueue(new Callback<Void>() {
                                                     @Override
                                                     public void onResponse(Call<Void> call, Response<Void> response) {
-                                                        if(response.isSuccessful()){
-                                                            Toast.makeText(AsignarEncomiendas.this,"ENCOMIENDA ASIGNADA CORRECTAMENTE",Toast.LENGTH_LONG).show();
+                                                        if (response.isSuccessful()) {
+                                                            Toast.makeText(AsignarEncomiendas.this, "ESTADO SETEADO", Toast.LENGTH_LONG).show();
 
-                                                        }else{
-                                                            Toast.makeText(AsignarEncomiendas.this,"ENCOMIENDA ASIGNADA CORRECTAMENTE",Toast.LENGTH_LONG).show();
+                                                            final JsonObject data = new JsonObject();
+
+                                                            IdVehiculo = Farcade.cocheSeleccionado.getId();
+                                                            data.addProperty("IdEncomienda", encomienda.getId());
+                                                            data.addProperty("idViaje", IdViaje);
+                                                            data.addProperty("idCoche", IdVehiculo);
+
+                                                            Call<Void> call5 = EncomiendaApi.createService().asignarEncomiendas(data);
+                                                            call5.enqueue(new Callback<Void>() {
+                                                                @Override
+                                                                public void onResponse(Call<Void> call, Response<Void> response) {
+                                                                    if (response.isSuccessful()) {
+                                                                        Toast.makeText(AsignarEncomiendas.this, "ENCOMIENDA ASIGNADA CORRECTAMENTE", Toast.LENGTH_LONG).show();
+
+                                                                    } else {
+                                                                        Toast.makeText(AsignarEncomiendas.this, "ENCOMIENDA ASIGNADA CORRECTAMENTE", Toast.LENGTH_LONG).show();
+                                                                    }
+                                                                }
+
+                                                                @Override
+                                                                public void onFailure(Call<Void> call, Throwable t) {
+                                                                    System.out.println("SE CAGO");
+                                                                }
+                                                            });
+
+                                                        } else {
+                                                            Toast.makeText(AsignarEncomiendas.this, "ESTADO NO SETEADO", Toast.LENGTH_LONG).show();
                                                         }
+
                                                     }
+
+
                                                     @Override
                                                     public void onFailure(Call<Void> call, Throwable t) {
-                                                        System.out.println("SE CAGO");}
+                                                        System.out.println("SE CAGO");
+                                                    }
                                                 });
 
-                                            }else{
-                                                Toast.makeText(AsignarEncomiendas.this,"ESTADO NO SETEADO",Toast.LENGTH_LONG).show();
+
                                             }
                                         }
-                                        @Override
-                                        public void onFailure(Call<Void> call, Throwable t) {
-                                            System.out.println("SE CAGO");}
-                                    });
 
-                                        }
                                     }
 
-                                }
+                                    public void onFailure(Call<List<DataEstadosEncomienda>> call, Throwable t) {
+                                        System.out.println("SE CAGO");
+                                    }
+                                });
 
-                                public void onFailure(Call<List<DataEstadosEncomienda>> call, Throwable t) {
-                                    System.out.println("SE CAGO");}
-                            });
-
-
+                            }else{
+                                //fallo codigo
+                                encoNull().show();
+                            }
 
 
                             System.out.println("VEHICULO SELECCIONADO "+" "+IdVehiculo);
@@ -241,6 +320,20 @@ public class AsignarEncomiendas extends AppCompatActivity implements View.OnClic
     {   AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle("Atencion!");
         alertDialogBuilder.setMessage("Debe seleccionar un Vehiculo");
+        alertDialogBuilder.setIcon(R.drawable.icono_alerta);;
+        DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {}};
+        DialogInterface.OnClickListener listenerCancelar = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {return;}};
+        alertDialogBuilder.setPositiveButton(R.string.ACEPTAR, listenerOk);
+        return alertDialogBuilder.create();
+    }
+    private AlertDialog encoNull()
+    {   AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("Atencion!");
+        alertDialogBuilder.setMessage("Codigo no encontrado");
         alertDialogBuilder.setIcon(R.drawable.icono_alerta);;
         DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
             @Override

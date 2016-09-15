@@ -1,8 +1,8 @@
 package com.sourcey.materiallogindemo;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
@@ -37,6 +37,8 @@ public class MenuPrincipal extends AppCompatActivity implements NavigationView.O
     private ImageView logoEmpresa;
     private CoordinatorLayout trozoDePantalla;
     private NavigationView nav;
+    private TextView usr;
+    private ClipData.Item terminal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,14 +59,30 @@ public class MenuPrincipal extends AppCompatActivity implements NavigationView.O
         nav = (NavigationView) findViewById(R.id.nav_view);
         logoEmpresa = (ImageView)findViewById(R.id.imageview);
 
+
+
+//        usr.setText("Nombre:"+" "+Farcade.empleado.getClave()+"\n"
+  //                  +"E-mail:"+" "+Farcade.empleado.getEmail());
+//        usr.setText("Nombre:"+" "+"MACI");//+"\n"
+               // +"E-mail:"+" ");//Farcade.empleado.getEmail());
+/*
+        terminal.setText("Terminal:"+" "+Farcade.terminalSeleccionada.getNombre()+"\n"
+                        +"Contacto:"+" "+"27092656");*/
+
+        //Farcade.terminalSeleccionada.getTelefonosContacto().get(0)); CUANDO TEN LOS TELEFONOS
+
+
+
         //TEXTOS MENU DESPLEGABLE
         nombreEmpresa = (TextView)findViewById(R.id.nombreempresa);
         emailEmpresa = (TextView)findViewById(R.id.mailempresa);
 
 
+
         titulo = (TextView)findViewById(R.id.titulo);
         tituloEscaner = (TextView)findViewById(R.id.subtituloescaner);
         tituloManual = (TextView)findViewById(R.id.subtitulomanual);
+
 
 
         btnManual.setOnClickListener(this);
@@ -119,11 +137,7 @@ public class MenuPrincipal extends AppCompatActivity implements NavigationView.O
             }else {
                 emailEmpresa.setText("tecnologo2016@gmail.com");
             }
-            if(Farcade.configuracionEmpresa.getIconoEmpresa()!=null){
-                logoEmpresa.setImageURI(Uri.parse(Farcade.configuracionEmpresa.getIconoEmpresa()));
-            }else{
-                logoEmpresa.setImageResource(R.drawable.icono_bondi);
-            }
+
 
 
         }else{
@@ -213,9 +227,14 @@ public class MenuPrincipal extends AppCompatActivity implements NavigationView.O
             startActivity(i);
         }
         else if (id == R.id.datosEmpleado) {
-         /*   Intent i = new Intent(MenuPrincipal.this, RegistroIndividual.class);
-            i.putExtra("codigo",codTerminal );
-            startActivity(i);*/
+           Intent i = new Intent(MenuPrincipal.this, DialogInformacion.class);
+            i.putExtra("flag",1 );
+            startActivity(i);
+        }
+        else if (id == R.id.datosTerminal) {
+            Intent i = new Intent(MenuPrincipal.this, DialogInformacion.class);
+            i.putExtra("flag",2 );
+            startActivity(i);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -238,6 +257,7 @@ public class MenuPrincipal extends AppCompatActivity implements NavigationView.O
             startActivity(i);
 
         }
+
     }
 
 }

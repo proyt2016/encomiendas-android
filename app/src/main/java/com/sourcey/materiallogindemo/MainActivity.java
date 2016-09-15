@@ -55,8 +55,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         call1.enqueue(new Callback<DataConfiguracionEmpresa>() {
             @Override
             public void onResponse(Call<DataConfiguracionEmpresa> call, Response<DataConfiguracionEmpresa> response) {
-                if(response.isSuccessful()) {
+
                     Farcade.configuracionEmpresa = response.body();
+
+                if(response.body()!=null){
 
                     if(Farcade.configuracionEmpresa.getId()!=null){
                         if(Farcade.configuracionEmpresa.getColorFondosDePantalla()!=null){

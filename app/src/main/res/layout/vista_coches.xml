@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/side_nav_bar">
+    android:id="@+id/layout_vista_coches">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +18,6 @@
             android:text="SELECCIONE UN ESTADO"
             android:textSize="18dip"
             android:layout_marginTop="10dp"
-            android:textColor="@color/white"
             android:textStyle="bold"/>
 
     </LinearLayout>
@@ -27,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_marginTop="75dp"
-        android:background="@drawable/side_nav_bar">
+        android:id="@+id/layout_spinner_coche">
 
         <Spinner
             android:layout_width="wrap_content"
@@ -58,7 +57,7 @@
             android:layout_marginLeft="85dp"
             android:text="SELECCIONE UN COCHE"
             android:textSize="18dip"
-            android:textColor="@color/white"/>
+           />
 
     </LinearLayout>
 
@@ -66,14 +65,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="190dp"
-        android:background="@drawable/side_nav_bar">
+        android:id="@+id/layout_lista_coches">
 
         <ListView
             android:id="@+id/listado"
-            android:background="@drawable/side_nav_bar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-
     </LinearLayout>
 
     <android.support.v7.widget.AppCompatButton
@@ -82,15 +79,6 @@
         android:layout_marginLeft="25dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="438dp"
-        android:background="@color/primary"
-        android:textColor="@color/white"
         android:padding="15dp"
         android:text="ASIGNAR"/>
-
-
-
-
-
-
-
 </RelativeLayout>

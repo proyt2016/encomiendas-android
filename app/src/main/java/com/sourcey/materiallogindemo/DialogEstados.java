@@ -3,13 +3,13 @@ package com.sourcey.materiallogindemo;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.sourcey.materiallogindemo.Shares.DataEncomiendaConvertor;
 import com.sourcey.materiallogindemo.Shares.DataEstadosEncomienda;
@@ -18,7 +18,6 @@ import com.sourcey.materiallogindemo.api.EstadoApi;
 import com.sourcey.materiallogindemo.com.google.zxing.integration.android.IntentIntegrator;
 import com.sourcey.materiallogindemo.com.google.zxing.integration.android.IntentResult;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -63,20 +62,28 @@ public class DialogEstados extends AppCompatActivity implements View.OnClickList
             }
         });
 
+        if(Farcade.configuracionEmpresa.getId()!=null){
+            if(Farcade.configuracionEmpresa.getColorBoton()!=null){
+                confirmar.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorBoton()));
+            }else{
+                //COLOR BOTON POR DEFECTO DE DIALOG
+            }
+            if(Farcade.configuracionEmpresa.getColorLetras()!=null){
+                confirmar.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorLetras()));
+            }else{
+                confirmar.setTextColor(Color.WHITE);
+            }
+        }else{
+            //no existe conf
+            confirmar.setTextColor(Color.WHITE);
 
-
-
-
-
-
+        }
     }
 
     public void Escaner(){
-
         IntentIntegrator scanIntegrator = new IntentIntegrator(DialogEstados.this);
         scanIntegrator.initiateScan();
     }
-
 
     @Override
     public void onClick(View v) {
@@ -99,41 +106,52 @@ public class DialogEstados extends AppCompatActivity implements View.OnClickList
                 call2.enqueue(new Callback<DataEncomiendaConvertor>() {
                     @Override
                     public void onResponse(Call<DataEncomiendaConvertor> call, Response<DataEncomiendaConvertor> response) {
+                        if (response.isSuccessful()) {
 
-                        DataEncomiendaConvertor encomiendaConvertor = response.body();
+                            if(response.body()!=null) {
 
-                        System.out.println("ENCOMIENDA"+ encomiendaConvertor);
+                                DataEncomiendaConvertor encomiendaConvertor = response.body();
 
-                        Call<Void> call2 = EncomiendaApi.createService().setEstadoEncomienda(encomiendaConvertor.getId(),Farcade.estadoSeleccionado);
-                        call2.enqueue(new Callback<Void>() {
-                            @Override
-                            public void onResponse(Call<Void> call, Response<Void> response) {
+                                System.out.println("ENCOMIENDA" + encomiendaConvertor);
 
-                                if(response.isSuccessful()){
-                                    cambioDeEstado(Farcade.estadoSeleccionado.getNombre()).show();
-                                }else{
-                                    FalloApi().show();
-                                }
+                                Call<Void> call2 = EncomiendaApi.createService().setEstadoEncomienda(encomiendaConvertor.getId(), Farcade.estadoSeleccionado);
+                                call2.enqueue(new Callback<Void>() {
+                                    @Override
+                                    public void onResponse(Call<Void> call, Response<Void> response) {
+
+                                        if (response.isSuccessful()) {
+                                            cambioDeEstado(Farcade.estadoSeleccionado.getNombre()).show();
+                                        } else {
+                                            FalloApi().show();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Void> call, Throwable t) {
+                                        System.out.println("FALLO LA API CAMBIO DE ESTADO");
+                                    }
+                                });
+                            }else{
+                                //codigpo null
+                                noEncomiendaId().show();
+
                             }
-                            @Override
-                            public void onFailure(Call<Void> call, Throwable t) {
-                                System.out.println("FALLO LA API CAMBIO DE ESTADO");
-                            }
-                        });
-                    }
+                        }else{
+                            //NO ENCONTRO CODIGO
+                            noEncomiendaId().show();
+
+
+                        }
+                        }
+
                     @Override
                     public void onFailure(Call<DataEncomiendaConvertor> call, Throwable t) {
                         System.out.println("FALLO LA API ENCOMINDA POR CODIGO");
                     }
                 });
-
-
-
-
-
             }
         }else{
-            Toast.makeText(DialogEstados.this,"SE CAGO EL ESCANER",Toast.LENGTH_LONG).show();
+           // Toast.makeText(DialogEstados.this,"SE CAGO EL ESCANER",Toast.LENGTH_LONG).show();
         }
     }
 
@@ -141,6 +159,20 @@ public class DialogEstados extends AppCompatActivity implements View.OnClickList
     {   AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle("Cambio de Estado Encomiendas");
         alertDialogBuilder.setMessage("Se cambio estado a:" + " " +valorSpinner);
+        alertDialogBuilder.setIcon(R.drawable.asignar_encomiendas);;
+        DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {}};
+        DialogInterface.OnClickListener listenerCancelar = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {return;}};
+        alertDialogBuilder.setPositiveButton(R.string.ACEPTAR, listenerOk);
+        return alertDialogBuilder.create();
+    }
+    private AlertDialog noEncomiendaId()
+    {   AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("Busqueda de Encomiendas");
+        alertDialogBuilder.setMessage("Codigo No encontrado");
         alertDialogBuilder.setIcon(R.drawable.asignar_encomiendas);;
         DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
             @Override
