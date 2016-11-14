@@ -106,52 +106,61 @@ public class BusquedaIndividual extends AppCompatActivity implements View.OnClic
 
         if(v.getId() == R.id.confirmar){
 
-            codigo = Integer.valueOf(codigoEnco.getText().toString());
-            Call<DataEncomiendaConvertor> call2 = EncomiendaApi.createService().getEncomiendaPorCodigo(codigo);
-            call2.enqueue(new Callback<DataEncomiendaConvertor>() {
-                @Override
-                public void onResponse(Call<DataEncomiendaConvertor> call, Response<DataEncomiendaConvertor> response) {
 
-                    if(response.isSuccessful()) {
-                        if(response.body()!=null){
-                        final DataEncomiendaConvertor encomiendaConvertor = response.body();
+            if(codigoEnco.getText().toString().trim().length() > 0) {
 
-                        System.out.println("ENCOMIENDA" + encomiendaConvertor.toString());
+                codigo = Integer.valueOf(codigoEnco.getText().toString());
+                Call<DataEncomiendaConvertor> call2 = EncomiendaApi.createService().getEncomiendaPorCodigo(codigo);
+                call2.enqueue(new Callback<DataEncomiendaConvertor>() {
+                    @Override
+                    public void onResponse(Call<DataEncomiendaConvertor> call, Response<DataEncomiendaConvertor> response) {
 
-                        Call<Void> call2 = EncomiendaApi.createService().setEstadoEncomienda(encomiendaConvertor.getId(), estadoSeleccionado);
-                        call2.enqueue(new Callback<Void>() {
-                            @Override
-                            public void onResponse(Call<Void> call, Response<Void> response) {
-                                System.out.println("ESTADO" + response.body());
-                                if (response.isSuccessful()) {
-                                    codigoEnco.setText("");
-                                    cambioDeEstado(estadoSeleccionado.getNombre()).show();
-                                } else {
-                                    FalloApi().show();
-                                    codigoEnco.setText("");
-                                }
+                        if (response.isSuccessful()) {
+                            if (response.body() != null) {
+                                final DataEncomiendaConvertor encomiendaConvertor = response.body();
+
+                                System.out.println("ENCOMIENDA" + encomiendaConvertor.toString());
+
+                                Call<Void> call2 = EncomiendaApi.createService().setEstadoEncomienda(encomiendaConvertor.getId(), estadoSeleccionado);
+                                call2.enqueue(new Callback<Void>() {
+                                    @Override
+                                    public void onResponse(Call<Void> call, Response<Void> response) {
+                                        System.out.println("ESTADO" + response.body());
+                                        if (response.isSuccessful()) {
+                                            codigoEnco.setText("");
+                                            cambioDeEstado(estadoSeleccionado.getNombre()).show();
+                                        } else {
+                                            FalloApi().show();
+                                            codigoEnco.setText("");
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Void> call, Throwable t) {
+                                        System.out.println("FALLO LA API CAMBIO DE ESTADO");
+                                    }
+                                });
+                            } else {
+                                //RESPONSE == NULL
+                                noExisteEncomienda().show();
+                                codigoEnco.setText("");
                             }
-                            @Override
-                            public void onFailure(Call<Void> call, Throwable t) {
-                                System.out.println("FALLO LA API CAMBIO DE ESTADO");
-                            }
-                        });
-                        }else{
-                            //RESPONSE == NULL
+                        } else {
+                            //NO EXISTE ENCOMIENDA
                             noExisteEncomienda().show();
                             codigoEnco.setText("");
                         }
-                    }else{
-                        //NO EXISTE ENCOMIENDA
-                        noExisteEncomienda().show();
-                        codigoEnco.setText("");
                     }
-                }
-                @Override
-                public void onFailure(Call<DataEncomiendaConvertor> call, Throwable t) {
-                    System.out.println("FALLO LA API ENCOMINDA POR CODIGO");
-                }
-            });
+
+                    @Override
+                    public void onFailure(Call<DataEncomiendaConvertor> call, Throwable t) {
+                        System.out.println("FALLO LA API ENCOMINDA POR CODIGO");
+                    }
+                });
+            }else{
+                editTextEmpy().show();
+
+            }
         }
 
     }
@@ -190,6 +199,20 @@ public class BusquedaIndividual extends AppCompatActivity implements View.OnClic
     {   AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle("Cambio de Estado Encomiendas");
         alertDialogBuilder.setMessage("No existe encomienda con el codigo Ingresado");
+        alertDialogBuilder.setIcon(R.drawable.asignar_encomiendas);;
+        DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {}};
+        DialogInterface.OnClickListener listenerCancelar = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {return;}};
+        alertDialogBuilder.setPositiveButton(R.string.ACEPTAR, listenerOk);
+        return alertDialogBuilder.create();
+    }
+    private AlertDialog editTextEmpy()
+    {   AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("Cambio de Estado Encomiendas");
+        alertDialogBuilder.setMessage("Debe ingresar un codigo de encomienda");
         alertDialogBuilder.setIcon(R.drawable.asignar_encomiendas);;
         DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
             @Override

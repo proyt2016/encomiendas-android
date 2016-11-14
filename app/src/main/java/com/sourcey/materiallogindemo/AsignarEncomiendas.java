@@ -45,6 +45,7 @@ public class AsignarEncomiendas extends AppCompatActivity implements View.OnClic
     private  DataEncomiendaConvertor encomienda;
     private Spinner SpinnerEstados;
     private String valOfSpinner;
+    private List<DataVehiculo> listaVehiculo;
     private JsonObject dataAsiganacion;
     private Farcade controller;
     private List<String> estados = new ArrayList<>();
@@ -67,6 +68,8 @@ public class AsignarEncomiendas extends AppCompatActivity implements View.OnClic
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vista_coches);
+
+        //Farcade.cocheSeleccionado = null;
 
         IdViaje = getIntent().getExtras().getString("codigo");
 
@@ -147,7 +150,7 @@ public class AsignarEncomiendas extends AppCompatActivity implements View.OnClic
 
 
         DataViajeConvertor viaje = farcade.getViajeSeleccionado();
-        List<DataVehiculo> listaVehiculo =  viaje.getCoches();
+         listaVehiculo =  viaje.getCoches();
 
         adapter = new InteractiveArrayAdapterCoches(AsignarEncomiendas.this,listaVehiculo,1);
         listaCoches.setAdapter(adapter);
@@ -171,6 +174,9 @@ public class AsignarEncomiendas extends AppCompatActivity implements View.OnClic
             if(Farcade.cocheSeleccionado!=null){
                 if(!valOfSpinner.equals("Seleccionar")){
                     Escaner();
+                    if(farcade.getViajeSeleccionado().getCoches().size()>1){
+                    Farcade.cocheSeleccionado =null;}
+
                 }else{
                     //MOSTRAR MENSAJE DEBE SELECCIONAR UN ESTADO
                     spinnerSeleccionar().show();
@@ -237,9 +243,18 @@ public class AsignarEncomiendas extends AppCompatActivity implements View.OnClic
                                                                 public void onResponse(Call<Void> call, Response<Void> response) {
                                                                     if (response.isSuccessful()) {
                                                                         //Toast.makeText(AsignarEncomiendas.this, "ENCOMIENDA ASIGNADA CORRECTAMENTE", Toast.LENGTH_LONG).show();
+                                                                        adapter = new InteractiveArrayAdapterCoches(AsignarEncomiendas.this,listaVehiculo,1);
+                                                                        listaCoches.setAdapter(adapter);
+                                                                        Farcade.cocheSeleccionado = null;
                                                                         ok().show();
 
+
+
+
                                                                     } else {
+                                                                        adapter = new InteractiveArrayAdapterCoches(AsignarEncomiendas.this,listaVehiculo,1);
+                                                                        listaCoches.setAdapter(adapter);
+                                                                        Farcade.cocheSeleccionado = null;
                                                                         //Toast.makeText(AsignarEncomiendas.this, "ENCOMIENDA ASIGNADA CORRECTAMENTE", Toast.LENGTH_LONG).show();
                                                                     }
                                                                 }
@@ -247,6 +262,7 @@ public class AsignarEncomiendas extends AppCompatActivity implements View.OnClic
                                                                 @Override
                                                                 public void onFailure(Call<Void> call, Throwable t) {
                                                                     System.out.println("SE CAGO");
+                                                                    Farcade.cocheSeleccionado = null;
                                                                 }
                                                             });
 
@@ -260,6 +276,7 @@ public class AsignarEncomiendas extends AppCompatActivity implements View.OnClic
                                                     @Override
                                                     public void onFailure(Call<Void> call, Throwable t) {
                                                         System.out.println("SE CAGO");
+                                                        Farcade.cocheSeleccionado = null;
                                                     }
                                                 });
 
@@ -271,12 +288,14 @@ public class AsignarEncomiendas extends AppCompatActivity implements View.OnClic
 
                                     public void onFailure(Call<List<DataEstadosEncomienda>> call, Throwable t) {
                                         System.out.println("SE CAGO");
+                                        Farcade.cocheSeleccionado = null;
                                     }
                                 });
 
                             }else{
                                 //fallo codigo
                                 encoNull().show();
+                                Farcade.cocheSeleccionado = null;
                             }
 
 
@@ -284,7 +303,7 @@ public class AsignarEncomiendas extends AppCompatActivity implements View.OnClic
                         }
                         @Override
                         public void onFailure(Call<DataEncomiendaConvertor> call, Throwable t) {
-                            System.out.println("SE CAGO LA ENCOMIENDA");}
+                            System.out.println("Fallo el Servicio Encomiendas, Contactar con LACBUS");}
                     });
 
 
@@ -292,6 +311,9 @@ public class AsignarEncomiendas extends AppCompatActivity implements View.OnClic
 
         }else{
             //LECTURA FAIL STRING == NULL
+            adapter = new InteractiveArrayAdapterCoches(AsignarEncomiendas.this,listaVehiculo,1);
+            listaCoches.setAdapter(adapter);
+            Farcade.cocheSeleccionado = null;
         }
     }
 

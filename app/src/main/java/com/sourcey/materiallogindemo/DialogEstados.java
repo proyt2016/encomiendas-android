@@ -33,12 +33,18 @@ public class DialogEstados extends AppCompatActivity implements View.OnClickList
     private ArrayAdapter<DataEstadosEncomienda> adapter;
     private Farcade farcade;
     private String scanContent;
+
+    private List<DataEstadosEncomienda> estados;
     private Button confirmar;
+
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_estados_encomienda);
+
+        Farcade.estadoSeleccionado =null;
+
 
         listaEstado = (ListView) findViewById(R.id.ListaEstado);
         confirmar = (Button) findViewById(R.id.abrirEscaner);
@@ -48,7 +54,7 @@ public class DialogEstados extends AppCompatActivity implements View.OnClickList
         call2.enqueue(new Callback<List<DataEstadosEncomienda>>() {
             @Override
             public void onResponse(Call<List<DataEstadosEncomienda>> call, Response<List<DataEstadosEncomienda>> response) {
-                List<DataEstadosEncomienda> estados = response.body();
+                estados = response.body();
 
                 System.out.println("ESTADOS----------------" + estados);
 
@@ -89,7 +95,16 @@ public class DialogEstados extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
 
         if(v.getId() == R.id.abrirEscaner){
-            Escaner();
+            if(Farcade.estadoSeleccionado != null){
+                Escaner();
+                Farcade.estadoSeleccionado = null;
+            }
+            else{
+                SeleccionarEstado().show();
+
+
+            }
+
         }
 
     }
@@ -99,11 +114,29 @@ public class DialogEstados extends AppCompatActivity implements View.OnClickList
 
         if (resultCode != RESULT_CANCELED) {
 
+            Call<List<DataEstadosEncomienda>> call2 = EstadoApi.createService().getAll();
+            call2.enqueue(new Callback<List<DataEstadosEncomienda>>() {
+                @Override
+                public void onResponse(Call<List<DataEstadosEncomienda>> call, Response<List<DataEstadosEncomienda>> response) {
+                    estados = response.body();
+
+                    System.out.println("ESTADOS----------------" + estados);
+
+                    adapter = new InteractiveArrayAdapterEstadosDialog(DialogEstados.this, estados);
+                    listaEstado.setAdapter(adapter);
+                }
+
+                @Override
+                public void onFailure(Call<List<DataEstadosEncomienda>> call, Throwable t) {
+                    System.out.println("SE CAGO");
+                }
+            });
+
             if (scanningResult != null) {
                 final String scanContent = scanningResult.getContents();
 
-                Call<DataEncomiendaConvertor> call2 = EncomiendaApi.createService().getEncomiendaPorCodigo(Integer.valueOf(scanContent));
-                call2.enqueue(new Callback<DataEncomiendaConvertor>() {
+                Call<DataEncomiendaConvertor> call3 = EncomiendaApi.createService().getEncomiendaPorCodigo(Integer.valueOf(scanContent));
+                call3.enqueue(new Callback<DataEncomiendaConvertor>() {
                     @Override
                     public void onResponse(Call<DataEncomiendaConvertor> call, Response<DataEncomiendaConvertor> response) {
                         if (response.isSuccessful()) {
@@ -151,6 +184,23 @@ public class DialogEstados extends AppCompatActivity implements View.OnClickList
                 });
             }
         }else{
+            Call<List<DataEstadosEncomienda>> call2 = EstadoApi.createService().getAll();
+            call2.enqueue(new Callback<List<DataEstadosEncomienda>>() {
+                @Override
+                public void onResponse(Call<List<DataEstadosEncomienda>> call, Response<List<DataEstadosEncomienda>> response) {
+                    estados = response.body();
+
+                    System.out.println("ESTADOS----------------" + estados);
+
+                    adapter = new InteractiveArrayAdapterEstadosDialog(DialogEstados.this, estados);
+                    listaEstado.setAdapter(adapter);
+                }
+
+                @Override
+                public void onFailure(Call<List<DataEstadosEncomienda>> call, Throwable t) {
+                    System.out.println("SE CAGO");
+                }
+            });
            // Toast.makeText(DialogEstados.this,"SE CAGO EL ESCANER",Toast.LENGTH_LONG).show();
         }
     }
@@ -188,6 +238,20 @@ public class DialogEstados extends AppCompatActivity implements View.OnClickList
     {   AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle("Cambio de Estado Encomiendas");
         alertDialogBuilder.setMessage("Fallo el servicio, No se cambio el estado");
+        alertDialogBuilder.setIcon(R.drawable.asignar_encomiendas);;
+        DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {}};
+        DialogInterface.OnClickListener listenerCancelar = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {return;}};
+        alertDialogBuilder.setPositiveButton(R.string.ACEPTAR, listenerOk);
+        return alertDialogBuilder.create();
+    }
+    private AlertDialog SeleccionarEstado()
+    {   AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("Cambio de Estado Encomiendas");
+        alertDialogBuilder.setMessage("Debe seleccionar un estado");
         alertDialogBuilder.setIcon(R.drawable.asignar_encomiendas);;
         DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
             @Override

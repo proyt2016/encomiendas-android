@@ -71,7 +71,7 @@ public class InteractiveArrayAdapterCoches extends ArrayAdapter<DataVehiculo>  {
                             System.out.println("OCHE SELECCIONADO ---------------->" + " " + Farcade.cocheSeleccionado.getId());
                     }else{
                         Farcade f = new Farcade();
-                        f.setCocheSeleccionado(null);
+                        Farcade.cocheSeleccionado = null;
                     }
 
                 }
@@ -100,6 +100,7 @@ public class InteractiveArrayAdapterCoches extends ArrayAdapter<DataVehiculo>  {
 
                 if(position != mSelectedPosition && mSelectedRB != null){
                     mSelectedRB.setChecked(false);
+                    Farcade.cocheSeleccionado = null;
                 }
 
                 mSelectedPosition = position;
@@ -108,6 +109,7 @@ public class InteractiveArrayAdapterCoches extends ArrayAdapter<DataVehiculo>  {
         });
         if(mSelectedPosition != position){
             holder.radioButton.setChecked(false);
+            Farcade.cocheSeleccionado = null;
         }else{
             holder.radioButton.setChecked(true);
 

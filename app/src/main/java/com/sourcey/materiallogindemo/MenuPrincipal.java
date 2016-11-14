@@ -116,12 +116,9 @@ public class MenuPrincipal extends AppCompatActivity implements NavigationView.O
                 } else {
                     emailEmpresa.setText("tecnologo2016@gmail.com");
                 }
-            }else {
+            }else{
                 emailEmpresa.setText("tecnologo2016@gmail.com");
-            }
-
-
-
+                }
         }else{
             //No existe configuracion disponible
             pantalla.setBackgroundColor(Color.parseColor("#FFFFFF"));

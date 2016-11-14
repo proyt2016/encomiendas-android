@@ -66,7 +66,7 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
         spinner = (Spinner)findViewById(R.id.spinner);
         listaEncomiendas = (ListView)findViewById(android.R.id.list);
         noProcesada = (CheckBox)findViewById(R.id.noprocesadas);
-        escaner = (Button)findViewById(R.id.escaner);
+       // escaner = (Button)findViewById(R.id.escaner);
 
         confirmar =(Button)findViewById(R.id.button);
         detalle = (Button)findViewById(R.id.detalle);
@@ -129,18 +129,18 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
                // listaEncomiendas.setBackgroundResource(R.drawable.side_nav_bar);
             }
             if(Farcade.configuracionEmpresa.getColorLetras()!=null){
-                escaner.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorLetras()));
+      //          escaner.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorLetras()));
                 confirmar.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorLetras()));
                 noProcesada.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorLetras()));
             }else{
-                escaner.setTextColor(Color.WHITE);
+//                escaner.setTextColor(Color.WHITE);
                 confirmar.setTextColor(Color.WHITE);
                 noProcesada.setTextColor(Color.WHITE);
             }if(Farcade.configuracionEmpresa.getColorBoton()!=null){
-                escaner.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorBoton()));
+           //     escaner.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorBoton()));
                 confirmar.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorBoton()));
             }else{
-                escaner.setBackgroundColor(Color.parseColor("#ff757575"));
+              //  escaner.setBackgroundColor(Color.parseColor("#ff757575"));
                 confirmar.setBackgroundColor(Color.parseColor("#ff757575"));
             }
 
@@ -185,16 +185,11 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
         if(Farcade.listaEncomiendas!=null)
         for (DataEncomiendaConvertor e : Farcade.listaEncomiendas) {
             adapter.notifyDataSetChanged();}
-        escaner.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-            if (valOfSpinner != "Seleccionar" ) {
 
-                Escaner();
+           /* if (valOfSpinner != "Seleccionar" ) {
+                    spinnerSeleccionar().show();}*/
 
-            }else{
-                    spinnerSeleccionar().show();}
-            }
-        });
+
         //MANEJO DEL SPINNER
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
         @Override
@@ -325,96 +320,102 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
     public void onActivityResult(final int requestCode, int resultCode, Intent intent) {
 
         IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-        if (scanningResult.getContents() != null) {
+
+            if (scanningResult.getContents() != null) {
 
 
-            scanContent = scanningResult.getContents();
-            String scanFormat = scanningResult.getFormatName();
+                scanContent = scanningResult.getContents();
 
-            Call<DataEncomiendaConvertor> call3 = EncomiendaApi.createService().getEncomiendaPorCodigo(Integer.valueOf(scanContent));
-            call3.enqueue(new Callback<DataEncomiendaConvertor>() {
-                @Override
-                public void onResponse(Call<DataEncomiendaConvertor> call, Response<DataEncomiendaConvertor> response) {
-                    if (response.isSuccessful()) {
-
-                        if(response.body()!=null) {
-
-                            final DataEncomiendaConvertor encomienda = response.body();
-
-                            Call<List<DataEstadosEncomienda>> call4 = EncomiendaApi.createService().getAllEstados();
-                            call4.enqueue(new Callback<List<DataEstadosEncomienda>>() {
-                                @Override
-                                public void onResponse(Call<List<DataEstadosEncomienda>> call, Response<List<DataEstadosEncomienda>> response) {
-
-                                    ListaEstados2 = response.body();
-
-                                    for (DataEstadosEncomienda estadosEncomienda : ListaEstados2) {
-                                        if (estadosEncomienda.getNombre().equals(valOfSpinner.toString())) {
-
-                                            Call<Void> call3 = EncomiendaApi.createService().setEstadoEncomienda(encomienda.getId(), estadosEncomienda);
-                                            call3.enqueue(new Callback<Void>() {
-                                                @Override
-                                                public void onResponse(Call<Void> call, Response<Void> response) {
-                                                    cambioDeEsado().show();
+                String scanFormat = scanningResult.getFormatName();
 
 
-                                                    Call<List<DataEncomiendaConvertor>> call2 = EncomiendaApi.createService().getByVehiculo(codCoche);
-                                                    call2.enqueue(new Callback<List<DataEncomiendaConvertor>>() {
-                                                        @Override
-                                                        public void onResponse(Call<List<DataEncomiendaConvertor>> call, Response<List<DataEncomiendaConvertor>> response) {
-                                                            List<DataEncomiendaConvertor> datos = response.body();
+                Call<DataEncomiendaConvertor> call3 = EncomiendaApi.createService().getEncomiendaPorCodigo(Integer.valueOf(scanContent));
+                call3.enqueue(new Callback<DataEncomiendaConvertor>() {
+                    @Override
+                    public void onResponse(Call<DataEncomiendaConvertor> call, Response<DataEncomiendaConvertor> response) {
+                        if (response.isSuccessful()) {
 
-                                                            Farcade.listaEncomiendas = datos;
-                                                            adapter = new InteractiveArrayAdapterEncomiendas(BusquedaMasivaManual.this, Farcade.listaEncomiendas);
-                                                            listaEncomiendas.setAdapter(adapter);
-                                                            adapter.notifyDataSetChanged();
+                            if (response.body() != null) {
 
-                                                        }
+                                final DataEncomiendaConvertor encomienda = response.body();
 
-                                                        @Override
-                                                        public void onFailure(Call<List<DataEncomiendaConvertor>> call, Throwable t) {
-                                                            System.out.println("SE CAGO");
-                                                        }
-                                                    });
+                                Call<List<DataEstadosEncomienda>> call4 = EncomiendaApi.createService().getAllEstados();
+                                call4.enqueue(new Callback<List<DataEstadosEncomienda>>() {
+                                    @Override
+                                    public void onResponse(Call<List<DataEstadosEncomienda>> call, Response<List<DataEstadosEncomienda>> response) {
 
-                                                }
+                                        ListaEstados2 = response.body();
 
-                                                @Override
-                                                public void onFailure(Call<Void> call, Throwable t) {
-                                                    System.out.println("SE CAGO");
-                                                }
-                                            });
+                                        for (DataEstadosEncomienda estadosEncomienda : ListaEstados2) {
+                                            if (estadosEncomienda.getNombre().equals(valOfSpinner.toString())) {
 
+                                                Call<Void> call3 = EncomiendaApi.createService().setEstadoEncomienda(encomienda.getId(), estadosEncomienda);
+                                                call3.enqueue(new Callback<Void>() {
+                                                    @Override
+                                                    public void onResponse(Call<Void> call, Response<Void> response) {
+                                                        cambioDeEsado().show();
+
+
+                                                        Call<List<DataEncomiendaConvertor>> call2 = EncomiendaApi.createService().getByVehiculo(codCoche);
+                                                        call2.enqueue(new Callback<List<DataEncomiendaConvertor>>() {
+                                                            @Override
+                                                            public void onResponse(Call<List<DataEncomiendaConvertor>> call, Response<List<DataEncomiendaConvertor>> response) {
+                                                                List<DataEncomiendaConvertor> datos = response.body();
+
+                                                                Farcade.listaEncomiendas = datos;
+                                                                adapter = new InteractiveArrayAdapterEncomiendas(BusquedaMasivaManual.this, Farcade.listaEncomiendas);
+                                                                listaEncomiendas.setAdapter(adapter);
+                                                                adapter.notifyDataSetChanged();
+
+                                                            }
+
+                                                            @Override
+                                                            public void onFailure(Call<List<DataEncomiendaConvertor>> call, Throwable t) {
+                                                                System.out.println("SE CAGO");
+                                                            }
+                                                        });
+
+                                                    }
+
+                                                    @Override
+                                                    public void onFailure(Call<Void> call, Throwable t) {
+                                                        System.out.println("SE CAGO");
+                                                    }
+                                                });
+
+                                            }
                                         }
+
                                     }
 
-                                }
-
-                                @Override
-                                public void onFailure(Call<List<DataEstadosEncomienda>> call, Throwable t) {
-                                    System.out.println("SE CAGO");
-                                }
-                            });
-                        }else{
-                            //ENCOMIENDA == NULL
+                                    @Override
+                                    public void onFailure(Call<List<DataEstadosEncomienda>> call, Throwable t) {
+                                        System.out.println("SE CAGO");
+                                    }
+                                });
+                            } else {
+                                //ENCOMIENDA == NULL
+                                dialogCodigo(2).show();
+                            }
+                        } else {
+                            //NO EXISTE ENCOMIENDA
                             dialogCodigo(2).show();
+
+
                         }
-                    }else{
-                        //NO EXISTE ENCOMIENDA
-                        dialogCodigo(2).show();
-
-
-                    }
                     }
 
 
-                @Override
-                public void onFailure(Call<DataEncomiendaConvertor> call, Throwable t) {
-                System.out.println("SE CAGO");}
-            });
+                    @Override
+                    public void onFailure(Call<DataEncomiendaConvertor> call, Throwable t) {
+                        System.out.println("SE CAGO");
+                    }
+                });
 
-           // Escaner();
-        }else{dialogCodigo(3).show();}
+                // Escaner();
+            } else {
+                dialogCodigo(3).show();
+            }
     }
     private AlertDialog cambioDeEsado(String valorSpinner)
     {   AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
