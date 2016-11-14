@@ -6,6 +6,7 @@ package com.sourcey.materiallogindemo.api;
 
 import com.sourcey.materiallogindemo.AddHeaderInterceptor;
 import com.sourcey.materiallogindemo.Shares.DataEstadosEncomienda;
+import com.sourcey.materiallogindemo.TenantProvider;
 
 import java.util.List;
 
@@ -26,10 +27,13 @@ public class EstadoApi {
     public static EstadoApiInterface createService() {
         if (estadoService == null) {
 
+            TenantProvider tenantConfig = new TenantProvider();
+            String apiUrl = tenantConfig.GetApiUrl();
             httpClient.addInterceptor(new AddHeaderInterceptor());
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://192.168.1.3:8080")
+                    .baseUrl(apiUrl)
                     .addConverterFactory(GsonConverterFactory.create())
+
                     .client(httpClient.build())
                     .build();
 

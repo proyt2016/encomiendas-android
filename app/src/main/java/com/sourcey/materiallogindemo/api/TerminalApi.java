@@ -2,6 +2,7 @@ package com.sourcey.materiallogindemo.api;
 
 import com.sourcey.materiallogindemo.AddHeaderInterceptor;
 import com.sourcey.materiallogindemo.Shares.DataTerminal;
+import com.sourcey.materiallogindemo.TenantProvider;
 
 import java.util.List;
 
@@ -19,44 +20,23 @@ public class TerminalApi {
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
     public static TerminalApiInterface createService() {
-
-
-            if(terminalService==null)
-
-            {
-               //httpClient.addNetworkInterceptor(new AddHeaderInterceptor());
-               httpClient.addInterceptor(new AddHeaderInterceptor());
+            if(terminalService==null){
+                TenantProvider tenantConfig = new TenantProvider();
+                String apiUrl = tenantConfig.GetApiUrl();
+                httpClient.addInterceptor(new AddHeaderInterceptor());
                 Retrofit retrofit = new Retrofit.Builder()
-
-                        .baseUrl("http://192.168.1.3:8080")
+                        .baseUrl(apiUrl)
                         .addConverterFactory(GsonConverterFactory.create())
                         .client(httpClient.build())
                         .build();
 
-
                 terminalService = retrofit.create(TerminalApiInterface.class);
-
             }
-
-
             return terminalService;
-
     }
-
     public interface TerminalApiInterface {
-
-
         @GET("/lcbsapi/rest/viajes/getterminales/1/99888888")
         Call<List<DataTerminal>> getAll();
-
-
-
-
-            // @GET("/terminales/{id}")
-       // Call<Terminal> getById(@Path("id") int id);
-
-//        @GET("/terminales/{id}?search={search}")
-//        Call<List<Terminal>> getSearch(@Path("id") int id, @Path("search") String search);
     }
 
 }

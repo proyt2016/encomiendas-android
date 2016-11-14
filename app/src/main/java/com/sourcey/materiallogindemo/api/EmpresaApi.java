@@ -2,6 +2,7 @@ package com.sourcey.materiallogindemo.api;
 
 import com.sourcey.materiallogindemo.AddHeaderInterceptor;
 import com.sourcey.materiallogindemo.Shares.DataConfiguracionEmpresa;
+import com.sourcey.materiallogindemo.TenantProvider;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -19,11 +20,13 @@ public class EmpresaApi {
 
     public static EmpresaApiInterface createService() {
         if (empresaService == null) {
-            //AGREGO ID EN EL HEADER DEL REQUEST
+            TenantProvider tenantConfig = new TenantProvider();
+            String apiUrl = tenantConfig.GetApiUrl();
             httpClient.addInterceptor(new AddHeaderInterceptor());
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://192.168.1.3:8080")
+                    .baseUrl(apiUrl)
                     .addConverterFactory(GsonConverterFactory.create())
+
                     .client(httpClient.build())
                     .build();
 

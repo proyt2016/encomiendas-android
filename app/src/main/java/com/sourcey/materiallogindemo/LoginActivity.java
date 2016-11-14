@@ -69,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
                            _loginButton.setTextColor(Color.WHITE);
                        }
                         if(Farcade.configuracionEmpresa.getColorBoton()!=null){
-                            _loginButton.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondosDePantalla()));
+                            _loginButton.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorBoton()));
                         }else{
                             _loginButton.setBackgroundColor(Color.parseColor("#ff757575"));
                         }

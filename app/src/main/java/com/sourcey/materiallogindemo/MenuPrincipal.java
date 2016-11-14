@@ -59,31 +59,13 @@ public class MenuPrincipal extends AppCompatActivity implements NavigationView.O
         nav = (NavigationView) findViewById(R.id.nav_view);
         logoEmpresa = (ImageView)findViewById(R.id.imageview);
 
-
-
-//        usr.setText("Nombre:"+" "+Farcade.empleado.getClave()+"\n"
-  //                  +"E-mail:"+" "+Farcade.empleado.getEmail());
-//        usr.setText("Nombre:"+" "+"MACI");//+"\n"
-               // +"E-mail:"+" ");//Farcade.empleado.getEmail());
-/*
-        terminal.setText("Terminal:"+" "+Farcade.terminalSeleccionada.getNombre()+"\n"
-                        +"Contacto:"+" "+"27092656");*/
-
-        //Farcade.terminalSeleccionada.getTelefonosContacto().get(0)); CUANDO TEN LOS TELEFONOS
-
-
-
         //TEXTOS MENU DESPLEGABLE
         nombreEmpresa = (TextView)findViewById(R.id.nombreempresa);
         emailEmpresa = (TextView)findViewById(R.id.mailempresa);
 
-
-
         titulo = (TextView)findViewById(R.id.titulo);
         tituloEscaner = (TextView)findViewById(R.id.subtituloescaner);
         tituloManual = (TextView)findViewById(R.id.subtitulomanual);
-
-
 
         btnManual.setOnClickListener(this);
         btnEscaner.setOnClickListener(this);

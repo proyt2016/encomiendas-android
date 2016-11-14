@@ -10,7 +10,9 @@ android {
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
-        buildConfigField 'String', 'API_KEY', '"9c436270-24ea-4e40-af24-25e05e8c9975"'
+        buildConfigField 'String', 'API_KEY', '"6c3a8e28-c69e-4618-9edc-8c246cb9fa41"'
+        buildConfigField 'String', 'API_URL', '"http://192.168.1.4:8080"'
+
     }
 
     buildTypes {

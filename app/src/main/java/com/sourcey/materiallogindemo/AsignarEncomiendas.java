@@ -222,7 +222,7 @@ public class AsignarEncomiendas extends AppCompatActivity implements View.OnClic
                                                     @Override
                                                     public void onResponse(Call<Void> call, Response<Void> response) {
                                                         if (response.isSuccessful()) {
-                                                            Toast.makeText(AsignarEncomiendas.this, "ESTADO SETEADO", Toast.LENGTH_LONG).show();
+                                                          //  Toast.makeText(AsignarEncomiendas.this, "ESTADO SETEADO", Toast.LENGTH_LONG).show();
 
                                                             final JsonObject data = new JsonObject();
 
@@ -236,10 +236,11 @@ public class AsignarEncomiendas extends AppCompatActivity implements View.OnClic
                                                                 @Override
                                                                 public void onResponse(Call<Void> call, Response<Void> response) {
                                                                     if (response.isSuccessful()) {
-                                                                        Toast.makeText(AsignarEncomiendas.this, "ENCOMIENDA ASIGNADA CORRECTAMENTE", Toast.LENGTH_LONG).show();
+                                                                        //Toast.makeText(AsignarEncomiendas.this, "ENCOMIENDA ASIGNADA CORRECTAMENTE", Toast.LENGTH_LONG).show();
+                                                                        ok().show();
 
                                                                     } else {
-                                                                        Toast.makeText(AsignarEncomiendas.this, "ENCOMIENDA ASIGNADA CORRECTAMENTE", Toast.LENGTH_LONG).show();
+                                                                        //Toast.makeText(AsignarEncomiendas.this, "ENCOMIENDA ASIGNADA CORRECTAMENTE", Toast.LENGTH_LONG).show();
                                                                     }
                                                                 }
 
@@ -335,6 +336,20 @@ public class AsignarEncomiendas extends AppCompatActivity implements View.OnClic
         alertDialogBuilder.setTitle("Atencion!");
         alertDialogBuilder.setMessage("Codigo no encontrado");
         alertDialogBuilder.setIcon(R.drawable.icono_alerta);;
+        DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {}};
+        DialogInterface.OnClickListener listenerCancelar = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {return;}};
+        alertDialogBuilder.setPositiveButton(R.string.ACEPTAR, listenerOk);
+        return alertDialogBuilder.create();
+    }
+    private AlertDialog ok()
+    {   AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("Exito!");
+        alertDialogBuilder.setMessage("Encomienda asignada correctamente");
+        alertDialogBuilder.setIcon(R.drawable.asignar_encomiendas);;
         DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {}};

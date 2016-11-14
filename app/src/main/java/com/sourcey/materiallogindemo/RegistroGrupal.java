@@ -47,10 +47,13 @@ public class RegistroGrupal extends AppCompatActivity implements View.OnClickLis
 
         listadoRecorridos = (ListView) findViewById(R.id.listadocoches);
         filtro = (EditText) findViewById(R.id.inputsearch);
+        filtro.addTextChangedListener(filterTextWatcher);
+        listadoRecorridos.setTextFilterEnabled(true);
+
+
         pantallaLayout = (RelativeLayout)findViewById(R.id.layout_pantalla_registro_grupal);
 
-        listadoRecorridos.setTextFilterEnabled(true);
-        filtro.addTextChangedListener(filterTextWatcher);
+        //filtro.addTextChangedListener(filterTextWatcher);
 
         if(Farcade.configuracionEmpresa.getId()!=null){
             if(Farcade.configuracionEmpresa.getColorFondosDePantalla()!=null){
@@ -129,11 +132,20 @@ public class RegistroGrupal extends AppCompatActivity implements View.OnClickLis
 
     }
     private TextWatcher filterTextWatcher = new TextWatcher() {
+
         @Override
-        public void afterTextChanged(Editable s) {}
+        public void afterTextChanged(Editable s) {
+            // TODO Auto-generated method stub
+
+        }
+
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {}
+                                      int after) {
+            // TODO Auto-generated method stub
+
+        }
+
         @Override
         public void onTextChanged(CharSequence s, int start, int before,
                                   int count) {
