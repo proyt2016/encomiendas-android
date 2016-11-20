@@ -41,6 +41,8 @@ public class AsignarEncomiendas extends AppCompatActivity implements View.OnClic
 
     private Farcade farcade = new Farcade();
     private ListView listaCoches;
+    private boolean EncomiendaAsignda = false;
+    private List<DataVehiculo> listaCochesException;
     private Button asignarEncomienda;
     private  DataEncomiendaConvertor encomienda;
     private Spinner SpinnerEstados;
@@ -194,126 +196,163 @@ public class AsignarEncomiendas extends AppCompatActivity implements View.OnClic
         scanIntegrator.initiateScan();
     }
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        //SE OBTIENE EL RESULTADO DEL ESCANEO
-        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-        //SI EL RESULTADO ES DISTINTO DE NULL
-        if (scanningResult.getContents() != null) {
 
 
-            CodigoEncomienda = Integer.parseInt(scanningResult.getContents());
+        if(requestCode == -1 || requestCode  == -1){
+
+        }else {
+            //SE OBTIENE EL RESULTADO DEL ESCANEO
+            IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+            //SI EL RESULTADO ES DISTINTO DE NULL
+            if (scanningResult.getContents() != null) {
+
+                if (isNumeric(scanningResult.getContents())) {
+
+                    if (scanningResult.getContents().length() < 4) {
+
+                        CodigoEncomienda = Integer.parseInt(scanningResult.getContents());
+
+                          Call<DataEncomiendaConvertor> call3 = EncomiendaApi.createService().getEncomiendaPorCodigo(CodigoEncomienda);
+                        call3.enqueue(new Callback<DataEncomiendaConvertor>() {
+                            @Override
+                            public void onResponse(Call<DataEncomiendaConvertor> call, Response<DataEncomiendaConvertor> response) {
+                                if (response.isSuccessful()) {
+                                    encomienda = response.body();
+
+                                    if(encomienda.getViajeAsignado()!=null) {
+                                        EncomiendaYaAsignada().show();
+                                    }else {
+
+                                        // Farcade.viajeSeleccionado.getEncomiendas().add(encomienda);
+                                        Call<List<DataEstadosEncomienda>> call2 = EncomiendaApi.createService().getAllEstados();
+                                        call2.enqueue(new Callback<List<DataEstadosEncomienda>>() {
+                                            @Override
+                                            public void onResponse(Call<List<DataEstadosEncomienda>> call, Response<List<DataEstadosEncomienda>> response) {
+                                                ListaEstados = response.body();
+                                                //ME QUEDO CON EL ESTADO IGAUL AL SELECCIONADO EN EL SPINNER estadoSelec;
+
+                                                for (final DataEstadosEncomienda estado : ListaEstados) {
+                                                    if (estado.getNombre().equals(valOfSpinner.toString())) {
+                                                        final DataEstadosEncomienda estadoSelec = estado;
+
+                                                        Call<Void> call2 = EncomiendaApi.createService().setEstadoEncomienda(encomienda.getId(), estadoSelec);
+                                                        call2.enqueue(new Callback<Void>() {
+                                                            @Override
+                                                            public void onResponse(Call<Void> call, Response<Void> response) {
+                                                                if (response.isSuccessful()) {
+                                                                    //  Toast.makeText(AsignarEncomiendas.this, "ESTADO SETEADO", Toast.LENGTH_LONG).show();
+
+                                                                    final JsonObject data = new JsonObject();
+
+                                                                    IdVehiculo = Farcade.cocheSeleccionado.getId();
+                                                                    data.addProperty("IdEncomienda", encomienda.getId());
+                                                                    data.addProperty("idViaje", IdViaje);
+                                                                    data.addProperty("idCoche", IdVehiculo);
+
+                                                                    Call<Void> call5 = EncomiendaApi.createService().asignarEncomiendas(data);
+                                                                    call5.enqueue(new Callback<Void>() {
+                                                                        @Override
+                                                                        public void onResponse(Call<Void> call, Response<Void> response) {
+                                                                            if (response.isSuccessful()) {
+                                                                                //Toast.makeText(AsignarEncomiendas.this, "ENCOMIENDA ASIGNADA CORRECTAMENTE", Toast.LENGTH_LONG).show();
+                                                                                adapter = new InteractiveArrayAdapterCoches(AsignarEncomiendas.this, listaVehiculo, 1);
+                                                                                listaCoches.setAdapter(adapter);
+                                                                                Farcade.cocheSeleccionado = null;
+                                                                                ok().show();
 
 
-            //TRAIGO LOS ESTADO DE LA BASE DE DATOS
+                                                                            } else {
+                                                                                adapter = new InteractiveArrayAdapterCoches(AsignarEncomiendas.this, listaVehiculo, 1);
+                                                                                listaCoches.setAdapter(adapter);
+                                                                                Farcade.cocheSeleccionado = null;
+                                                                                //Toast.makeText(AsignarEncomiendas.this, "ENCOMIENDA ASIGNADA CORRECTAMENTE", Toast.LENGTH_LONG).show();
+                                                                            }
+                                                                        }
 
-                    Call<DataEncomiendaConvertor> call3 = EncomiendaApi.createService().getEncomiendaPorCodigo(CodigoEncomienda);
-                    call3.enqueue(new Callback<DataEncomiendaConvertor>() {
-                        @Override
-                        public void onResponse(Call<DataEncomiendaConvertor> call, Response<DataEncomiendaConvertor> response) {
-                            if(response.isSuccessful()) {
-                                encomienda = response.body();
+                                                                        @Override
+                                                                        public void onFailure(Call<Void> call, Throwable t) {
+                                                                            System.out.println("SE CAGO");
+                                                                            adapter = new InteractiveArrayAdapterCoches(AsignarEncomiendas.this, listaVehiculo, 1);
+                                                                            listaCoches.setAdapter(adapter);
+                                                                            Farcade.cocheSeleccionado = null;
+                                                                        }
+                                                                    });
 
-                                Call<List<DataEstadosEncomienda>> call2 = EncomiendaApi.createService().getAllEstados();
-                                call2.enqueue(new Callback<List<DataEstadosEncomienda>>() {
-                                    @Override
-                                    public void onResponse(Call<List<DataEstadosEncomienda>> call, Response<List<DataEstadosEncomienda>> response) {
-                                        ListaEstados = response.body();
-                                        //ME QUEDO CON EL ESTADO IGAUL AL SELECCIONADO EN EL SPINNER estadoSelec;
-
-                                        for (final DataEstadosEncomienda estado : ListaEstados) {
-                                            if (estado.getNombre().equals(valOfSpinner.toString())) {
-                                                final DataEstadosEncomienda estadoSelec = estado;
-
-                                                Call<Void> call2 = EncomiendaApi.createService().setEstadoEncomienda(encomienda.getId(), estadoSelec);
-                                                call2.enqueue(new Callback<Void>() {
-                                                    @Override
-                                                    public void onResponse(Call<Void> call, Response<Void> response) {
-                                                        if (response.isSuccessful()) {
-                                                          //  Toast.makeText(AsignarEncomiendas.this, "ESTADO SETEADO", Toast.LENGTH_LONG).show();
-
-                                                            final JsonObject data = new JsonObject();
-
-                                                            IdVehiculo = Farcade.cocheSeleccionado.getId();
-                                                            data.addProperty("IdEncomienda", encomienda.getId());
-                                                            data.addProperty("idViaje", IdViaje);
-                                                            data.addProperty("idCoche", IdVehiculo);
-
-                                                            Call<Void> call5 = EncomiendaApi.createService().asignarEncomiendas(data);
-                                                            call5.enqueue(new Callback<Void>() {
-                                                                @Override
-                                                                public void onResponse(Call<Void> call, Response<Void> response) {
-                                                                    if (response.isSuccessful()) {
-                                                                        //Toast.makeText(AsignarEncomiendas.this, "ENCOMIENDA ASIGNADA CORRECTAMENTE", Toast.LENGTH_LONG).show();
-                                                                        adapter = new InteractiveArrayAdapterCoches(AsignarEncomiendas.this,listaVehiculo,1);
-                                                                        listaCoches.setAdapter(adapter);
-                                                                        Farcade.cocheSeleccionado = null;
-                                                                        ok().show();
-
-
-
-
-                                                                    } else {
-                                                                        adapter = new InteractiveArrayAdapterCoches(AsignarEncomiendas.this,listaVehiculo,1);
-                                                                        listaCoches.setAdapter(adapter);
-                                                                        Farcade.cocheSeleccionado = null;
-                                                                        //Toast.makeText(AsignarEncomiendas.this, "ENCOMIENDA ASIGNADA CORRECTAMENTE", Toast.LENGTH_LONG).show();
-                                                                    }
-                                                                }
-
-                                                                @Override
-                                                                public void onFailure(Call<Void> call, Throwable t) {
-                                                                    System.out.println("SE CAGO");
+                                                                } else {
+                                                                    Toast.makeText(AsignarEncomiendas.this, "ESTADO NO SETEADO", Toast.LENGTH_LONG).show();
+                                                                    adapter = new InteractiveArrayAdapterCoches(AsignarEncomiendas.this, listaVehiculo, 1);
+                                                                    listaCoches.setAdapter(adapter);
                                                                     Farcade.cocheSeleccionado = null;
+
                                                                 }
-                                                            });
 
-                                                        } else {
-                                                            Toast.makeText(AsignarEncomiendas.this, "ESTADO NO SETEADO", Toast.LENGTH_LONG).show();
-                                                        }
+                                                            }
+
+                                                            @Override
+                                                            public void onFailure(Call<Void> call, Throwable t) {
+                                                                System.out.println("SE CAGO");
+                                                                adapter = new InteractiveArrayAdapterCoches(AsignarEncomiendas.this, listaVehiculo, 1);
+                                                                listaCoches.setAdapter(adapter);
+                                                                Farcade.cocheSeleccionado = null;
+                                                            }
+                                                        });
+
 
                                                     }
-
-
-                                                    @Override
-                                                    public void onFailure(Call<Void> call, Throwable t) {
-                                                        System.out.println("SE CAGO");
-                                                        Farcade.cocheSeleccionado = null;
-                                                    }
-                                                });
-
+                                                }
 
                                             }
-                                        }
 
+                                            public void onFailure(Call<List<DataEstadosEncomienda>> call, Throwable t) {
+                                                System.out.println("SE CAGO");
+                                                adapter = new InteractiveArrayAdapterCoches(AsignarEncomiendas.this, listaVehiculo, 1);
+                                                listaCoches.setAdapter(adapter);
+                                                Farcade.cocheSeleccionado = null;
+                                            }
+                                        });
                                     }
 
-                                    public void onFailure(Call<List<DataEstadosEncomienda>> call, Throwable t) {
-                                        System.out.println("SE CAGO");
-                                        Farcade.cocheSeleccionado = null;
-                                    }
-                                });
 
-                            }else{
-                                //fallo codigo
-                                encoNull().show();
-                                Farcade.cocheSeleccionado = null;
+                                } else {
+                                    //fallo codigo
+                                    encoNull().show();
+                                    adapter = new InteractiveArrayAdapterCoches(AsignarEncomiendas.this, listaVehiculo, 1);
+                                    listaCoches.setAdapter(adapter);
+                                    Farcade.cocheSeleccionado = null;
+                                }
+
+
+                                System.out.println("VEHICULO SELECCIONADO " + " " + IdVehiculo);
                             }
 
-
-                            System.out.println("VEHICULO SELECCIONADO "+" "+IdVehiculo);
-                        }
-                        @Override
-                        public void onFailure(Call<DataEncomiendaConvertor> call, Throwable t) {
-                            System.out.println("Fallo el Servicio Encomiendas, Contactar con LACBUS");}
-                    });
-
-
-
-
-        }else{
-            //LECTURA FAIL STRING == NULL
-            adapter = new InteractiveArrayAdapterCoches(AsignarEncomiendas.this,listaVehiculo,1);
-            listaCoches.setAdapter(adapter);
-            Farcade.cocheSeleccionado = null;
+                            @Override
+                            public void onFailure(Call<DataEncomiendaConvertor> call, Throwable t) {
+                                System.out.println("Fallo el Servicio Encomiendas, Contactar con LACBUS");
+                                adapter = new InteractiveArrayAdapterCoches(AsignarEncomiendas.this, listaVehiculo, 1);
+                                listaCoches.setAdapter(adapter);
+                                Farcade.cocheSeleccionado = null;
+                            }
+                        });
+                        /*}else{
+                            EncomiendaYaAsignada().show();
+                            adapter = new InteractiveArrayAdapterCoches(AsignarEncomiendas.this, listaVehiculo, 1);
+                            listaCoches.setAdapter(adapter);
+                            Farcade.cocheSeleccionado = null;}*/
+                    } else {
+                        //LECTURA FAIL STRING == NULL
+                        FormatoCodigoIncorrecto().show();
+                        adapter = new InteractiveArrayAdapterCoches(AsignarEncomiendas.this, listaVehiculo, 1);
+                        listaCoches.setAdapter(adapter);
+                        Farcade.cocheSeleccionado = null;
+                    }
+                } else {
+                    //LECTURA FAIL STRING == NULL
+                    FormatoCodigoIncorrecto().show();
+                    adapter = new InteractiveArrayAdapterCoches(AsignarEncomiendas.this, listaVehiculo, 1);
+                    listaCoches.setAdapter(adapter);
+                    Farcade.cocheSeleccionado = null;
+                }
+            }
         }
     }
 
@@ -367,6 +406,7 @@ public class AsignarEncomiendas extends AppCompatActivity implements View.OnClic
         alertDialogBuilder.setPositiveButton(R.string.ACEPTAR, listenerOk);
         return alertDialogBuilder.create();
     }
+
     private AlertDialog ok()
     {   AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle("Exito!");
@@ -380,5 +420,41 @@ public class AsignarEncomiendas extends AppCompatActivity implements View.OnClic
             public void onClick(DialogInterface dialog, int which) {return;}};
         alertDialogBuilder.setPositiveButton(R.string.ACEPTAR, listenerOk);
         return alertDialogBuilder.create();
+    }
+    private AlertDialog EncomiendaYaAsignada()
+    {   AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("Atencion!");
+        alertDialogBuilder.setMessage("La encomienda ya se asigno a un coche");
+        alertDialogBuilder.setIcon(R.drawable.asignar_encomiendas);;
+        DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {}};
+        DialogInterface.OnClickListener listenerCancelar = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {return;}};
+        alertDialogBuilder.setPositiveButton(R.string.ACEPTAR, listenerOk);
+        return alertDialogBuilder.create();
+    }
+    private AlertDialog FormatoCodigoIncorrecto()
+    {   AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("Exito!");
+        alertDialogBuilder.setMessage("Formato de codigo incorrecto");
+        alertDialogBuilder.setIcon(R.drawable.asignar_encomiendas);;
+        DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {}};
+        DialogInterface.OnClickListener listenerCancelar = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {return;}};
+        alertDialogBuilder.setPositiveButton(R.string.ACEPTAR, listenerOk);
+        return alertDialogBuilder.create();
+    }
+    private static boolean isNumeric(String cadena){
+        try {
+            Integer.parseInt(cadena);
+            return true;
+        } catch (NumberFormatException nfe){
+            return false;
+        }
     }
 }

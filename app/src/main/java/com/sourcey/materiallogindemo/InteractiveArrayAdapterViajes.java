@@ -38,10 +38,11 @@ public class InteractiveArrayAdapterViajes extends ArrayAdapter<DataViajeConvert
     }
     static class ViewHolder {
         protected RelativeLayout pantallaItems;
-        protected TextView recorrido;
-        protected TextView horario;
+        protected TextView titulo;
+        protected TextView subTitulo;
         protected Button boton;
     }
+
 
     @Override
     public int getCount() {
@@ -67,8 +68,8 @@ public class InteractiveArrayAdapterViajes extends ArrayAdapter<DataViajeConvert
             view = inflator.inflate(R.layout.lista_recorrido_items,null);
             final ViewHolder viewHolder = new ViewHolder();
             viewHolder.pantallaItems = (RelativeLayout) view.findViewById(R.id.lista_recorrido_layout);
-            viewHolder.horario = (TextView) view.findViewById(R.id.horario);
-            viewHolder.recorrido = (TextView) view.findViewById(R.id.recorrido);
+            viewHolder.titulo = (TextView) view.findViewById(R.id.nroCoche);
+            viewHolder.subTitulo = (TextView) view.findViewById(R.id.subTitulo);
             viewHolder.boton = (Button) view.findViewById(R.id.next);
             //OnClick de la lista
             viewHolder.boton.setOnClickListener(new View.OnClickListener() {
@@ -96,8 +97,8 @@ public class InteractiveArrayAdapterViajes extends ArrayAdapter<DataViajeConvert
             });
 
             view.setTag(viewHolder);
-            viewHolder.recorrido.setTag(lista.get(position));
-            viewHolder.horario.setTag(lista.get(position));
+            viewHolder.titulo.setTag(lista.get(position));
+            viewHolder.subTitulo.setTag(lista.get(position));
            // viewHolder.cocheId.setTag(lista.get(position));
             viewHolder.boton.setTag(lista.get(position));
         }else {
@@ -108,16 +109,16 @@ public class InteractiveArrayAdapterViajes extends ArrayAdapter<DataViajeConvert
 
         if(Farcade.configuracionEmpresa.getId()!=null){
             if(Farcade.configuracionEmpresa.getColorTextoLista()!=null){
-                holder.recorrido.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorTextoLista()));
-                holder.horario.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorTextoLista()));
+                holder.titulo.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorTextoLista()));
+                holder.subTitulo.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorTextoLista()));
 
             }else{
-                holder.recorrido.setTextColor(Color.parseColor("#FFFFFF"));
-                holder.horario.setTextColor(Color.parseColor("#333333"));
+                holder.titulo.setTextColor(Color.parseColor("#FFFFFF"));
+                holder.subTitulo.setTextColor(Color.parseColor("#333333"));
             }
             if(Farcade.configuracionEmpresa.getColorFondoLista()!=null){
-                holder.recorrido.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondoLista()));
-                holder.horario.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondoLista()));
+                holder.titulo.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondoLista()));
+                holder.subTitulo.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondoLista()));
                 holder.pantallaItems.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondoLista()));
             }else{
               //  holder.recorrido.setBackgroundResource(R.drawable.side_nav_bar);
@@ -125,9 +126,9 @@ public class InteractiveArrayAdapterViajes extends ArrayAdapter<DataViajeConvert
                 holder.pantallaItems.setBackgroundResource(R.drawable.side_nav_bar);
             }
         }else{
-            //no existe configuracion
-            holder.recorrido.setTextColor(Color.parseColor("#FFFFFF"));
-            holder.horario.setTextColor(Color.parseColor("#333333"));
+            //no ti configuracion
+            holder.titulo.setTextColor(Color.parseColor("#FFFFFF"));
+            holder.subTitulo.setTextColor(Color.parseColor("#333333"));
            // holder.recorrido.setBackgroundResource(R.drawable.side_nav_bar);
            // holder.horario.setBackgroundResource(R.drawable.side_nav_bar);
             holder.pantallaItems.setBackgroundResource(R.drawable.side_nav_bar);
@@ -135,9 +136,9 @@ public class InteractiveArrayAdapterViajes extends ArrayAdapter<DataViajeConvert
         Date fecha = new Date();
         DateFormat dat = new SimpleDateFormat("dd/MM/yy");
 
-
-        holder.recorrido.setText(lista.get(position).getRecorrido().getNombre());
-        holder.horario.setText("Fecha Salida:"+" "+dat.format(lista.get(position).getFechaSalida()));
+        holder.titulo.setText(lista.get(position).getRecorrido().getNombre().toString());
+        if(lista.get(position).getHorario()!=null)
+        holder.subTitulo.setText("Horario Salida:"+" "+ String.valueOf(lista.get(position).getHorario().getNombre()));
        // holder.cocheId.setText("Fecha Salida:"+" "+String.valueOf(lista.get(position).getFechaSalida().toString()));
         //holder.boton.setText("Recorrido:"+" "+lista.get(position).getNombre());
         return view;

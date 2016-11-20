@@ -34,6 +34,7 @@
             android:textAlignment="center"
             android:backgroundTint="@color/black"
             android:foregroundTint="#010101"
+            android:maxLength="4"
             android:hint="Ingresar Codigo Encomienda"/>
     </android.support.design.widget.TextInputLayout>
 

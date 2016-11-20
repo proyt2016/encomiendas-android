@@ -39,12 +39,14 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
     ListView listaEncomiendas;
     Button escaner;
     Spinner spinner;
+    int canti = 0;
     DataEstadosEncomienda estadoEnco;
     ArrayAdapter<String> estadosAdapter;
     private List<DataEstadosEncomienda> ListaEstados = new ArrayList<>();
     private List<DataEstadosEncomienda> ListaEstados2 = new ArrayList<>();
     private static boolean cargo;
     private boolean sigo;
+    int contt = 0;
     private String scanContent;
     String valOfSpinner;
     Button detalle,confirmar;
@@ -224,7 +226,7 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
 
                 if (valOfSpinner != "Seleccionar") {
 
-                    if(Farcade.listaEncomiendasAcambiar != null) {
+                    if(Farcade.listaEncomiendasAcambiar.size() != 0) {
 
 
                         Date fecha = new Date();
@@ -245,7 +247,7 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
                                     }
                                 }
                                 for (DataEncomiendaConvertor encomienda : Farcade.listaEncomiendasAcambiar) {
-
+                                    contt++;
                                     System.out.println("SE VAN A CAMBIAR" + " " + Farcade.listaEncomiendasAcambiar.size() + " " + "Encomiendas");
 
                                     if (encomienda.isSelected()) {
@@ -254,7 +256,11 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
                                             @Override
                                             public void onResponse(Call<Void> call, Response<Void> response) {
 
+
+
                                                 //ACTUALIZAR LISTA
+
+
 
                                                 Call<List<DataEncomiendaConvertor>> call2 = EncomiendaApi.createService().getByVehiculo(codCoche);
                                                 call2.enqueue(new Callback<List<DataEncomiendaConvertor>>() {
@@ -267,8 +273,11 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
                                                         listaEncomiendas.setAdapter(adapter);
                                                         adapter.notifyDataSetChanged();
 
-                                                        cambioDeEsado().show();
+
+
+
                                                     }
+
 
                                                     @Override
                                                     public void onFailure(Call<List<DataEncomiendaConvertor>> call, Throwable t) {
@@ -285,6 +294,7 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
                                     }
 
                                 }
+
                                 Farcade.listaEncomiendasAcambiar.clear();
 
 
@@ -295,6 +305,7 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
                                 System.out.println("SE CAGO");
                             }
                         });
+
                     }else{
                         NoSeleccionaEncomiendas().show();
                     }
@@ -338,6 +349,8 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
                             if (response.body() != null) {
 
                                 final DataEncomiendaConvertor encomienda = response.body();
+                                System.out.println("ENCOMINDAAAA----------------->>>"+encomienda);
+
 
                                 Call<List<DataEstadosEncomienda>> call4 = EncomiendaApi.createService().getAllEstados();
                                 call4.enqueue(new Callback<List<DataEstadosEncomienda>>() {
@@ -396,11 +409,12 @@ public class BusquedaMasivaManual extends AppCompatActivity implements View.OnCl
                             } else {
                                 //ENCOMIENDA == NULL
                                 dialogCodigo(2).show();
+                                Farcade.estadoSeleccionado=null;
                             }
                         } else {
                             //NO EXISTE ENCOMIENDA
                             dialogCodigo(2).show();
-
+                            Farcade.estadoSeleccionado =null;
 
                         }
                     }

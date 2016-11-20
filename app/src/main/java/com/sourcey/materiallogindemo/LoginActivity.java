@@ -102,7 +102,14 @@ public class LoginActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<DataConfiguracionEmpresa> call, Throwable t) {
-                System.out.println("onFailure");}
+                System.out.println("onFailure");
+                fondoPantalla.setBackgroundResource(R.drawable.side_nav_bar);
+                _userText.setTextColor(Color.WHITE);
+                _passwordText.setTextColor(Color.WHITE);
+                _loginButton.setTextColor(Color.WHITE);
+                _loginButton.setBackgroundColor(Color.parseColor("#ff757575"));
+                logo.setImageResource(R.drawable.icono_bondi);
+            }
         });
 
         _loginButton.setOnClickListener(new View.OnClickListener() {
@@ -151,8 +158,17 @@ public class LoginActivity extends AppCompatActivity {
 
 
                     if (empleado!=null) {
+                        new android.os.Handler().postDelayed(
+                                new Runnable() {
+                                    public void run() {
+                                        // On complete call either onLoginSuccess or onLoginFailed
+                                        onLoginSuccess();
+                                        Farcade.empleado = empleado;
+                                        progressDialog.dismiss();
+                                    }
+                                }, 3000);
 
-                        if (empleado.getEmail().getEmail().equals(_userText.getText().toString()) && empleado.getClave().equals(_passwordText.getText().toString())) {
+                       /* if (empleado.getEmail().getEmail().equals(_userText.getText().toString()) && empleado.getClave().equals(_passwordText.getText().toString())) {
                             new android.os.Handler().postDelayed(
                                     new Runnable() {
                                         public void run() {
@@ -173,22 +189,42 @@ public class LoginActivity extends AppCompatActivity {
                                        Toast.makeText(LoginActivity.this,"Contrasenia ingresada incorrecta",Toast.LENGTH_LONG).show();
                                         _loginButton.setEnabled(true);
                                    }
+                    }*/
+
+
+                    }else {
+                        new android.os.Handler().postDelayed(
+                                new Runnable() {
+                                    public void run() {
+                                        // On complete call either onLoginSuccess or onLoginFailed
+                                        //GUARDO EL EMPLEADO EN MEMORIA
+                                        Farcade.empleado = null;
+                                        progressDialog.dismiss();
+                                        System.out.println("No existe Usuario Registrado");
+                                        _loginButton.setEnabled(true);
+
+
+
+                                        Toast.makeText(LoginActivity.this, "Usuario y/o contraseña incorrectos", Toast.LENGTH_LONG).show();
+                                    }
+                                }, 3000);
                     }
-                    } else {
-                      //  onLoginFailed();
-                        System.out.println("No existe Usuario Registrado");
-                        Toast.makeText(LoginActivity.this,"Usuario y/o Contraseña Incorrectos",Toast.LENGTH_LONG).show();
-                        _loginButton.setEnabled(true);
-                        progressDialog.dismiss();
-                    }
+
+                }else{
+                    Toast.makeText(LoginActivity.this,"Fallo el servicio, contactar con LACBUS",Toast.LENGTH_LONG).show();
+                    progressDialog.dismiss();
+                    _loginButton.setEnabled(true);
                 }
+
+
             }
 
             @Override
             public void onFailure(Call<DataEmpleado> call, Throwable t) {
-                System.out.println("Fallo el Servicio, contactar LacBus");
                 onLoginFailed();
-                progressDialog.dismiss();
+                _loginButton.setEnabled(true);
+
+
             }
         });
     }
@@ -205,7 +241,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "Fallo el Servicio, contactar LacBus", Toast.LENGTH_LONG).show();
+        //Toast.makeText(getBaseContext(), "Fallo el Servicio, contactar LacBus", Toast.LENGTH_LONG).show();
 
         _loginButton.setEnabled(true);
     }

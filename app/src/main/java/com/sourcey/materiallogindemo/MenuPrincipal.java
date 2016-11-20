@@ -55,7 +55,7 @@ public class MenuPrincipal extends AppCompatActivity implements NavigationView.O
         pantalla = (DrawerLayout)findViewById(R.id.drawer_layout);
         fondoPantalla = (RelativeLayout)findViewById(R.id.fondolayout);
         MenuDesplegable = (LinearLayout)findViewById(R.id.menudesplegableheader);
-        trozoDePantalla = (CoordinatorLayout)findViewById(R.id.trozodepantalla);
+        //trozoDePantalla = (CoordinatorLayout)findViewById(R.id.trozodepantalla);
         nav = (NavigationView) findViewById(R.id.nav_view);
         logoEmpresa = (ImageView)findViewById(R.id.imageview);
 
@@ -63,7 +63,7 @@ public class MenuPrincipal extends AppCompatActivity implements NavigationView.O
         nombreEmpresa = (TextView)findViewById(R.id.nombreempresa);
         emailEmpresa = (TextView)findViewById(R.id.mailempresa);
 
-        titulo = (TextView)findViewById(R.id.titulo);
+        titulo = (TextView)findViewById(R.id.titulomenuprincipal);
         tituloEscaner = (TextView)findViewById(R.id.subtituloescaner);
         tituloManual = (TextView)findViewById(R.id.subtitulomanual);
 
@@ -82,7 +82,7 @@ public class MenuPrincipal extends AppCompatActivity implements NavigationView.O
                 pantalla.setBackgroundColor(Color.parseColor("#FFFFFF"));
                 MenuDesplegable.setBackgroundResource(R.drawable.side_nav_bar);
                 fondoPantalla.setBackgroundResource(R.drawable.side_nav_bar);
-                trozoDePantalla.setBackgroundResource(R.drawable.side_nav_bar);
+              //  trozoDePantalla.setBackgroundResource(R.drawable.side_nav_bar);
                 nav.setBackgroundColor(Color.parseColor("#FFFFFF"));
 
 

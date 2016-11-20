@@ -97,7 +97,7 @@ public class DialogEstados extends AppCompatActivity implements View.OnClickList
         if(v.getId() == R.id.abrirEscaner){
             if(Farcade.estadoSeleccionado != null){
                 Escaner();
-                Farcade.estadoSeleccionado = null;
+               // Farcade.estadoSeleccionado = null;
             }
             else{
                 SeleccionarEstado().show();
@@ -110,98 +110,140 @@ public class DialogEstados extends AppCompatActivity implements View.OnClickList
     }
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 
-        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        if(requestCode == -1 || requestCode  == -1){
 
-        if (resultCode != RESULT_CANCELED) {
+        }else {
 
-            Call<List<DataEstadosEncomienda>> call2 = EstadoApi.createService().getAll();
-            call2.enqueue(new Callback<List<DataEstadosEncomienda>>() {
-                @Override
-                public void onResponse(Call<List<DataEstadosEncomienda>> call, Response<List<DataEstadosEncomienda>> response) {
-                    estados = response.body();
+            IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
 
-                    System.out.println("ESTADOS----------------" + estados);
+            if (resultCode != RESULT_CANCELED) {
 
-                    adapter = new InteractiveArrayAdapterEstadosDialog(DialogEstados.this, estados);
-                    listaEstado.setAdapter(adapter);
-                }
-
-                @Override
-                public void onFailure(Call<List<DataEstadosEncomienda>> call, Throwable t) {
-                    System.out.println("SE CAGO");
-                }
-            });
-
-            if (scanningResult != null) {
-                final String scanContent = scanningResult.getContents();
-
-                Call<DataEncomiendaConvertor> call3 = EncomiendaApi.createService().getEncomiendaPorCodigo(Integer.valueOf(scanContent));
-                call3.enqueue(new Callback<DataEncomiendaConvertor>() {
+                Call<List<DataEstadosEncomienda>> call2 = EstadoApi.createService().getAll();
+                call2.enqueue(new Callback<List<DataEstadosEncomienda>>() {
                     @Override
-                    public void onResponse(Call<DataEncomiendaConvertor> call, Response<DataEncomiendaConvertor> response) {
-                        if (response.isSuccessful()) {
+                    public void onResponse(Call<List<DataEstadosEncomienda>> call, Response<List<DataEstadosEncomienda>> response) {
+                        estados = response.body();
 
-                            if(response.body()!=null) {
+                        System.out.println("ESTADOS----------------" + estados);
 
-                                DataEncomiendaConvertor encomiendaConvertor = response.body();
+                        adapter = new InteractiveArrayAdapterEstadosDialog(DialogEstados.this, estados);
+                        listaEstado.setAdapter(adapter);
+                    }
 
-                                System.out.println("ENCOMIENDA" + encomiendaConvertor);
+                    @Override
+                    public void onFailure(Call<List<DataEstadosEncomienda>> call, Throwable t) {
+                        System.out.println("SE CAGO");
+                    }
+                });
 
-                                Call<Void> call2 = EncomiendaApi.createService().setEstadoEncomienda(encomiendaConvertor.getId(), Farcade.estadoSeleccionado);
-                                call2.enqueue(new Callback<Void>() {
-                                    @Override
-                                    public void onResponse(Call<Void> call, Response<Void> response) {
+                if (scanningResult != null) {
+                    final String scanContent = scanningResult.getContents();
 
-                                        if (response.isSuccessful()) {
-                                            cambioDeEstado(Farcade.estadoSeleccionado.getNombre()).show();
+                    if (isNumeric(scanContent)) {
+
+
+                        if (scanContent.length() < 4) {
+
+                            Call<DataEncomiendaConvertor> call3 = EncomiendaApi.createService().getEncomiendaPorCodigo(Integer.valueOf(scanContent));
+                            call3.enqueue(new Callback<DataEncomiendaConvertor>() {
+                                @Override
+                                public void onResponse(Call<DataEncomiendaConvertor> call, Response<DataEncomiendaConvertor> response) {
+                                    if (response.isSuccessful()) {
+
+                                        if (response.body() != null) {
+
+                                            DataEncomiendaConvertor encomiendaConvertor = response.body();
+
+                                            System.out.println("ENCOMIENDA" + encomiendaConvertor);
+
+                                            Call<Void> call2 = EncomiendaApi.createService().setEstadoEncomienda(encomiendaConvertor.getId(), Farcade.estadoSeleccionado);
+                                            call2.enqueue(new Callback<Void>() {
+                                                @Override
+                                                public void onResponse(Call<Void> call, Response<Void> response) {
+
+                                                    if (response.isSuccessful()) {
+                                                        cambioDeEstado(Farcade.estadoSeleccionado.getNombre()).show();
+                                                        Farcade.estadoSeleccionado = null;
+
+                                                    } else {
+                                                        FalloApi().show();
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onFailure(Call<Void> call, Throwable t) {
+                                                    System.out.println("FALLO LA API CAMBIO DE ESTADO");
+                                                }
+                                            });
                                         } else {
-                                            FalloApi().show();
+                                            //codigpo null
+                                            noEncomiendaId().show();
+
                                         }
+                                    } else {
+                                        //NO ENCONTRO CODIGO
+                                        noEncomiendaId().show();
+
+
                                     }
+                                }
 
-                                    @Override
-                                    public void onFailure(Call<Void> call, Throwable t) {
-                                        System.out.println("FALLO LA API CAMBIO DE ESTADO");
-                                    }
-                                });
-                            }else{
-                                //codigpo null
-                                noEncomiendaId().show();
+                                @Override
+                                public void onFailure(Call<DataEncomiendaConvertor> call, Throwable t) {
+                                    System.out.println("FALLO LA API ENCOMINDA POR CODIGO");
+                                }
+                            });
 
-                            }
-                        }else{
-                            //NO ENCONTRO CODIGO
-                            noEncomiendaId().show();
-
-
+                        } else {
+                            FormatoIncorrecto().show();
+                            Farcade.estadoSeleccionado =null;
                         }
+                    } else {
+                        FormatoIncorrecto().show();
+                        Farcade.estadoSeleccionado =null;
+
+                    }
+                } else {
+                    Farcade.estadoSeleccionado = null;
+                    Call<List<DataEstadosEncomienda>> call5 = EstadoApi.createService().getAll();
+                    call5.enqueue(new Callback<List<DataEstadosEncomienda>>() {
+                        @Override
+                        public void onResponse(Call<List<DataEstadosEncomienda>> call, Response<List<DataEstadosEncomienda>> response) {
+                            estados = response.body();
+
+                            System.out.println("ESTADOS----------------" + estados);
+
+                            adapter = new InteractiveArrayAdapterEstadosDialog(DialogEstados.this, estados);
+                            listaEstado.setAdapter(adapter);
                         }
+
+                        @Override
+                        public void onFailure(Call<List<DataEstadosEncomienda>> call, Throwable t) {
+                            System.out.println("SE CAGO");
+                        }
+                    });
+                    // Toast.makeText(DialogEstados.this,"SE CAGO EL ESCANER",Toast.LENGTH_LONG).show();
+                }
+            }else{
+                Farcade.estadoSeleccionado = null;
+                Call<List<DataEstadosEncomienda>> call5 = EstadoApi.createService().getAll();
+                call5.enqueue(new Callback<List<DataEstadosEncomienda>>() {
+                    @Override
+                    public void onResponse(Call<List<DataEstadosEncomienda>> call, Response<List<DataEstadosEncomienda>> response) {
+                        estados = response.body();
+
+                        System.out.println("ESTADOS----------------" + estados);
+
+                        adapter = new InteractiveArrayAdapterEstadosDialog(DialogEstados.this, estados);
+                        listaEstado.setAdapter(adapter);
+                    }
 
                     @Override
-                    public void onFailure(Call<DataEncomiendaConvertor> call, Throwable t) {
-                        System.out.println("FALLO LA API ENCOMINDA POR CODIGO");
+                    public void onFailure(Call<List<DataEstadosEncomienda>> call, Throwable t) {
+                        System.out.println("SE CAGO");
                     }
                 });
             }
-        }else{
-            Call<List<DataEstadosEncomienda>> call2 = EstadoApi.createService().getAll();
-            call2.enqueue(new Callback<List<DataEstadosEncomienda>>() {
-                @Override
-                public void onResponse(Call<List<DataEstadosEncomienda>> call, Response<List<DataEstadosEncomienda>> response) {
-                    estados = response.body();
-
-                    System.out.println("ESTADOS----------------" + estados);
-
-                    adapter = new InteractiveArrayAdapterEstadosDialog(DialogEstados.this, estados);
-                    listaEstado.setAdapter(adapter);
-                }
-
-                @Override
-                public void onFailure(Call<List<DataEstadosEncomienda>> call, Throwable t) {
-                    System.out.println("SE CAGO");
-                }
-            });
-           // Toast.makeText(DialogEstados.this,"SE CAGO EL ESCANER",Toast.LENGTH_LONG).show();
         }
     }
 
@@ -262,6 +304,28 @@ public class DialogEstados extends AppCompatActivity implements View.OnClickList
         alertDialogBuilder.setPositiveButton(R.string.ACEPTAR, listenerOk);
         return alertDialogBuilder.create();
     }
+    private AlertDialog FormatoIncorrecto()
+    {   AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("Atencion!");
+        alertDialogBuilder.setMessage("Formato incorrecto");
+        alertDialogBuilder.setIcon(R.drawable.asignar_encomiendas);;
+        DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {}};
+        DialogInterface.OnClickListener listenerCancelar = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {return;}};
+        alertDialogBuilder.setPositiveButton(R.string.ACEPTAR, listenerOk);
+        return alertDialogBuilder.create();
+    }
 
+    private static boolean isNumeric(String cadena){
+        try {
+            Integer.parseInt(cadena);
+            return true;
+        } catch (NumberFormatException nfe){
+            return false;
+        }
+    }
 
 }

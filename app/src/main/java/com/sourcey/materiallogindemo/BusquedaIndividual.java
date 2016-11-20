@@ -155,10 +155,14 @@ public class BusquedaIndividual extends AppCompatActivity implements View.OnClic
                     @Override
                     public void onFailure(Call<DataEncomiendaConvertor> call, Throwable t) {
                         System.out.println("FALLO LA API ENCOMINDA POR CODIGO");
+                        codigoEnco.setText(" ");
+
                     }
                 });
             }else{
                 editTextEmpy().show();
+                codigoEnco.setText(" ");
+
 
             }
         }

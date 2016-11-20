@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,11 +16,12 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
+import android.widget.SearchView;
 
 import com.sourcey.materiallogindemo.Shares.DataViajeConvertor;
 import com.sourcey.materiallogindemo.api.ViajeApi;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -27,31 +29,33 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class RegistroGrupal extends AppCompatActivity implements View.OnClickListener{
+public class RegistroGrupal extends AppCompatActivity implements View.OnClickListener,  SearchView.OnQueryTextListener {
 
-    public String codTerminal;
-    private TenantProvider header;
-    private ArrayAdapter<DataViajeConvertor> adapter;
-    private ListView listadoRecorridos;
-    private boolean cargo;
-    private  int flag;
-    private EditText filtro;
-    private RelativeLayout pantallaLayout;
+     public String codTerminal;
+     ArrayAdapter<DataViajeConvertor> adapter;
+     ListView listTrip;
+     boolean cargo;
+    List<DataViajeConvertor> listaViajes;
+    int flag;
+     EditText filtro;
+    CoordinatorLayout pantallaLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro_grupal);
+        pantallaLayout = (CoordinatorLayout)findViewById(R.id.layout_pantalla_registro_grupal);
 
         flag = getIntent().getExtras().getInt("flag");
         codTerminal = getIntent().getExtras().getString("codigo");
 
-        listadoRecorridos = (ListView) findViewById(R.id.listadocoches);
         filtro = (EditText) findViewById(R.id.inputsearch);
+        listTrip = (ListView) findViewById(R.id.listTrip);
+
         filtro.addTextChangedListener(filterTextWatcher);
-        listadoRecorridos.setTextFilterEnabled(true);
+        listTrip.setTextFilterEnabled(true);
 
 
-        pantallaLayout = (RelativeLayout)findViewById(R.id.layout_pantalla_registro_grupal);
 
         //filtro.addTextChangedListener(filterTextWatcher);
 
@@ -61,12 +65,12 @@ public class RegistroGrupal extends AppCompatActivity implements View.OnClickLis
                 filtro.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondosDePantalla()));
             }else{
                 pantallaLayout.setBackgroundResource(R.drawable.side_nav_bar);
-                filtro.setBackgroundResource(R.drawable.side_nav_bar);
+               // filtro.setBackgroundResource(R.drawable.side_nav_bar);
             }
             if(Farcade.configuracionEmpresa.getColorFondoLista()!=null){
-                listadoRecorridos.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondoLista()));
+                listTrip.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondoLista()));
             }else{
-                listadoRecorridos.setBackgroundResource(R.drawable.side_nav_bar);
+                listTrip.setBackgroundResource(R.drawable.side_nav_bar);
             }
             if(Farcade.configuracionEmpresa.getColorLetras()!=null){
                 filtro.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorLetras()));
@@ -86,7 +90,7 @@ public class RegistroGrupal extends AppCompatActivity implements View.OnClickLis
             //no existe configuracion
             pantallaLayout.setBackgroundResource(R.drawable.side_nav_bar);
             filtro.setBackgroundResource(R.drawable.side_nav_bar);
-            listadoRecorridos.setBackgroundResource(R.drawable.side_nav_bar);
+            listTrip.setBackgroundResource(R.drawable.side_nav_bar);
             filtro.setTextColor(Color.WHITE);
             filtro.setHintTextColor(Color.BLACK);
             filtro.setHighlightColor(Color.BLACK);
@@ -99,19 +103,26 @@ public class RegistroGrupal extends AppCompatActivity implements View.OnClickLis
         call.enqueue(new Callback<List<DataViajeConvertor>>() {
             @Override
             public void onResponse(Call<List<DataViajeConvertor>> call, Response<List<DataViajeConvertor>> response) {
-                List<DataViajeConvertor> listaViajes = response.body();
+                 listaViajes = response.body();
                 System.out.println(listaViajes);
                 if (response.isSuccessful()) {
 
 
                     if (flag == 1) {
                         adapter = new InteractiveArrayAdapterViajes(RegistroGrupal.this, listaViajes, 1);
-                        listadoRecorridos.setAdapter(adapter);
+                        listTrip.setAdapter(adapter);
+                        for (DataViajeConvertor t : listaViajes) {
+                            adapter.notifyDataSetChanged();
+                        }
                     }
                     if (flag == 2) {
                         adapter = new InteractiveArrayAdapterViajes(RegistroGrupal.this, listaViajes, 2);
-                        listadoRecorridos.setAdapter(adapter);
+                        listTrip.setAdapter(adapter);
+                        for (DataViajeConvertor t : listaViajes) {
+                            adapter.notifyDataSetChanged();
+                        }
                     }
+
 
                 } else {
                     responseNull().show();
@@ -125,12 +136,27 @@ public class RegistroGrupal extends AppCompatActivity implements View.OnClickLis
         });
 
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
 
     @Override
-    public void onClick(View v) {
-
-
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        return super.onOptionsItemSelected(item);
     }
+
+    private List<DataViajeConvertor> getModel() {
+        List<DataViajeConvertor> list = new ArrayList<DataViajeConvertor>();
+        for (DataViajeConvertor t : listaViajes ) {
+            list.add(t);
+        }
+        return list;
+    }
+
     private TextWatcher filterTextWatcher = new TextWatcher() {
 
         @Override
@@ -156,14 +182,12 @@ public class RegistroGrupal extends AppCompatActivity implements View.OnClickLis
             }
         }
     };
-
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+    public void onClick(View v) {
+
+
     }
-    private AlertDialog responseNull()
+       private AlertDialog responseNull()
     {   AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle("Atencion!");
         alertDialogBuilder.setMessage("Error en la consulta, contactarce con LACBUS");
@@ -178,19 +202,6 @@ public class RegistroGrupal extends AppCompatActivity implements View.OnClickLis
         return alertDialogBuilder.create();
     }
 
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        //noinspection SimplifiableIfStatement
-       /* if (id == R.id.action_settings) {return true;}
-        return super.onOptionsItemSelected(item);*/
-        return false;
-
-    }
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         // TODO Auto-generated method stub
         if (keyCode == event.KEYCODE_BACK) {
@@ -199,4 +210,15 @@ public class RegistroGrupal extends AppCompatActivity implements View.OnClickLis
         }
         return super.onKeyDown(keyCode, event);
     }
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
+
+
 }
