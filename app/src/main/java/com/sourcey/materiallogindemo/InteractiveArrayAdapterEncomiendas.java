@@ -119,7 +119,7 @@ public class InteractiveArrayAdapterEncomiendas extends ArrayAdapter<DataEncomie
     private AlertDialog cambioDeEsado(DataEncomiendaConvertor e)
     {   AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
         alertDialogBuilder.setTitle("Detalle de Encomienda:");
-        alertDialogBuilder.setMessage("Id:"+"  "+e.getId()+"\n"+"\n"
+        alertDialogBuilder.setMessage("Codigo:"+"  "+e.getCodigoEncomienda()+"\n"+"\n"
                                         +"Estado Actual:"+"  "+e.getEstadoActual().getNombre()+"\n"+"\n"
                                        /* +"Emisor:"+"  "+e.getEmisor().getNombrePila()+"\n"+"\n"
                                         +"Receptor:"+" "+e.getReceptor().getNombrePila()+"\n"+"\n"

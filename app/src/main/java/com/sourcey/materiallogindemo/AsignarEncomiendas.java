@@ -154,8 +154,12 @@ public class AsignarEncomiendas extends AppCompatActivity implements View.OnClic
         DataViajeConvertor viaje = farcade.getViajeSeleccionado();
          listaVehiculo =  viaje.getCoches();
 
+        if(viaje.getCoches().isEmpty()){
+            sinCoches().show();
+
+        }else{
         adapter = new InteractiveArrayAdapterCoches(AsignarEncomiendas.this,listaVehiculo,1);
-        listaCoches.setAdapter(adapter);
+        listaCoches.setAdapter(adapter);}
 
         SpinnerEstados.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -439,6 +443,20 @@ public class AsignarEncomiendas extends AppCompatActivity implements View.OnClic
     {   AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle("Exito!");
         alertDialogBuilder.setMessage("Formato de codigo incorrecto");
+        alertDialogBuilder.setIcon(R.drawable.asignar_encomiendas);;
+        DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {}};
+        DialogInterface.OnClickListener listenerCancelar = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {return;}};
+        alertDialogBuilder.setPositiveButton(R.string.ACEPTAR, listenerOk);
+        return alertDialogBuilder.create();
+    }
+    private AlertDialog sinCoches()
+    {   AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("Atencion!");
+        alertDialogBuilder.setMessage("El recorrido no tiene Coches asociados");
         alertDialogBuilder.setIcon(R.drawable.asignar_encomiendas);;
         DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
             @Override

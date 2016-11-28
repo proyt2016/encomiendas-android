@@ -9,10 +9,9 @@ import okhttp3.Response;
 public class AddHeaderInterceptor implements Interceptor {
         @Override
         public Response intercept(Chain chain) throws IOException {
-
             Request.Builder builder = chain.request().newBuilder();
             builder.addHeader("lcbs-tenant", TenantProvider.GetTenant());
-
+            builder.addHeader("lcbs-AppName", TenantProvider.GetAppName());
             return chain.proceed(builder.build());
         }
     }

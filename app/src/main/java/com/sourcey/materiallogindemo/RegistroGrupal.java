@@ -34,7 +34,7 @@ public class RegistroGrupal extends AppCompatActivity implements View.OnClickLis
      public String codTerminal;
      ArrayAdapter<DataViajeConvertor> adapter;
      ListView listTrip;
-     boolean cargo;
+     boolean cargo = false;
     List<DataViajeConvertor> listaViajes;
     int flag;
      EditText filtro;
@@ -104,22 +104,29 @@ public class RegistroGrupal extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onResponse(Call<List<DataViajeConvertor>> call, Response<List<DataViajeConvertor>> response) {
                  listaViajes = response.body();
-                System.out.println(listaViajes);
+                for(DataViajeConvertor v : listaViajes){
+                System.out.println(v.getRecorrido().getNombre());}
                 if (response.isSuccessful()) {
 
 
                     if (flag == 1) {
-                        adapter = new InteractiveArrayAdapterViajes(RegistroGrupal.this, listaViajes, 1);
-                        listTrip.setAdapter(adapter);
-                        for (DataViajeConvertor t : listaViajes) {
-                            adapter.notifyDataSetChanged();
+                        if(cargo == false) {
+                            cargo = true;
+                            adapter = new InteractiveArrayAdapterViajes(RegistroGrupal.this, listaViajes, 1);
+                            listTrip.setAdapter(adapter);
+                            for (DataViajeConvertor t : listaViajes) {
+                                adapter.notifyDataSetChanged();
+                            }
                         }
                     }
                     if (flag == 2) {
-                        adapter = new InteractiveArrayAdapterViajes(RegistroGrupal.this, listaViajes, 2);
-                        listTrip.setAdapter(adapter);
-                        for (DataViajeConvertor t : listaViajes) {
-                            adapter.notifyDataSetChanged();
+                        if(cargo == false) {
+                            cargo = true;
+                            adapter = new InteractiveArrayAdapterViajes(RegistroGrupal.this, listaViajes, 2);
+                            listTrip.setAdapter(adapter);
+                            for (DataViajeConvertor t : listaViajes) {
+                                adapter.notifyDataSetChanged();
+                            }
                         }
                     }
 

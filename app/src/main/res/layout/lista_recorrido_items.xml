@@ -14,7 +14,7 @@ android:weightSum="1">
 <RelativeLayout
     android:layout_width="wrap_content"
 
-    android:layout_height="50dp"
+    android:layout_height="70dp"
     android:layout_alignParentTop="true"
     android:layout_alignParentStart="true"
     android:layout_alignParentLeft="true">
@@ -37,6 +37,14 @@ android:weightSum="1">
         android:layout_marginTop="25dp"
 
 
+        />
+    <TextView
+        android:id="@+id/fecha"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:padding="2dp"
+        android:textSize="12dip"
+        android:layout_marginTop="45dp"
         />
 
 

@@ -109,7 +109,7 @@ public class BusquedaIndividual extends AppCompatActivity implements View.OnClic
 
             if(codigoEnco.getText().toString().trim().length() > 0) {
 
-                codigo = Integer.valueOf(codigoEnco.getText().toString());
+                codigo = Integer.valueOf(codigoEnco.getText().toString().trim());
                 Call<DataEncomiendaConvertor> call2 = EncomiendaApi.createService().getEncomiendaPorCodigo(codigo);
                 call2.enqueue(new Callback<DataEncomiendaConvertor>() {
                     @Override

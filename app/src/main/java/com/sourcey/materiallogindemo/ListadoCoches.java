@@ -1,5 +1,7 @@
 package com.sourcey.materiallogindemo;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -59,9 +61,14 @@ public class ListadoCoches extends  AppCompatActivity implements View.OnClickLis
                 @Override
                 public void onResponse(Call<DataViajeConvertor> call, Response<DataViajeConvertor> response) {
                     viaje = response.body();
+
+                    if(viaje.getCoches().isEmpty()){
+                        sinCoches().show();
+
+                    }else {
                     adapter = new InteractiveArrayAdapterCochesSinRadio(ListadoCoches.this,viaje.getCoches());
                     listaCoches.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
+                    adapter.notifyDataSetChanged();}
                 }
                 @Override
                 public void onFailure(Call<DataViajeConvertor> call, Throwable t) {
@@ -78,8 +85,23 @@ public class ListadoCoches extends  AppCompatActivity implements View.OnClickLis
     }
 
 
+
     @Override
     public void onClick(View v) {
 
+    }
+    private AlertDialog sinCoches()
+    {   AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("Atencion!");
+        alertDialogBuilder.setMessage("El recorrido no tiene Coches asociados");
+        alertDialogBuilder.setIcon(R.drawable.asignar_encomiendas);;
+        DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {}};
+        DialogInterface.OnClickListener listenerCancelar = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {return;}};
+        alertDialogBuilder.setPositiveButton(R.string.ACEPTAR, listenerOk);
+        return alertDialogBuilder.create();
     }
 }

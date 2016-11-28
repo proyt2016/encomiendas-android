@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private  TextView txt;
     private RelativeLayout layoutMain;
     public int cod;
-    private static boolean cargo;
+    private static boolean cargo = false;
     private  static boolean cargoAdapter;
     ArrayAdapter<DataTerminal> adapter;
 

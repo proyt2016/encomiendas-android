@@ -71,11 +71,11 @@ public class MenuPrincipal extends AppCompatActivity implements NavigationView.O
         btnEscaner.setOnClickListener(this);
 
         if(Farcade.configuracionEmpresa.getId()!=null){
-
+            logoEmpresa.setImageResource(R.drawable.icono_bondi);
             if(Farcade.configuracionEmpresa.getColorFondosDePantalla()!=null){
                 pantalla.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondosDePantalla()));
                 fondoPantalla.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondosDePantalla()));
-                trozoDePantalla.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondosDePantalla()));
+                //trozoDePantalla.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondosDePantalla()));
                 MenuDesplegable.setBackgroundColor(Color.parseColor("#FFFFFF"));
                 nav.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondosDePantalla()));
             }else{

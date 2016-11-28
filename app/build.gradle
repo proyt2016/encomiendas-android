@@ -11,8 +11,10 @@ android {
         versionCode 1
         versionName "1.0"
 
-        buildConfigField 'String', 'API_KEY', '"b18f14c3-3eb2-47cc-a541-facf6f92e3bb"'
-        buildConfigField 'String', 'API_URL', '"http://192.168.43.158:8080"'
+        buildConfigField 'String', 'API_KEY', '"0783a29b-ad00-4087-9863-ea6e4eabb599"'
+        buildConfigField 'String', 'APP_NAME', '"tenant-encomiendas"'
+        buildConfigField 'String', 'API_URL', '"http://10.0.22.111:8080"'
+
 
     }
 

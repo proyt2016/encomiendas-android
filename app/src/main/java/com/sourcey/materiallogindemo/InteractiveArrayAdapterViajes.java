@@ -40,6 +40,7 @@ public class InteractiveArrayAdapterViajes extends ArrayAdapter<DataViajeConvert
         protected RelativeLayout pantallaItems;
         protected TextView titulo;
         protected TextView subTitulo;
+        protected TextView fecha;
         protected Button boton;
     }
 
@@ -70,6 +71,7 @@ public class InteractiveArrayAdapterViajes extends ArrayAdapter<DataViajeConvert
             viewHolder.pantallaItems = (RelativeLayout) view.findViewById(R.id.lista_recorrido_layout);
             viewHolder.titulo = (TextView) view.findViewById(R.id.nroCoche);
             viewHolder.subTitulo = (TextView) view.findViewById(R.id.subTitulo);
+           viewHolder.fecha = (TextView) view.findViewById(R.id.fecha);
             viewHolder.boton = (Button) view.findViewById(R.id.next);
             //OnClick de la lista
             viewHolder.boton.setOnClickListener(new View.OnClickListener() {
@@ -99,7 +101,7 @@ public class InteractiveArrayAdapterViajes extends ArrayAdapter<DataViajeConvert
             view.setTag(viewHolder);
             viewHolder.titulo.setTag(lista.get(position));
             viewHolder.subTitulo.setTag(lista.get(position));
-           // viewHolder.cocheId.setTag(lista.get(position));
+            viewHolder.fecha.setTag(lista.get(position));
             viewHolder.boton.setTag(lista.get(position));
         }else {
             view = convertView;
@@ -111,13 +113,16 @@ public class InteractiveArrayAdapterViajes extends ArrayAdapter<DataViajeConvert
             if(Farcade.configuracionEmpresa.getColorTextoLista()!=null){
                 holder.titulo.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorTextoLista()));
                 holder.subTitulo.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorTextoLista()));
+                holder.fecha.setTextColor(Color.parseColor(Farcade.configuracionEmpresa.getColorTextoLista()));
 
             }else{
                 holder.titulo.setTextColor(Color.parseColor("#FFFFFF"));
                 holder.subTitulo.setTextColor(Color.parseColor("#333333"));
+                holder.fecha.setTextColor(Color.parseColor("#333333"));
             }
             if(Farcade.configuracionEmpresa.getColorFondoLista()!=null){
                 holder.titulo.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondoLista()));
+                holder.fecha.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondoLista()));
                 holder.subTitulo.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondoLista()));
                 holder.pantallaItems.setBackgroundColor(Color.parseColor(Farcade.configuracionEmpresa.getColorFondoLista()));
             }else{
@@ -129,8 +134,9 @@ public class InteractiveArrayAdapterViajes extends ArrayAdapter<DataViajeConvert
             //no ti configuracion
             holder.titulo.setTextColor(Color.parseColor("#FFFFFF"));
             holder.subTitulo.setTextColor(Color.parseColor("#333333"));
-           // holder.recorrido.setBackgroundResource(R.drawable.side_nav_bar);
-           // holder.horario.setBackgroundResource(R.drawable.side_nav_bar);
+            holder.fecha.setTextColor(Color.parseColor("#333333"));
+
+            // holder.horario.setBackgroundResource(R.drawable.side_nav_bar);
             holder.pantallaItems.setBackgroundResource(R.drawable.side_nav_bar);
         }
         Date fecha = new Date();
@@ -139,7 +145,8 @@ public class InteractiveArrayAdapterViajes extends ArrayAdapter<DataViajeConvert
         holder.titulo.setText(lista.get(position).getRecorrido().getNombre().toString());
         if(lista.get(position).getHorario()!=null)
         holder.subTitulo.setText("Horario Salida:"+" "+ String.valueOf(lista.get(position).getHorario().getNombre()));
-       // holder.cocheId.setText("Fecha Salida:"+" "+String.valueOf(lista.get(position).getFechaSalida().toString()));
+        if(lista.get(position).getFechaSalida()!=null)
+        holder.fecha.setText("Fecha Salida:"+" "+dat.format((lista.get(position).getFechaSalida())));
         //holder.boton.setText("Recorrido:"+" "+lista.get(position).getNombre());
         return view;
     }
